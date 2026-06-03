@@ -1,0 +1,22 @@
+{
+  "name": "Quiniela Mundial 2026",
+  "short_name": "Quiniela2026",
+  "description": "Quinielas por grupos para familia y amigos",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#031920",
+  "theme_color": "#0b2f3a",
+  "lang": "es-MX",
+  "icons": [
+    {
+      "src": "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/26bd.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3c6.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    }
+  ]
+}
