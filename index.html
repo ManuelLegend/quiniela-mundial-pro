@@ -1400,11 +1400,124 @@
 
       .topbar-inner {
         display: grid;
+        gap: 8px;
+        padding: 8px 0;
+        transition: padding 0.2s ease, gap 0.2s ease;
+      }
+
+      .brand {
+        gap: 9px;
+        transition: gap 0.2s ease;
+      }
+
+      .brand-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 22px;
+        transition: width 0.2s ease, height 0.2s ease, font-size 0.2s ease;
+      }
+
+      .brand h1 {
+        font-size: 1.05rem;
+        transition: font-size 0.2s ease;
+      }
+
+      .brand small {
+        font-size: 0.58rem;
+        margin-top: 2px;
+        transition: opacity 0.18s ease;
+      }
+
+      .auth-panel {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 7px;
+        max-height: 320px;
+        opacity: 1;
+        overflow: hidden;
+        transition: max-height 0.22s ease, opacity 0.18s ease, margin 0.18s ease;
+      }
+
+      #leagueCodeInput,
+      #applyLeagueButton,
+      #loginButton,
+      #registerButton,
+      #resetPasswordButton,
+      #emailInput,
+      #passwordInput,
+      #usernameInput {
+        grid-column: 1 / -1;
+      }
+
+      #leagueBadge,
+      #userBadge {
+        justify-self: start;
       }
 
       .auth-panel input,
       .auth-panel button {
         width: 100%;
+        padding: 9px 10px;
+        border-radius: 12px;
+      }
+
+      .btn {
+        padding: 9px 12px;
+      }
+
+      .tabs {
+        padding: 7px 0;
+        gap: 6px;
+        transition: padding 0.2s ease, gap 0.2s ease;
+      }
+
+      .tab-btn {
+        padding: 8px 12px;
+        font-size: 0.88rem;
+        transition: padding 0.2s ease, font-size 0.2s ease;
+      }
+
+      body.mobile-topbar-compact .topbar-inner {
+        padding: 4px 0;
+        gap: 4px;
+      }
+
+      body.mobile-topbar-compact .brand {
+        gap: 7px;
+      }
+
+      body.mobile-topbar-compact .brand-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+      }
+
+      body.mobile-topbar-compact .brand h1 {
+        font-size: 0.94rem;
+      }
+
+      body.mobile-topbar-compact .brand small {
+        opacity: 0;
+        max-height: 0;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body.mobile-topbar-compact .auth-panel {
+        max-height: 0;
+        opacity: 0;
+        margin: 0;
+        pointer-events: none;
+      }
+
+      body.mobile-topbar-compact .tabs {
+        padding: 5px 0;
+        gap: 5px;
+      }
+
+      body.mobile-topbar-compact .tab-btn {
+        padding: 7px 10px;
+        font-size: 0.82rem;
       }
 
       .hero {
@@ -1470,6 +1583,21 @@
 
       .brand small {
         white-space: normal;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .brand small {
+        display: none;
+      }
+
+      .pill {
+        font-size: 0.72rem;
+        padding: 5px 8px;
+      }
+
+      .page {
+        padding-top: 14px;
       }
     }
   </style>
@@ -1678,6 +1806,8 @@
     const MEXICO_TZ_OFFSET = "-06:00";
     const CHAMPION_LOCK_DATE = new Date("2026-06-11T00:00:00-06:00");
     const UI_CLOCK_REFRESH_MS = 30000;
+    const MOBILE_TOPBAR_BREAKPOINT = 840;
+    const MOBILE_TOPBAR_COLLAPSE_Y = 72;
 
     const PHASES = [
       "Grupos",
@@ -9146,6 +9276,20 @@
       $("teamFormation").addEventListener("change", renderTeamsPage);
     }
 
+    function setupMobileTopbarBehavior() {
+      const updateMobileTopbarState = () => {
+        if (window.innerWidth > MOBILE_TOPBAR_BREAKPOINT) {
+          document.body.classList.remove("mobile-topbar-compact");
+          return;
+        }
+        document.body.classList.toggle("mobile-topbar-compact", window.scrollY > MOBILE_TOPBAR_COLLAPSE_Y);
+      };
+
+      window.addEventListener("scroll", updateMobileTopbarState, { passive: true });
+      window.addEventListener("resize", updateMobileTopbarState);
+      updateMobileTopbarState();
+    }
+
     function setupFirestoreListeners() {
       firestoreUnsubs.forEach((unsubscribe) => unsubscribe());
       firestoreUnsubs = [];
@@ -9206,6 +9350,7 @@
     updateLeagueUi();
 
     setupEvents();
+    setupMobileTopbarBehavior();
     setupFirestoreListeners();
     renderAll();
     setInterval(() => {
