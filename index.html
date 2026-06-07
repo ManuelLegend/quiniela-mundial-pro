@@ -1116,8 +1116,9 @@
 
     .toast {
       position: fixed;
-      right: 18px;
-      bottom: 18px;
+      left: 50%;
+      top: 16px;
+      transform: translateX(-50%);
       z-index: 200;
       max-width: min(420px, calc(100% - 32px));
       border: 1px solid var(--line);
@@ -1126,6 +1127,269 @@
       color: var(--text);
       background: rgba(8, 10, 13, 0.96);
       box-shadow: var(--shadow);
+    }
+
+    .picks-table {
+      margin-top: 10px;
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.22);
+    }
+
+    .picks-table th,
+    .picks-table td {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 9px 10px;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    .picks-table th {
+      color: #ffe89d;
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 0.78rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .picks-table tbody tr:nth-child(odd):not(.picks-own) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .picks-table tbody tr:hover:not(.picks-own) {
+      background: rgba(255, 255, 255, 0.055);
+    }
+
+    .picks-card {
+      display: grid;
+      gap: 10px;
+      border: 1px solid rgba(255, 208, 0, 0.22);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(10, 10, 10, 0.2) 100%);
+    }
+
+    .picks-accordion {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .picks-summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 12px;
+    }
+
+    .picks-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .picks-body {
+      padding: 0 12px 12px;
+      display: grid;
+      gap: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.08);
+    }
+
+    .picks-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .picks-status-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .picks-chevron {
+      display: inline-flex;
+      width: 24px;
+      height: 24px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.8rem;
+      transition: transform 0.2s ease;
+    }
+
+    .picks-accordion[open] .picks-chevron {
+      transform: rotate(90deg);
+    }
+
+    .picks-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .picks-title {
+      font-size: 0.98rem;
+      color: #fff2ba;
+      letter-spacing: 0.01em;
+    }
+
+    .picks-meta-pill {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      padding: 4px 9px;
+      color: var(--muted);
+      font-size: 0.74rem;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .picks-status {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .picks-status.open {
+      color: #ffe89d;
+      background: rgba(255, 215, 0, 0.1);
+    }
+
+    .picks-status.live {
+      color: #98f7b6;
+      background: rgba(76, 175, 80, 0.14);
+    }
+
+    .picks-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .picks-table td.rank-col {
+      width: 54px;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .picks-own td {
+      background: rgba(255, 215, 0, 0.12);
+    }
+
+    .picks-empty-row {
+      text-align: center;
+      color: var(--muted);
+      font-style: italic;
+      padding: 14px 10px;
+      background: rgba(255, 255, 255, 0.015);
+    }
+
+    .picks-mobile-list {
+      display: none;
+      gap: 8px;
+    }
+
+    .pick-mobile-item {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 9px;
+      background: rgba(255, 255, 255, 0.03);
+      display: grid;
+      gap: 6px;
+    }
+
+    .pick-mobile-item.picks-own {
+      background: rgba(255, 215, 0, 0.12);
+    }
+
+    .pick-mobile-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.86rem;
+    }
+
+    .pick-mobile-top b {
+      color: #fff2ba;
+      font-size: 0.9rem;
+    }
+
+    .pick-mobile-meta {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .pick-mobile-chip {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      padding: 3px 7px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .picks-lock-note {
+      border: 1px dashed var(--line);
+      border-radius: 12px;
+      padding: 10px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .picks-consensus {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .picks-signal {
+      display: grid;
+      grid-template-columns: 145px 1fr 44px;
+      gap: 8px;
+      align-items: center;
+      font-size: 0.82rem;
+    }
+
+    .picks-signal-label {
+      color: var(--muted);
+    }
+
+    .picks-meter {
+      height: 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .picks-meter > span {
+      display: block;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ffd000 0%, #ffe89d 100%);
+    }
+
+    .picks-signal-value {
+      text-align: right;
+      color: #ffe89d;
+      font-weight: 700;
+    }
+
+    .picks-result-pill {
+      border: 1px solid rgba(152, 247, 182, 0.4);
+      color: #98f7b6;
+      background: rgba(76, 175, 80, 0.1);
     }
 
     @media (max-width: 840px) {
@@ -1149,6 +1413,42 @@
 
       .mini-grid {
         grid-template-columns: repeat(2, 1fr);
+      }
+
+      .picks-title {
+        font-size: 0.92rem;
+      }
+
+      .picks-table th,
+      .picks-table td {
+        font-size: 0.8rem;
+        padding: 8px;
+      }
+
+      .picks-status {
+        width: auto;
+        text-align: center;
+      }
+
+      .picks-summary {
+        padding: 10px;
+      }
+
+      .picks-body {
+        padding: 0 10px 10px;
+      }
+
+      .picks-status-wrap {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .picks-table-wrap {
+        display: none;
+      }
+
+      .picks-mobile-list {
+        display: grid;
       }
 
       .match-grid,
@@ -1189,12 +1489,14 @@
         <input id="leagueCodeInput" class="league-input" type="text" placeholder="liga: amigos" />
         <button class="btn" id="applyLeagueButton">Cambiar liga</button>
         <span class="pill" id="leagueBadge">Liga: general</span>
+        <input id="usernameInput" type="text" placeholder="👤 Username" autocomplete="nickname" />
         <input id="emailInput" type="email" placeholder="📧 Correo" autocomplete="email" />
         <input id="passwordInput" type="password" placeholder="🔒 Contraseña" autocomplete="current-password" />
         <button class="btn btn-gold" id="loginButton">Entrar</button>
         <button class="btn" id="registerButton">Registro</button>
         <button class="btn" id="resetPasswordButton">Olvide mi contrasena</button>
         <span class="pill gold hide" id="userBadge"></span>
+        <button class="btn hide" id="editNicknameButton">Cambiar apodo</button>
         <button class="btn btn-danger hide" id="logoutButton">Salir</button>
       </div>
     </div>
@@ -1252,6 +1554,22 @@
       <div id="groupsList" class="groups-grid"></div>
     </section>
 
+    <section class="page" id="page-picks">
+      <div class="toolbar">
+        <h2>🧾 Picks de todos</h2>
+        <span class="pill info">Aquí van los pronósticos de usuarios (se revelan al iniciar).</span>
+      </div>
+      <div id="picksList" class="ranking-list"></div>
+    </section>
+
+    <section class="page" id="page-ia">
+      <div class="toolbar">
+        <h2>🤖 Pronósticos IA</h2>
+        <span class="pill info">Probabilidades automáticas: local / empate / visitante.</span>
+      </div>
+      <div id="aiList" class="ranking-list"></div>
+    </section>
+
     <section class="page" id="page-bracket">
       <div class="toolbar">
         <h2>🏆 Bracket dinámico</h2>
@@ -1301,7 +1619,7 @@
     </section>
 
     <section class="page" id="page-admin">
-      <div id="adminWarning" class="glass notice">Solo el admin puede capturar resultados. Admin autorizado: manuelgdar@gmail.com</div>
+      <div id="adminWarning" class="glass notice">Solo admins pueden capturar resultados. Admins autorizados: manuelgdar@gmail.com, bibicita_39@yahoo.com.mx</div>
       <div id="adminPanel" class="hide">
         <div class="toolbar">
           <h2>👑 Panel Admin</h2>
@@ -1327,12 +1645,14 @@
       signInWithEmailAndPassword,
       createUserWithEmailAndPassword,
       sendPasswordResetEmail,
-      signOut
+      signOut,
+      updateProfile
     } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
     import {
       getFirestore,
       collection,
       doc,
+      getDoc,
       deleteDoc,
       setDoc,
       getDocs,
@@ -1352,11 +1672,12 @@
       appId: "1:1000493031414:web:a6cda585b05ed212c031d7"
     };
 
-    const ADMIN_EMAIL = "manuelgdar@gmail.com";
+    const ADMIN_EMAILS = ["manuelgdar@gmail.com", "bibicita_39@yahoo.com.mx"];
     const TEMPLATE_PROJECT_ID = "quiniela-mundial-2026-72823";
     const API_KEY = "7e3a0285fa9d41efb1d28ddb78eb1c15";
     const MEXICO_TZ_OFFSET = "-06:00";
     const CHAMPION_LOCK_DATE = new Date("2026-06-11T00:00:00-06:00");
+    const UI_CLOCK_REFRESH_MS = 30000;
 
     const PHASES = [
       "Grupos",
@@ -1553,6 +1874,57 @@
       "Croacia": "hr",
       "Ghana": "gh",
       "Panamá": "pa"
+    };
+
+    const TEAM_AI_POWER = {
+      "Argentina": 92,
+      "Brasil": 92,
+      "Francia": 91,
+      "España": 90,
+      "Inglaterra": 90,
+      "Portugal": 88,
+      "Alemania": 87,
+      "Países Bajos": 86,
+      "Uruguay": 84,
+      "Croacia": 84,
+      "Colombia": 83,
+      "Bélgica": 82,
+      "México": 81,
+      "Estados Unidos": 80,
+      "Suiza": 79,
+      "Japón": 79,
+      "Senegal": 78,
+      "Marruecos": 78,
+      "Noruega": 77,
+      "Suecia": 77,
+      "Ecuador": 77,
+      "Chequia": 76,
+      "Paraguay": 75,
+      "Austria": 75,
+      "Canadá": 75,
+      "Costa de Marfil": 75,
+      "Australia": 74,
+      "Corea del Sur": 74,
+      "Argelia": 73,
+      "Egipto": 73,
+      "Irán": 72,
+      "Túnez": 71,
+      "Bosnia y Herzegovina": 71,
+      "Uzbekistán": 71,
+      "Ghana": 70,
+      "Irak": 69,
+      "Qatar": 68,
+      "Arabia Saudita": 68,
+      "Sudáfrica": 67,
+      "Panamá": 67,
+      "Jordania": 66,
+      "Nueva Zelanda": 66,
+      "Cabo Verde": 65,
+      "RD Congo": 65,
+      "Türkiye": 79,
+      "Curaçao": 62,
+      "Haití": 61,
+      "Escocia": 78
     };
 
     const ROSTERS = {
@@ -7002,7 +7374,7 @@
       box.textContent = message;
       box.classList.remove("hide");
       clearTimeout(box.timer);
-      box.timer = setTimeout(() => box.classList.add("hide"), 3600);
+      box.timer = setTimeout(() => box.classList.add("hide"), 5200);
     }
 
     function firebaseAuthErrorMessage(error) {
@@ -7029,6 +7401,20 @@
         .trim()
         .toLowerCase()
         .replace(/\s+/g, "");
+    }
+
+    function normalizeUserName(raw) {
+      return String(raw || "").trim().replace(/\s+/g, " ").slice(0, 32);
+    }
+
+    function preferredUserName(uid = currentUser?.uid) {
+      if (!uid) return "";
+      const fromUsers = users?.[uid]?.name;
+      if (fromUsers) return fromUsers;
+      const fromAuth = currentUser?.displayName;
+      if (fromAuth) return fromAuth;
+      const email = currentUser?.email || "";
+      return email.includes("@") ? email.split("@")[0] : email;
     }
 
     function sanitizeLeagueCode(raw) {
@@ -7335,8 +7721,39 @@
       });
     }
 
+    function teamPower(team) {
+      return Number.isFinite(Number(TEAM_AI_POWER[team])) ? Number(TEAM_AI_POWER[team]) : 70;
+    }
+
+    function getAiForecast(match) {
+      const home = String(match?.home || "");
+      const away = String(match?.away || "");
+      const hasDefinedTeams = TEAMS.includes(home) && TEAMS.includes(away);
+      if (!hasDefinedTeams) return null;
+
+      const diff = teamPower(home) - teamPower(away);
+      const drawProb = Math.max(0.16, 0.28 - Math.min(Math.abs(diff), 30) * 0.0032);
+      const homeNoDraw = 1 / (1 + Math.pow(10, -diff / 12));
+
+      let homeProb = (1 - drawProb) * homeNoDraw;
+      let awayProb = (1 - drawProb) - homeProb;
+
+      let homePct = Math.round(homeProb * 100);
+      let drawPct = Math.round(drawProb * 100);
+      let awayPct = Math.round(awayProb * 100);
+      const delta = 100 - (homePct + drawPct + awayPct);
+      awayPct += delta;
+
+      homePct = Math.max(0, Math.min(100, homePct));
+      drawPct = Math.max(0, Math.min(100, drawPct));
+      awayPct = Math.max(0, Math.min(100, awayPct));
+
+      return { homePct, drawPct, awayPct };
+    }
+
     function isAdmin() {
-      return currentUser?.email === ADMIN_EMAIL;
+      const email = String(currentUser?.email || "").trim().toLowerCase();
+      return ADMIN_EMAILS.includes(email);
     }
 
     function isFinalResult(result) {
@@ -7706,13 +8123,14 @@
       if (exact) {
         basePoints += 5;
       } else {
-        const predictedWinner = getWinner(predictedHome, predictedAway, match.home, match.away, prediction.winnerTeam);
-        const realWinner = getWinner(realHome, realAway, match.home, match.away, result.winnerTeam);
-        const winnerCorrect = predictedWinner && realWinner && predictedWinner === realWinner;
+        const predictedDiff = predictedHome - predictedAway;
+        const realDiff = realHome - realAway;
+        const predictedOutcome = predictedDiff === 0 ? "D" : predictedDiff > 0 ? "H" : "A";
+        const realOutcome = realDiff === 0 ? "D" : realDiff > 0 ? "H" : "A";
 
-        if (winnerCorrect) {
+        if (predictedOutcome === realOutcome) {
           basePoints += 2;
-          if (Math.abs(predictedHome - predictedAway) === Math.abs(realHome - realAway)) {
+          if (Math.abs(predictedDiff) === Math.abs(realDiff)) {
             basePoints += 2;
           }
         }
@@ -7755,10 +8173,14 @@
 
     async function saveUser() {
       if (!currentUser) return;
+      const typedName = normalizeUserName($("usernameInput")?.value);
+      const currentDoc = await getDoc(leagueDoc("users", currentUser.uid));
+      const existingName = normalizeUserName(currentDoc.exists() ? currentDoc.data()?.name : "");
+      const chosenName = typedName || existingName || normalizeUserName(currentUser.displayName) || currentUser.email.split("@")[0];
       await setDoc(leagueDoc("users", currentUser.uid), {
         uid: currentUser.uid,
         email: currentUser.email,
-        name: currentUser.email.split("@")[0],
+        name: chosenName,
         leagueCode: currentLeagueCode,
         lastLogin: serverTimestamp()
       }, { merge: true });
@@ -7774,7 +8196,7 @@
 
       const data = {
         userId: currentUser.uid,
-        userName: currentUser.email,
+        userName: preferredUserName(currentUser.uid) || currentUser.email,
         matchId: match.id,
         phase: match.phase,
         group: match.group,
@@ -7855,7 +8277,7 @@
 
       await setDoc(leagueDoc("championPicks", currentUser.uid), {
         userId: currentUser.uid,
-        userName: currentUser.email,
+        userName: preferredUserName(currentUser.uid) || currentUser.email,
         team,
         leagueCode: currentLeagueCode,
         updatedAt: serverTimestamp()
@@ -7986,6 +8408,8 @@
       const tabs = [
         ["matches", "⚽ Partidos"],
         ["groups", "📊 Grupos"],
+        ["picks", "🧾 Picks"],
+        ["ia", "🤖 IA"],
         ["bracket", "🏆 Bracket"],
         ["ranking", "🥇 Tabla"],
         ["rules", "📖 Reglas"],
@@ -8404,6 +8828,147 @@
       }).join("") || `<div class="glass notice">Aún no hay participantes.</div>`;
     }
 
+    function renderAiPage() {
+      const items = getAllMatches().map((match) => {
+        const aiForecast = getAiForecast(match);
+        return `
+          <div class="rank-card glass picks-card">
+            <div class="picks-head">
+              <div>
+                <b>${escapeHtml(match.id)} · ${teamNameWithFlag(match.home || "Por definir", 22)} vs ${teamNameWithFlag(match.away || "Por definir", 22)}</b>
+                <div class="picks-meta">
+                  <span>${escapeHtml(match.phase || "Partido")}</span>
+                  <span>${escapeHtml(formatDate(match.date))}</span>
+                </div>
+              </div>
+            </div>
+            ${aiForecast ? `
+              <div class="picks-lock-note">
+                <div><b>Pronóstico IA:</b> cálculo automático del sistema.</div>
+                <div class="picks-consensus">
+                  <div class="picks-signal">
+                    <span class="picks-signal-label">Gana ${escapeHtml(match.home || "local")}</span>
+                    <span class="picks-meter"><span style="width:${aiForecast.homePct}%"></span></span>
+                    <span class="picks-signal-value">${aiForecast.homePct}%</span>
+                  </div>
+                  <div class="picks-signal">
+                    <span class="picks-signal-label">Empate</span>
+                    <span class="picks-meter"><span style="width:${aiForecast.drawPct}%"></span></span>
+                    <span class="picks-signal-value">${aiForecast.drawPct}%</span>
+                  </div>
+                  <div class="picks-signal">
+                    <span class="picks-signal-label">Gana ${escapeHtml(match.away || "visitante")}</span>
+                    <span class="picks-meter"><span style="width:${aiForecast.awayPct}%"></span></span>
+                    <span class="picks-signal-value">${aiForecast.awayPct}%</span>
+                  </div>
+                </div>
+              </div>
+            ` : `
+              <div class="picks-lock-note">Pronóstico IA disponible cuando se definan ambos equipos.</div>
+            `}
+          </div>
+        `;
+      });
+
+      $("aiList").innerHTML = items.join("") || `<div class="glass notice">No hay partidos para mostrar.</div>`;
+    }
+
+    function renderPicksPage() {
+      const items = getAllMatches().map((match) => {
+        const matchPredictions = Object.values(predictions).filter((prediction) => prediction.matchId === match.id);
+
+        const locked = isMatchLocked(match);
+        const showFullPicks = locked;
+
+        const finalResult = results[match.id];
+        const hasResult = isFinalResult(finalResult);
+
+        const scoredRows = matchPredictions
+          .map((prediction) => {
+            const uid = prediction.userId;
+            const result = results[match.id];
+            const points = calculatePredictionPoints(match, prediction, result);
+            const label = users[uid]?.name || prediction.userName || users[uid]?.email || uid || "Jugador";
+            return {
+              uid,
+              label,
+              points,
+              homeScore: Number(prediction.homeScore),
+              awayScore: Number(prediction.awayScore),
+              scorer: prediction.scorer || ""
+            };
+          })
+          .sort((a, b) => b.points - a.points || a.label.localeCompare(b.label, "es"));
+
+        const rows = scoredRows.map((entry, index) => `
+          <tr class="${entry.uid === currentUser?.uid ? "picks-own" : ""}">
+            <td class="rank-col">${index + 1}</td>
+            <td>${escapeHtml(entry.label)}</td>
+            <td>${entry.homeScore}-${entry.awayScore}</td>
+            <td>${entry.scorer ? `⚽ ${escapeHtml(entry.scorer)}` : "-"}</td>
+            <td><b>${entry.points}</b></td>
+          </tr>
+        `);
+        const mobileRows = scoredRows.map((entry, index) => `
+          <div class="pick-mobile-item ${entry.uid === currentUser?.uid ? "picks-own" : ""}">
+            <div class="pick-mobile-top">
+              <b>${index + 1}. ${escapeHtml(entry.label)}</b>
+              <span>${entry.points} pts</span>
+            </div>
+            <div class="pick-mobile-meta">
+              <span class="pick-mobile-chip">Pick: ${entry.homeScore}-${entry.awayScore}</span>
+              <span class="pick-mobile-chip">Goleador: ${entry.scorer ? `⚽ ${escapeHtml(entry.scorer)}` : "-"}</span>
+            </div>
+          </div>
+        `);
+        const rowsHtml = rows.length
+          ? rows.join("")
+          : `<tr><td colspan="5" class="picks-empty-row">Sin picks todavía para este partido.</td></tr>`;
+        const mobileRowsHtml = mobileRows.length
+          ? mobileRows.join("")
+          : `<div class="picks-lock-note">Sin picks todavía para este partido.</div>`;
+
+        return `
+          <details class="rank-card glass picks-card picks-accordion" ${locked ? "open" : ""}>
+            <summary class="picks-summary">
+              <div class="picks-head">
+                <div>
+                  <div class="picks-title">${escapeHtml(match.id)} · ${teamNameWithFlag(match.home || "Por definir", 22)} vs ${teamNameWithFlag(match.away || "Por definir", 22)}</div>
+                  <div class="picks-meta">
+                    <span class="picks-meta-pill">${escapeHtml(match.phase || "Partido")}</span>
+                    <span class="picks-meta-pill">${escapeHtml(formatDate(match.date))}</span>
+                    <span class="picks-meta-pill">${matchPredictions.length} picks</span>
+                    ${hasResult ? `<span class="pill picks-result-pill">Resultado: ${Number(finalResult.homeScore)}-${Number(finalResult.awayScore)}</span>` : ""}
+                  </div>
+                </div>
+                <div class="picks-status-wrap">
+                  <span class="picks-status ${locked ? "live" : "open"}">${locked ? "Iniciado" : "Abierto"}</span>
+                  <span class="picks-chevron">▶</span>
+                </div>
+              </div>
+            </summary>
+            <div class="picks-body">
+              ${showFullPicks ? `
+                <div class="picks-table-wrap">
+                  <table class="picks-table">
+                    <thead><tr><th>#</th><th>Jugador</th><th>Pick</th><th>Goleador</th><th>Pts</th></tr></thead>
+                    <tbody>${rowsHtml}</tbody>
+                  </table>
+                </div>
+                <div class="picks-mobile-list">${mobileRowsHtml}</div>
+              ` : `
+                <div class="picks-lock-note">
+                  Los picks completos se publican automaticamente cuando inicia el partido.
+                </div>
+              `}
+            </div>
+          </details>
+        `;
+      }).filter(Boolean);
+
+      $("picksList").innerHTML = items.join("") || `<div class="glass notice">Aún no hay picks guardados en esta liga.</div>`;
+    }
+
     function renderAdmin() {
       const show = isAdmin();
       $("adminWarning").classList.toggle("hide", show);
@@ -8449,10 +9014,15 @@
     }
 
     function renderAll() {
+      if (currentUser) {
+        $("userBadge").textContent = `${preferredUserName(currentUser.uid)}${isAdmin() ? " · admin" : ""}`;
+      }
       renderChampionSelector();
       renderKpis();
       renderMatches();
       renderGroups();
+      renderPicksPage();
+      renderAiPage();
       renderBracket();
       renderRanking();
       renderAdmin();
@@ -8479,12 +9049,20 @@
 
       $("registerButton").addEventListener("click", async () => {
         try {
+          const userName = normalizeUserName($("usernameInput").value);
+          if (userName.length < 2) {
+            toast("Escribe un username de al menos 2 caracteres para registrarte.");
+            return;
+          }
           const email = normalizeEmailInput($("emailInput").value);
           if (!email || !email.includes("@") || !email.includes(".")) {
             toast("Escribe un correo valido. Ejemplo: nombre@correo.com");
             return;
           }
-          await createUserWithEmailAndPassword(auth, email, $("passwordInput").value);
+          const credential = await createUserWithEmailAndPassword(auth, email, $("passwordInput").value);
+          if (credential.user) {
+            await updateProfile(credential.user, { displayName: userName });
+          }
         } catch (error) {
           toast(firebaseAuthErrorMessage(error));
         }
@@ -8498,10 +9076,51 @@
             return;
           }
           await sendPasswordResetEmail(auth, email);
-          toast("Te enviamos un correo para restablecer tu contrasena.");
+          toast("Te enviamos un correo para restablecer tu contrasena. Revisa spam/promociones.");
         } catch (error) {
           toast(firebaseAuthErrorMessage(error));
         }
+      });
+
+      $("passwordInput").addEventListener("keydown", (event) => {
+        if (event.key !== "Enter") return;
+        event.preventDefault();
+        $("loginButton").click();
+      });
+
+      $("emailInput").addEventListener("keydown", (event) => {
+        if (event.key !== "Enter") return;
+        event.preventDefault();
+        $("loginButton").click();
+      });
+
+      $("editNicknameButton").addEventListener("click", async () => {
+        if (!currentUser) return;
+        const currentName = preferredUserName(currentUser.uid);
+        const nextRaw = window.prompt("Escribe tu apodo", currentName || "");
+        if (nextRaw === null) return;
+        const nextName = normalizeUserName(nextRaw);
+        if (nextName.length < 2) {
+          toast("Tu apodo debe tener al menos 2 caracteres.");
+          return;
+        }
+
+        await setDoc(leagueDoc("users", currentUser.uid), {
+          uid: currentUser.uid,
+          email: currentUser.email,
+          name: nextName,
+          leagueCode: currentLeagueCode,
+          lastLogin: serverTimestamp()
+        }, { merge: true });
+
+        try {
+          await updateProfile(currentUser, { displayName: nextName });
+        } catch (error) {
+          console.warn("No se pudo actualizar displayName en Auth", error);
+        }
+
+        $("userBadge").textContent = `${nextName}${isAdmin() ? " · admin" : ""}`;
+        toast("Apodo actualizado ✅");
       });
 
       $("logoutButton").addEventListener("click", () => signOut(auth));
@@ -8537,16 +9156,11 @@
         renderAll();
       }));
 
-      if (currentUser?.uid) {
-        const myPredictionsQuery = query(leagueCollection("predictions"), where("userId", "==", currentUser.uid));
-        firestoreUnsubs.push(onSnapshot(myPredictionsQuery, (snapshot) => {
-          predictions = {};
-          snapshot.forEach((document) => predictions[document.id] = document.data());
-          renderAll();
-        }));
-      } else {
+      firestoreUnsubs.push(onSnapshot(leagueCollection("predictions"), (snapshot) => {
         predictions = {};
-      }
+        snapshot.forEach((document) => predictions[document.id] = document.data());
+        renderAll();
+      }));
 
       firestoreUnsubs.push(onSnapshot(leagueCollection("results"), (snapshot) => {
         results = {};
@@ -8572,14 +9186,16 @@
       if (user) await saveUser();
       setupFirestoreListeners();
 
+      $("usernameInput").classList.toggle("hide", Boolean(user));
       $("emailInput").classList.toggle("hide", Boolean(user));
       $("passwordInput").classList.toggle("hide", Boolean(user));
       $("loginButton").classList.toggle("hide", Boolean(user));
       $("registerButton").classList.toggle("hide", Boolean(user));
       $("resetPasswordButton").classList.toggle("hide", Boolean(user));
       $("logoutButton").classList.toggle("hide", !user);
+      $("editNicknameButton").classList.toggle("hide", !user);
       $("userBadge").classList.toggle("hide", !user);
-      $("userBadge").textContent = user ? `${user.email}${isAdmin() ? " · admin" : ""}` : "";
+      $("userBadge").textContent = user ? `${preferredUserName(user.uid)}${isAdmin() ? " · admin" : ""}` : "";
 
       renderAll();
     });
@@ -8592,6 +9208,9 @@
     setupEvents();
     setupFirestoreListeners();
     renderAll();
+    setInterval(() => {
+      renderAll();
+    }, UI_CLOCK_REFRESH_MS);
   </script>
 </body>
 </html>

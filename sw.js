@@ -1,4 +1,4 @@
-const CACHE_NAME = "quiniela-pwa-v1";
+const CACHE_NAME = "quiniela-pwa-v2";
 const URLS = [
   "./",
   "./index.html",
