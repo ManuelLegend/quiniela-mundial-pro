@@ -1392,6 +1392,89 @@
       background: rgba(76, 175, 80, 0.1);
     }
 
+    @media (max-width: 1100px) {
+      .topbar-inner {
+        gap: 10px;
+        padding: 10px 0;
+      }
+
+      .brand-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 23px;
+      }
+
+      .brand h1 {
+        font-size: 1.55rem;
+      }
+
+      .brand small {
+        font-size: 0.7rem;
+      }
+
+      .auth-panel {
+        gap: 6px;
+      }
+
+      .auth-panel input,
+      .auth-panel button,
+      .auth-panel .btn,
+      .auth-panel .pill {
+        padding-top: 8px;
+        padding-bottom: 8px;
+      }
+
+      .tabs {
+        padding: 8px 0;
+        gap: 6px;
+      }
+
+      .tab-btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+      }
+
+      body.mobile-topbar-compact .topbar-inner {
+        padding: 5px 0;
+        gap: 5px;
+      }
+
+      body.mobile-topbar-compact .brand-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+      }
+
+      body.mobile-topbar-compact .brand h1 {
+        font-size: 1.05rem;
+      }
+
+      body.mobile-topbar-compact .brand small {
+        opacity: 0;
+        max-height: 0;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body.mobile-topbar-compact .auth-panel {
+        max-height: 0;
+        opacity: 0;
+        margin: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      body.mobile-topbar-compact .tabs {
+        padding: 5px 0;
+        gap: 5px;
+      }
+
+      body.mobile-topbar-compact .tab-btn {
+        padding: 7px 10px;
+        font-size: 0.82rem;
+      }
+    }
+
     @media (max-width: 840px) {
       .topbar-inner,
       .hero {
@@ -1806,7 +1889,7 @@
     const MEXICO_TZ_OFFSET = "-06:00";
     const CHAMPION_LOCK_DATE = new Date("2026-06-11T00:00:00-06:00");
     const UI_CLOCK_REFRESH_MS = 30000;
-    const MOBILE_TOPBAR_BREAKPOINT = 840;
+    const MOBILE_TOPBAR_BREAKPOINT = 1100;
     const MOBILE_TOPBAR_COLLAPSE_Y = 72;
 
     const PHASES = [
