@@ -1726,7 +1726,7 @@
         overflow: hidden;
       }
 
-      body.mobile-topbar-compact .auth-panel {
+      body.mobile-topbar-compact.auth-logged-in .auth-panel {
         max-height: 0;
         opacity: 0;
         margin: 0;
@@ -1856,7 +1856,7 @@
         overflow: hidden;
       }
 
-      body.mobile-topbar-compact .auth-panel {
+      body.mobile-topbar-compact.auth-logged-in .auth-panel {
         max-height: 0;
         opacity: 0;
         margin: 0;
@@ -2161,6 +2161,8 @@
           <button class="btn" id="adminCompactToggle">Modo compacto: ON</button>
           <button class="btn" id="syncLineupsButton">⭐ Sincronizar titulares</button>
         </div>
+        <div id="adminUsersSummary" class="glass notice">Participantes cargados: 0</div>
+        <div id="adminUsersList" class="ranking-list"></div>
         <div id="adminMatchesList" class="match-grid"></div>
       </div>
     </section>
@@ -10048,6 +10050,56 @@
       $("adminPanel").classList.toggle("hide", !show);
       if (!show) return;
 
+      const toMillis = (value) => {
+        if (!value) return 0;
+        if (typeof value.toMillis === "function") return value.toMillis();
+        if (typeof value.toDate === "function") return value.toDate().getTime();
+        const parsed = Date.parse(value);
+        return Number.isFinite(parsed) ? parsed : 0;
+      };
+
+      const usersRows = Object.entries(users).map(([uid, row]) => {
+        const ms = toMillis(row?.lastLogin);
+        return {
+          uid,
+          name: row?.name || row?.email || uid,
+          email: row?.email || "sin correo",
+          ms,
+          lastLoginText: ms
+            ? new Date(ms).toLocaleString("es-MX", {
+              day: "2-digit",
+              month: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+              timeZone: "America/Mexico_City"
+            })
+            : "sin registro"
+        };
+      }).sort((a, b) => b.ms - a.ms || a.name.localeCompare(b.name, "es"));
+
+      const summary = $("adminUsersSummary");
+      if (summary) {
+        const activeCount = usersRows.filter((row) => row.ms > 0).length;
+        summary.innerHTML = `Participantes en liga: <b>${usersRows.length}</b> · Con ultimo acceso: <b>${activeCount}</b>`;
+      }
+
+      const usersList = $("adminUsersList");
+      if (usersList) {
+        usersList.innerHTML = usersRows.map((row, index) => {
+          const me = row.uid === currentUser?.uid;
+          return `
+            <div class="rank-card glass" style="grid-template-columns:auto 1fr auto;">
+              <div class="rank-badge">${index + 1}</div>
+              <div>
+                <b>${escapeHtml(row.name)}${me ? " (tú)" : ""}</b>
+                <div class="pill">${escapeHtml(row.email)}</div>
+              </div>
+              <span class="pill ${row.ms ? "good" : "bad"}">Último acceso: ${escapeHtml(row.lastLoginText)}</span>
+            </div>
+          `;
+        }).join("") || `<div class="glass notice">Sin participantes registrados aún.</div>`;
+      }
+
       const compactBtn = $("adminCompactToggle");
       if (compactBtn) compactBtn.textContent = `Modo compacto: ${adminCompactMode ? "ON" : "OFF"}`;
 
@@ -10453,6 +10505,7 @@
 
     onAuthStateChanged(auth, async (user) => {
       currentUser = user;
+      document.body.classList.toggle("auth-logged-in", Boolean(user));
       if (user) await saveUser();
       setupFirestoreListeners();
 
