@@ -2117,10 +2117,10 @@
     <section class="page" id="page-rules">
       <div class="toolbar"><h2>📖 Reglas</h2></div>
       <div class="rules-grid">
-        <div class="rule-card glass"><h3>🧭 Instrucciones rápidas</h3><p>1) En la pestaña Pronósticos capturas marcador y primer goleador. 2) En Picks ves los picks de todos por partido (se revelan al iniciar). 3) En Tabla toca a cualquier jugador para ver su historial y puntos por partidos terminados. 4) En Admin se capturan resultados y XI titulares.</p></div>
+        <div class="rule-card glass"><h3>🧭 Instrucciones rápidas</h3><p>1) En la pestaña Pronósticos capturas marcador y primer goleador. 2) En Picks ves los picks de todos por partido (se revelan al iniciar). 3) En Tabla toca a cualquier jugador para ver su historial y puntos por partidos terminados. 4) En Admin se capturan resultados, XI titulares y tarjetas.</p></div>
         <div class="rule-card glass"><h3>🎯 Exacto</h3><p>Marcador exacto: +5 puntos antes de multiplicador.</p></div>
         <div class="rule-card glass"><h3>✅ Ganador</h3><p>Aciertas ganador o empate sin marcador exacto: +2 puntos.</p></div>
-        <div class="rule-card glass"><h3>📊 Diferencial</h3><p>Aciertas la diferencia de goles (positiva, cero o negativa): +2 puntos.</p></div>
+        <div class="rule-card glass"><h3>📊 Diferencial</h3><p>Aciertas la diferencia de goles (positiva, cero o negativa): +1 punto.</p></div>
         <div class="rule-card glass"><h3>⚽ Goleador</h3><p>Aciertas primer goleador del partido: +3 puntos.</p></div>
         <div class="rule-card glass"><h3>👑 Campeón</h3><p>Aciertas campeón del torneo: +50 puntos.</p></div>
         <div class="rule-card glass"><h3>🔥 Multiplicadores</h3><p>Grupos x1 · Dieciseisavos/Octavos x2 · Cuartos x3 · Semis/Tercer Lugar x4 · Final x5.</p></div>
@@ -9303,6 +9303,36 @@
         ? (liveMatch.home === selectedTeam ? (liveData?.homeStarters || []) : (liveData?.awayStarters || []))
         : [];
 
+      const cardMatch = teamMatches
+        .filter((match) => {
+          const info = cards[match.id] || {};
+          return (Array.isArray(info.yellow) && info.yellow.length) || (Array.isArray(info.red) && info.red.length);
+        })
+        .sort((a, b) => Math.abs(Date.now() - Date.parse(a.date)) - Math.abs(Date.now() - Date.parse(b.date)))[0] || null;
+
+      const parseCardEntry = (entry) => {
+        const text = String(entry || "").trim();
+        const splitAt = text.lastIndexOf(" - ");
+        if (splitAt === -1) return { player: text, team: "" };
+        return {
+          player: text.slice(0, splitAt).trim(),
+          team: text.slice(splitAt + 3).trim()
+        };
+      };
+
+      const selectedTeamKey = normalize(selectedTeam);
+      const cardInfo = cardMatch ? (cards[cardMatch.id] || {}) : {};
+      const teamYellow = (cardInfo.yellow || [])
+        .map(parseCardEntry)
+        .filter((item) => normalize(item.team) === selectedTeamKey)
+        .map((item) => item.player)
+        .filter(Boolean);
+      const teamRed = (cardInfo.red || [])
+        .map(parseCardEntry)
+        .filter((item) => normalize(item.team) === selectedTeamKey)
+        .map((item) => item.player)
+        .filter(Boolean);
+
       const rosterByName = new Map(roster.map((player) => [normalizePlayerName(player.name), player]));
       const sourcePlayers = liveStarters.length
         ? liveStarters.map((name) => rosterByName.get(normalizePlayerName(name)) || { name, pos: "MED" })
@@ -9389,6 +9419,22 @@
             ` : `
               <div class="lineup-live-box">
                 <div><b>⏳ Titulares live</b> aún no disponibles para este equipo.</div>
+              </div>
+            `}
+            ${cardMatch ? `
+              <div class="lineup-live-box">
+                <div><b>🟨🟥 Tarjetas registradas</b> · ${escapeHtml(cardMatch.id)} · ${escapeHtml(formatDate(cardMatch.date))}</div>
+                <div class="lineup-live-list" style="margin-top:6px;">
+                  <span class="lineup-live-chip">🟨 ${teamYellow.length}</span>
+                  <span class="lineup-live-chip">🟥 ${teamRed.length}</span>
+                </div>
+                ${teamYellow.length ? `<div style="margin-top:8px;"><b>Amarillas:</b> ${escapeHtml(teamYellow.join(", "))}</div>` : ""}
+                ${teamRed.length ? `<div style="margin-top:6px;"><b>Rojas:</b> ${escapeHtml(teamRed.join(", "))}</div>` : ""}
+                ${!teamYellow.length && !teamRed.length ? `<div style="margin-top:8px;">Sin tarjetas para ${escapeHtml(selectedTeam)} en ese partido.</div>` : ""}
+              </div>
+            ` : `
+              <div class="lineup-live-box">
+                <div><b>🟨🟥 Tarjetas</b> sin registros todavía para este equipo.</div>
               </div>
             `}
           </div>
