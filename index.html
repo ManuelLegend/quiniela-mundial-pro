@@ -43,7 +43,8 @@
 
     button,
     input,
-    select {
+    select,
+    textarea {
       font: inherit;
     }
 
@@ -142,6 +143,7 @@
     .select,
     .auth-panel input,
     .prediction-inputs input,
+    .prediction-inputs textarea,
     .prediction-inputs select,
     .toolbar input,
     .toolbar select {
@@ -156,9 +158,104 @@
     .field:focus,
     .select:focus,
     input:focus,
-    select:focus {
+    select:focus,
+    textarea:focus {
       border-color: var(--gold);
       box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.12);
+    }
+
+    .prediction-inputs textarea {
+      min-height: 86px;
+      resize: vertical;
+      line-height: 1.35;
+    }
+
+    .lineup-select {
+      min-height: 130px;
+      padding: 8px;
+    }
+
+    .lineup-toggle-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 8px;
+      width: 100%;
+    }
+
+    .lineup-toggle-item {
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.25);
+      color: var(--text);
+      padding: 8px;
+      text-align: left;
+      font-size: 0.84rem;
+    }
+
+    .lineup-toggle-item.active {
+      border-color: rgba(56, 217, 150, 0.5);
+      background: rgba(56, 217, 150, 0.14);
+      color: #b9ffd8;
+    }
+
+    .admin-lineup-grid {
+      display: grid;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .admin-lineup-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255, 215, 0, 0.18);
+      border-radius: 10px;
+      padding: 6px 8px;
+      background: rgba(0, 0, 0, 0.18);
+    }
+
+    .admin-lineup-row .lineup-toggle-item {
+      width: 100%;
+      margin: 0;
+      padding: 6px 8px;
+      font-size: 0.8rem;
+    }
+
+    .admin-card-flag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .admin-extra {
+      display: grid;
+      gap: 8px;
+    }
+
+    .card-toggle-item.active-yellow {
+      border-color: rgba(250, 204, 21, 0.55);
+      background: rgba(250, 204, 21, 0.2);
+      color: #fff2a8;
+    }
+
+    .card-toggle-item.active-red {
+      border-color: rgba(248, 113, 113, 0.55);
+      background: rgba(248, 113, 113, 0.18);
+      color: #ffd5d5;
+    }
+
+    .lineup-select,
+    .lineup-select option {
+      color: var(--text);
+      background: #10151d;
+    }
+
+    .lineup-select option:checked {
+      color: #191200;
+      background: #ffd700;
     }
 
     .btn {
@@ -297,6 +394,39 @@
       gap: 10px;
     }
 
+    .demo-filters {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .demo-table-wrap {
+      overflow-x: auto;
+    }
+
+    .demo-table {
+      width: 100%;
+      min-width: 840px;
+      border-collapse: collapse;
+    }
+
+    .demo-table th,
+    .demo-table td {
+      padding: 9px 8px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      background: transparent;
+      white-space: nowrap;
+    }
+
+    .demo-table th {
+      color: var(--gold);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
     .notice {
       padding: 14px;
       color: var(--muted);
@@ -318,6 +448,11 @@
     .pill.good { color: var(--success); }
     .pill.bad { color: var(--danger); }
     .pill.info { color: var(--info); }
+    .pill.live {
+      color: #7cffc5;
+      border-color: rgba(56, 217, 150, 0.45);
+      background: rgba(56, 217, 150, 0.12);
+    }
 
     .match-grid {
       display: grid;
@@ -719,6 +854,93 @@
       padding: 14px;
     }
 
+    .rank-card.clickable {
+      cursor: pointer;
+      transition: border-color 0.16s ease, transform 0.16s ease;
+    }
+
+    .rank-card.clickable:hover,
+    .rank-card.clickable:focus-visible {
+      border-color: rgba(255, 215, 0, 0.5);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .rank-hint {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.76rem;
+    }
+
+    .player-detail-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: grid;
+      place-items: center;
+      background: rgba(3, 4, 6, 0.7);
+      backdrop-filter: blur(4px);
+      padding: 14px;
+    }
+
+    .player-detail-modal {
+      width: min(980px, 100%);
+      max-height: calc(100vh - 32px);
+      overflow: auto;
+      padding: 16px;
+    }
+
+    .player-detail-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .player-detail-head h3 {
+      margin: 0;
+      color: var(--gold);
+    }
+
+    .player-detail-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .player-detail-table-wrap {
+      overflow-x: auto;
+    }
+
+    .player-detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+
+    .player-detail-table th,
+    .player-detail-table td {
+      padding: 9px 8px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      white-space: nowrap;
+      background: transparent;
+    }
+
+    .player-detail-table th {
+      color: var(--gold);
+      font-size: 0.72rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .player-detail-empty {
+      margin-top: 8px;
+      color: var(--muted);
+    }
+
     .rank-badge {
       width: 38px;
       height: 38px;
@@ -791,6 +1013,16 @@
       min-height: 56px;
     }
 
+    .starter-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #7cffc5;
+      font-size: 0.75rem;
+      margin-left: 6px;
+      white-space: nowrap;
+    }
+
     .scorer-preview img {
       width: 42px;
       height: 42px;
@@ -852,6 +1084,44 @@
       margin: 4px 0 0;
       color: var(--muted);
       font-size: 0.82rem;
+    }
+
+    .lineup-live-box {
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid rgba(56, 217, 150, 0.35);
+      border-radius: 12px;
+      background: rgba(56, 217, 150, 0.1);
+      font-size: 0.9rem;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
+    .lineup-live-line + .lineup-live-line {
+      margin-top: 6px;
+    }
+
+    .lineup-live-label {
+      color: #d1fae5;
+      font-weight: 700;
+    }
+
+    .lineup-live-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .lineup-live-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 217, 150, 0.4);
+      background: rgba(0, 0, 0, 0.2);
+      font-size: 0.75rem;
     }
 
     .lineup-layout {
@@ -1674,6 +1944,18 @@
         display: none;
       }
 
+      .lineup-live-box {
+        font-size: 0.82rem;
+        line-height: 1.38;
+        padding: 8px;
+        max-height: 180px;
+        overflow-y: auto;
+      }
+
+      .lineup-live-line + .lineup-live-line {
+        margin-top: 5px;
+      }
+
       .pill {
         font-size: 0.72rem;
         padding: 5px 8px;
@@ -1700,6 +1982,7 @@
         <input id="leagueCodeInput" class="league-input" type="text" placeholder="liga: amigos" />
         <button class="btn" id="applyLeagueButton">Cambiar liga</button>
         <span class="pill" id="leagueBadge">Liga: general</span>
+        <span class="pill bad" id="authStateBadge">No has iniciado sesión</span>
         <input id="usernameInput" type="text" placeholder="👤 Username" autocomplete="nickname" />
         <input id="emailInput" type="email" placeholder="📧 Correo" autocomplete="email" />
         <input id="passwordInput" type="password" placeholder="🔒 Contraseña" autocomplete="current-password" />
@@ -1781,6 +2064,39 @@
       <div id="aiList" class="ranking-list"></div>
     </section>
 
+    <section class="page" id="page-demo">
+      <div class="toolbar">
+        <h2>🧪 Demo Picks</h2>
+        <span class="pill info">Elige jugador y grupo para revisar picks previos.</span>
+      </div>
+      <div class="glass" style="padding:14px;">
+        <div class="demo-filters">
+          <select id="demoPlayerFilter" class="select"></select>
+          <select id="demoGroupFilter" class="select"></select>
+          <select id="demoStatusFilter" class="select">
+            <option value="closed" selected>Solo partidos cerrados</option>
+            <option value="all">Todos los partidos</option>
+          </select>
+        </div>
+        <div id="demoSummary" class="pill">Selecciona un jugador para iniciar.</div>
+        <div class="demo-table-wrap" style="margin-top:10px;">
+          <table class="demo-table">
+            <thead>
+              <tr>
+                <th>Partido</th>
+                <th>Fase/Grupo</th>
+                <th>Fecha</th>
+                <th>Pick</th>
+                <th>Final</th>
+                <th>Puntos</th>
+              </tr>
+            </thead>
+            <tbody id="demoRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
     <section class="page" id="page-bracket">
       <div class="toolbar">
         <h2>🏆 Bracket dinámico</h2>
@@ -1792,6 +2108,7 @@
     <section class="page" id="page-ranking">
       <div class="toolbar">
         <h2>🥇 Tabla de posiciones</h2>
+        <span class="pill info">Toca/clic en un jugador para ver sus partidos terminados y puntos por partido.</span>
         <button class="btn" id="recalculateButton">Recalcular puntos</button>
       </div>
       <div id="rankingList" class="ranking-list"></div>
@@ -1800,9 +2117,10 @@
     <section class="page" id="page-rules">
       <div class="toolbar"><h2>📖 Reglas</h2></div>
       <div class="rules-grid">
+        <div class="rule-card glass"><h3>🧭 Instrucciones rápidas</h3><p>1) En la pestaña Pronósticos capturas marcador y primer goleador. 2) En Picks ves los picks de todos por partido (se revelan al iniciar). 3) En Tabla toca a cualquier jugador para ver su historial y puntos por partidos terminados. 4) En Admin se capturan resultados y XI titulares.</p></div>
         <div class="rule-card glass"><h3>🎯 Exacto</h3><p>Marcador exacto: +5 puntos antes de multiplicador.</p></div>
         <div class="rule-card glass"><h3>✅ Ganador</h3><p>Aciertas ganador o empate sin marcador exacto: +2 puntos.</p></div>
-        <div class="rule-card glass"><h3>📊 Diferencial</h3><p>Aciertas diferencia de goles y el ganador: +2 puntos.</p></div>
+        <div class="rule-card glass"><h3>📊 Diferencial</h3><p>Aciertas la diferencia de goles (positiva, cero o negativa): +2 puntos.</p></div>
         <div class="rule-card glass"><h3>⚽ Goleador</h3><p>Aciertas primer goleador del partido: +3 puntos.</p></div>
         <div class="rule-card glass"><h3>👑 Campeón</h3><p>Aciertas campeón del torneo: +50 puntos.</p></div>
         <div class="rule-card glass"><h3>🔥 Multiplicadores</h3><p>Grupos x1 · Dieciseisavos/Octavos x2 · Cuartos x3 · Semis/Tercer Lugar x4 · Final x5.</p></div>
@@ -1840,11 +2158,41 @@
         <div class="toolbar-left toolbar">
           <input id="adminSearchInput" placeholder="Buscar partido" />
           <select id="adminPhaseFilter"></select>
+          <button class="btn" id="adminCompactToggle">Modo compacto: ON</button>
+          <button class="btn" id="syncLineupsButton">⭐ Sincronizar titulares</button>
         </div>
         <div id="adminMatchesList" class="match-grid"></div>
       </div>
     </section>
   </main>
+
+  <div id="playerDetailOverlay" class="player-detail-overlay hide" aria-hidden="true">
+    <div class="player-detail-modal glass" role="dialog" aria-modal="true" aria-labelledby="playerDetailTitle">
+      <div class="player-detail-head">
+        <div>
+          <h3 id="playerDetailTitle">Detalle de jugador</h3>
+          <div id="playerDetailSubtitle" class="pill">Partidos cerrados</div>
+        </div>
+        <button id="playerDetailClose" class="btn btn-danger" type="button">Cerrar</button>
+      </div>
+      <div id="playerDetailStats" class="player-detail-stats"></div>
+      <div class="player-detail-table-wrap">
+        <table class="player-detail-table">
+          <thead>
+            <tr>
+              <th>Partido</th>
+              <th>Fecha</th>
+              <th>Pick</th>
+              <th>Resultado final</th>
+              <th>Puntos</th>
+            </tr>
+          </thead>
+          <tbody id="playerDetailRows"></tbody>
+        </table>
+      </div>
+      <div id="playerDetailEmpty" class="player-detail-empty hide">Aún no hay partidos cerrados para mostrar.</div>
+    </div>
+  </div>
 
   <div id="toast" class="toast hide"></div>
 
@@ -1886,11 +2234,13 @@
     const ADMIN_EMAILS = ["manuelgdar@gmail.com", "bibicita_39@yahoo.com.mx"];
     const TEMPLATE_PROJECT_ID = "quiniela-mundial-2026-72823";
     const API_KEY = "7e3a0285fa9d41efb1d28ddb78eb1c15";
+    const LINEUPS_FEED_URL = "";
     const MEXICO_TZ_OFFSET = "-06:00";
     const CHAMPION_LOCK_DATE = new Date("2026-06-11T00:00:00-06:00");
     const UI_CLOCK_REFRESH_MS = 30000;
     const MOBILE_TOPBAR_BREAKPOINT = 1100;
-    const MOBILE_TOPBAR_COLLAPSE_Y = 72;
+    const MOBILE_TOPBAR_COLLAPSE_Y = 150;
+    const MOBILE_TOPBAR_EXPAND_Y = 18;
 
     const PHASES = [
       "Grupos",
@@ -7560,6 +7910,12 @@
     let users = {};
     let predictions = {};
     let results = {};
+    let lineups = {};
+    let cards = {};
+    let lineupDrafts = {};
+    let cardsDrafts = {};
+    let adminCompactMode = true;
+    let adminCardExpanded = {};
     let championPicks = {};
     let userTotals = {};
     let firestoreUnsubs = [];
@@ -7567,6 +7923,7 @@
     const LEAGUE_STORAGE_KEY = "quiniela_league_code";
     const LEAGUE_QUERY_PARAM = "liga";
     let currentLeagueCode = "general";
+    let activePlayerDetailUid = "";
 
     const $ = (id) => document.getElementById(id);
 
@@ -7668,6 +8025,10 @@
       users = {};
       predictions = {};
       results = {};
+      lineups = {};
+      cards = {};
+      lineupDrafts = {};
+      cardsDrafts = {};
       championPicks = {};
       userTotals = {};
     }
@@ -7703,6 +8064,35 @@
         .normalize("NFD")
         .replace(/[̀-ͯ]/g, "")
         .toLowerCase();
+    }
+
+    function normalizePlayerName(value) {
+      return normalize(String(value || "")).replace(/\s+/g, " ").trim();
+    }
+
+    function getLineupWindowState(match) {
+      const kickoffMs = Date.parse(match?.date || "");
+      if (!Number.isFinite(kickoffMs)) return "none";
+      const now = Date.now();
+      const preMs = 60 * 60 * 1000;
+      const postMs = 3 * 60 * 60 * 1000;
+      if (now < kickoffMs - preMs) return "none";
+      if (now <= kickoffMs + postMs) return "active";
+      return "past";
+    }
+
+    function getLiveLineup(matchId) {
+      return lineups[matchId] || null;
+    }
+
+    function isStarterForMatch(match, playerName) {
+      const live = getLiveLineup(match?.id);
+      if (!live) return false;
+      const needle = normalizePlayerName(playerName);
+      if (!needle) return false;
+      const all = [...(live.homeStarters || []), ...(live.awayStarters || [])]
+        .map((name) => normalizePlayerName(name));
+      return all.includes(needle);
     }
 
     function flagUrl(team, size = 40) {
@@ -8281,14 +8671,21 @@
       return knockout;
     }
 
-    function scorerOptions(homeTeam, awayTeam, selected = "") {
+    function scorerOptions(homeTeam, awayTeam, selected = "", match = null) {
       const makeOptions = (team) => {
         return (ROSTERS[team] || [])
           .map((player) => {
             const value = player.name;
-            const label = `${player.name} · ${player.pos}`;
-            return `<option value="${escapeHtml(value)}" ${selected === value ? "selected" : ""}>${escapeHtml(label)}</option>`;
+            const isStarter = match ? isStarterForMatch(match, player.name) : false;
+            const starterPrefix = isStarter ? "⭐ TIT · " : "";
+            const label = `${starterPrefix}${player.name} · ${player.pos}`;
+            return {
+              isStarter,
+              html: `<option value="${escapeHtml(value)}" ${selected === value ? "selected" : ""}>${escapeHtml(label)}</option>`
+            };
           })
+          .sort((a, b) => Number(b.isStarter) - Number(a.isStarter))
+          .map((row) => row.html)
           .join("");
       };
 
@@ -8301,6 +8698,63 @@
           ${makeOptions(awayTeam)}
         </optgroup>
       `;
+    }
+
+    function lineupOptions(team, selected = []) {
+      const selectedSet = new Set((selected || []).map((name) => normalizePlayerName(name)));
+      return (ROSTERS[team] || [])
+        .map((player) => {
+          const value = player.name;
+          const normalized = normalizePlayerName(value);
+          const isSelected = selectedSet.has(normalized);
+          return {
+            isSelected,
+            html: `<option value="${escapeHtml(value)}" ${isSelected ? "selected" : ""}>${escapeHtml(player.name)} · ${escapeHtml(player.pos)}</option>`
+          };
+        })
+        .sort((a, b) => Number(b.isSelected) - Number(a.isSelected))
+        .map((row) => row.html)
+        .join("");
+    }
+
+    function lineupToggleList(team, selected = [], side = "home") {
+      const selectedSet = new Set((selected || []).map((name) => normalizePlayerName(name)));
+      return (ROSTERS[team] || []).map((player) => {
+        const active = selectedSet.has(normalizePlayerName(player.name));
+        const label = `${player.name} · ${player.pos}`;
+        return `<button type="button" class="lineup-toggle-item ${active ? "active" : ""}" data-lineup-side="${side}" data-player-name="${escapeHtml(player.name)}" data-player-label="${escapeHtml(label)}">${active ? "✅ " : ""}${escapeHtml(label)}</button>`;
+      }).join("");
+    }
+
+    function lineupAdminRows(team, side, starterSelected = [], yellowSelected = [], redSelected = []) {
+      const starterSet = new Set((starterSelected || []).map((name) => normalizePlayerName(name)));
+      const yellowSet = new Set((yellowSelected || []).map((name) => normalizePlayerName(name)));
+      const redSet = new Set((redSelected || []).map((name) => normalizePlayerName(name)));
+
+      return (ROSTERS[team] || []).map((player) => {
+        const starterActive = starterSet.has(normalizePlayerName(player.name));
+        const cardKey = `${player.name} - ${team}`;
+        const yellowActive = yellowSet.has(normalizePlayerName(cardKey));
+        const redActive = redSet.has(normalizePlayerName(cardKey));
+        const label = `${player.name} · ${player.pos}`;
+        return `
+          <div class="admin-lineup-row">
+            <button type="button" class="lineup-toggle-item ${starterActive ? "active" : ""}" data-lineup-side="${side}" data-player-name="${escapeHtml(player.name)}" data-player-label="${escapeHtml(label)}">${starterActive ? "✅ " : ""}${escapeHtml(label)}</button>
+            <label class="admin-card-flag"><input type="checkbox" class="card-yellow-input" data-card-player="${escapeHtml(cardKey)}" ${yellowActive ? "checked" : ""}>🟨</label>
+            <label class="admin-card-flag"><input type="checkbox" class="card-red-input" data-card-player="${escapeHtml(cardKey)}" ${redActive ? "checked" : ""}>🟥</label>
+            <span class="pill">${escapeHtml(player.pos)}</span>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function cardToggleList(candidates = [], selected = [], color = "yellow") {
+      const selectedSet = new Set((selected || []).map((name) => normalizePlayerName(name)));
+      return candidates.map((playerLabel) => {
+        const active = selectedSet.has(normalizePlayerName(playerLabel));
+        const prefix = color === "yellow" ? "🟨" : "🟥";
+        return `<button type="button" class="lineup-toggle-item card-toggle-item ${active ? `active-${color}` : ""}" data-card-color="${color}" data-card-player="${escapeHtml(playerLabel)}">${active ? "✅ " : ""}${prefix} ${escapeHtml(playerLabel)}</button>`;
+      }).join("");
     }
 
     function winnerSelect(match, selected = "", className = "winnerTeam") {
@@ -8344,7 +8798,7 @@
         if (predictedOutcome === realOutcome) {
           basePoints += 2;
           if (Math.abs(predictedDiff) === Math.abs(realDiff)) {
-            basePoints += 2;
+            basePoints += 1;
           }
         }
       }
@@ -8455,6 +8909,90 @@
       }, { merge: true });
       await recalculateAllPoints(false);
       toast("Resultado guardado y puntos recalculados ✅");
+    }
+
+    function parseLineupText(raw) {
+      return String(raw || "")
+        .split(/\r?\n|,|;/)
+        .map((item) => String(item || "").trim())
+        .filter(Boolean)
+        .slice(0, 18);
+    }
+
+    async function saveLineup(match, card) {
+      if (!isAdmin()) return toast("Solo el admin puede guardar titulares.");
+      const homeSelected = Array.from(card.querySelectorAll('.lineup-toggle-item[data-lineup-side="home"].active'))
+        .map((button) => String(button.dataset.playerName || "").trim())
+        .filter(Boolean);
+      const awaySelected = Array.from(card.querySelectorAll('.lineup-toggle-item[data-lineup-side="away"].active'))
+        .map((button) => String(button.dataset.playerName || "").trim())
+        .filter(Boolean);
+
+      const uniqueNames = (items) => {
+        const seen = new Set();
+        const output = [];
+        items.forEach((name) => {
+          const key = normalizePlayerName(name);
+          if (!key || seen.has(key)) return;
+          seen.add(key);
+          output.push(String(name).trim());
+        });
+        return output.slice(0, 18);
+      };
+
+      const homeStarters = uniqueNames(homeSelected).slice(0, 11);
+      const awayStarters = uniqueNames(awaySelected).slice(0, 11);
+
+      if (!homeStarters.length && !awayStarters.length) {
+        await deleteDoc(leagueDoc("lineups", match.id));
+        toast("Titulares eliminados para este partido.");
+        return;
+      }
+
+      await setDoc(leagueDoc("lineups", match.id), {
+        matchId: match.id,
+        homeStarters,
+        awayStarters,
+        source: "manual-admin",
+        leagueCode: currentLeagueCode,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+
+      lineupDrafts[match.id] = { home: homeStarters, away: awayStarters };
+
+      toast("Titulares guardados ✅");
+    }
+
+    async function saveCards(match, card) {
+      if (!isAdmin()) return toast("Solo el admin puede guardar tarjetas.");
+
+      const yellow = Array.from(card.querySelectorAll('.card-yellow-input:checked'))
+        .map((input) => String(input.dataset.cardPlayer || "").trim())
+        .filter(Boolean)
+        .slice(0, 30);
+      const red = Array.from(card.querySelectorAll('.card-red-input:checked'))
+        .map((input) => String(input.dataset.cardPlayer || "").trim())
+        .filter(Boolean)
+        .slice(0, 30);
+
+      if (!yellow.length && !red.length) {
+        await deleteDoc(leagueDoc("cards", match.id));
+        toast("Tarjetas eliminadas para este partido.");
+        return;
+      }
+
+      await setDoc(leagueDoc("cards", match.id), {
+        matchId: match.id,
+        yellow,
+        red,
+        source: "manual-admin",
+        leagueCode: currentLeagueCode,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+
+      cardsDrafts[match.id] = { yellow, red };
+
+      toast("Tarjetas guardadas ✅");
     }
 
     async function clearResult(match) {
@@ -8617,9 +9155,59 @@
       toast("No se pudo sincronizar API. Puedes capturar resultados manualmente en Admin.");
     }
 
+    async function syncLiveLineups() {
+      if (!isAdmin()) return toast("Solo el admin puede sincronizar titulares.");
+      if (!LINEUPS_FEED_URL) {
+        toast("Titulares live: configura LINEUPS_FEED_URL con tu endpoint/proxy JSON.");
+        return;
+      }
+
+      try {
+        const response = await fetch(LINEUPS_FEED_URL);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const payload = await response.json();
+        const items = Array.isArray(payload) ? payload : (Array.isArray(payload?.lineups) ? payload.lineups : []);
+        if (!items.length) {
+          toast("No llegaron titulares desde el feed.");
+          return;
+        }
+
+        const batch = writeBatch(db);
+        let saved = 0;
+        items.forEach((item) => {
+          const matchId = String(item?.matchId || "").trim();
+          if (!matchId) return;
+          const homeStarters = Array.isArray(item?.homeStarters) ? item.homeStarters.map((name) => String(name || "").trim()).filter(Boolean) : [];
+          const awayStarters = Array.isArray(item?.awayStarters) ? item.awayStarters.map((name) => String(name || "").trim()).filter(Boolean) : [];
+          if (!homeStarters.length && !awayStarters.length) return;
+
+          batch.set(leagueDoc("lineups", matchId), {
+            matchId,
+            homeStarters,
+            awayStarters,
+            source: String(item?.source || "feed"),
+            leagueCode: currentLeagueCode,
+            updatedAt: serverTimestamp()
+          }, { merge: true });
+          saved += 1;
+        });
+
+        if (!saved) {
+          toast("No hubo alineaciones válidas para guardar.");
+          return;
+        }
+
+        await batch.commit();
+        toast(`Titulares live sincronizados: ${saved} partidos.`);
+      } catch (error) {
+        console.warn("Fallo titulares live", error);
+        toast("No se pudieron sincronizar titulares live.");
+      }
+    }
+
     function renderTabs() {
       const tabs = [
-        ["matches", "⚽ Partidos"],
+        ["matches", "🎯 Pronósticos"],
         ["groups", "📊 Grupos"],
         ["picks", "🧾 Picks"],
         ["ia", "🤖 IA"],
@@ -8653,6 +9241,27 @@
 
       $("groupFilter").innerHTML = `<option value="">Todos los grupos</option>` +
         Object.keys(GROUPS).map((group) => `<option value="${group}">Grupo ${group}</option>`).join("");
+
+      const demoGroup = $("demoGroupFilter");
+      if (demoGroup) {
+        demoGroup.innerHTML = `<option value="">Todos los grupos/fases</option>` +
+          Object.keys(GROUPS).map((group) => `<option value="${group}">Grupo ${group}</option>`).join("") +
+          `<option value="KO">Eliminación directa</option>`;
+      }
+    }
+
+    function renderAuthState() {
+      const badge = $("authStateBadge");
+      if (!badge) return;
+      if (currentUser) {
+        badge.classList.remove("bad");
+        badge.classList.add("good");
+        badge.textContent = `Sesión activa: ${preferredUserName(currentUser.uid)}`;
+      } else {
+        badge.classList.remove("good");
+        badge.classList.add("bad");
+        badge.textContent = "No has iniciado sesión";
+      }
     }
 
     function renderChampionSelector() {
@@ -8685,11 +9294,25 @@
       const lines = formationLines(formation);
       const group = getTeamGroup(selectedTeam);
 
+      const teamMatches = getAllMatches().filter((match) => match.home === selectedTeam || match.away === selectedTeam);
+      const liveMatch = teamMatches
+        .filter((match) => getLiveLineup(match.id))
+        .sort((a, b) => Math.abs(Date.now() - Date.parse(a.date)) - Math.abs(Date.now() - Date.parse(b.date)))[0] || null;
+      const liveData = liveMatch ? getLiveLineup(liveMatch.id) : null;
+      const liveStarters = liveMatch
+        ? (liveMatch.home === selectedTeam ? (liveData?.homeStarters || []) : (liveData?.awayStarters || []))
+        : [];
+
+      const rosterByName = new Map(roster.map((player) => [normalizePlayerName(player.name), player]));
+      const sourcePlayers = liveStarters.length
+        ? liveStarters.map((name) => rosterByName.get(normalizePlayerName(name)) || { name, pos: "MED" })
+        : roster;
+
       const byPos = {
-        POR: roster.filter((p) => p.pos === "POR"),
-        DEF: roster.filter((p) => p.pos === "DEF"),
-        MED: roster.filter((p) => p.pos === "MED"),
-        DEL: roster.filter((p) => p.pos === "DEL")
+        POR: sourcePlayers.filter((p) => p.pos === "POR"),
+        DEF: sourcePlayers.filter((p) => p.pos === "DEF"),
+        MED: sourcePlayers.filter((p) => p.pos === "MED"),
+        DEL: sourcePlayers.filter((p) => p.pos === "DEL")
       };
 
       const buildLine = (players, count, label) => {
@@ -8733,7 +9356,7 @@
         <div class="lineup-layout">
           <div class="lineup-pitch">
             <div class="pitch-head">
-              <h4>XI esperado sobre campo</h4>
+              <h4>${liveStarters.length ? "XI titular sobre cancha" : "XI esperado sobre cancha"}</h4>
               <span class="pill">Alineación ${escapeHtml(formation)}</span>
             </div>
             <div class="pitch-canvas">
@@ -8756,6 +9379,18 @@
               <span class="expected-chip">MED x${lines[2]}</span>
               <span class="expected-chip">DEL x${lines[3]}</span>
             </div>
+            ${liveMatch && liveStarters.length ? `
+              <div class="lineup-live-box">
+                <div><b>⭐ Titulares confirmados</b> · ${escapeHtml(liveMatch.id)} · ${escapeHtml(formatDate(liveMatch.date))}</div>
+                <div class="lineup-live-list">
+                  ${liveStarters.map((name) => `<span class="lineup-live-chip">${escapeHtml(name)}</span>`).join("")}
+                </div>
+              </div>
+            ` : `
+              <div class="lineup-live-box">
+                <div><b>⏳ Titulares live</b> aún no disponibles para este equipo.</div>
+              </div>
+            `}
           </div>
           <div class="squad-panel">
             <div class="squad-header">
@@ -8860,6 +9495,13 @@
       const key = currentUser ? `${currentUser.uid}_${match.id}` : "";
       const prediction = predictions[key] || {};
       const result = results[match.id] || {};
+      const lineup = getLiveLineup(match.id) || {};
+      const homeXI = Array.isArray(lineup.homeStarters) ? lineup.homeStarters : [];
+      const awayXI = Array.isArray(lineup.awayStarters) ? lineup.awayStarters : [];
+      const hasLineup = homeXI.length > 0 || awayXI.length > 0;
+      const cardInfo = cards[match.id] || {};
+      const yellowCount = Array.isArray(cardInfo.yellow) ? cardInfo.yellow.length : 0;
+      const redCount = Array.isArray(cardInfo.red) ? cardInfo.red.length : 0;
       const locked = isMatchLocked(match) || isFinalResult(result);
       const points = currentUser ? calculatePredictionPoints(match, prediction, result) : 0;
       const selectedScorer = findPlayerInMatch(match, prediction.scorer);
@@ -8892,6 +9534,9 @@
             <span class="pill gold">x${MULTIPLIERS[match.phase] || 1}</span>
             <span class="pill">Bloquea CDMX: ${formatLockTimeCdmx(match.date)}</span>
             <span class="pill info">Resultado: ${isFinalResult(result) ? `${result.homeScore}-${result.awayScore}` : "pendiente"}</span>
+            ${yellowCount ? `<span class="pill" title="Tarjetas amarillas">🟨 ${yellowCount}</span>` : ""}
+            ${redCount ? `<span class="pill bad" title="Tarjetas rojas">🟥 ${redCount}</span>` : ""}
+            <span class="pill ${hasLineup ? "live" : "bad"}">${hasLineup ? "⭐ XI titulares disponibles" : "⏳ XI titulares pendientes"}</span>
             <span class="pill good">Mis pts: ${points}</span>
           </div>
 
@@ -8899,10 +9544,16 @@
             <input class="pred-home" type="number" min="0" max="30" placeholder="Goles ${escapeHtml(match.home || "local")}" value="${prediction.homeScore ?? ""}" ${locked ? "disabled" : ""} />
             <input class="pred-away" type="number" min="0" max="30" placeholder="Goles ${escapeHtml(match.away || "visita")}" value="${prediction.awayScore ?? ""}" ${locked ? "disabled" : ""} />
             <label>⚽ Primer goleador</label>
-            <select class="pred-scorer wide" ${locked ? "disabled" : ""}>${scorerOptions(match.home, match.away, prediction.scorer)}</select>
+            <select class="pred-scorer wide" ${locked ? "disabled" : ""}>${scorerOptions(match.home, match.away, prediction.scorer, match)}</select>
             <div class="scorer-preview wide">
-              ${selectedScorer ? `${playerImageTag(selectedScorer.name, 28)}<span>${escapeHtml(selectedScorer.name)} · ${escapeHtml(selectedScorer.pos)}</span>` : '<span class="muted">Selecciona goleador.</span>'}
+              ${selectedScorer ? `${playerImageTag(selectedScorer.name, 28)}<span>${escapeHtml(selectedScorer.name)} · ${escapeHtml(selectedScorer.pos)}${isStarterForMatch(match, selectedScorer.name) ? '<span class="starter-dot">⭐ Titular</span>' : ""}</span>` : '<span class="muted">Selecciona goleador.</span>'}
             </div>
+            ${hasLineup ? `
+              <div class="lineup-live-box wide">
+                <div class="lineup-live-line"><span class="lineup-live-label">XI ${escapeHtml(match.home || "Local")}</span>: ${escapeHtml(homeXI.join(", ") || "pendiente")}</div>
+                <div class="lineup-live-line"><span class="lineup-live-label">XI ${escapeHtml(match.away || "Visitante")}</span>: ${escapeHtml(awayXI.join(", ") || "pendiente")}</div>
+              </div>
+            ` : ""}
             ${winnerSelect(match, prediction.winnerTeam)}
             <button class="btn btn-gold wide save-prediction" ${locked || !currentUser ? "disabled" : ""}>💾 Guardar predicción</button>
           </div>
@@ -8911,6 +9562,18 @@
     }
 
     function renderAdminMatchCard(match, result) {
+      const lineup = getLiveLineup(match.id) || {};
+      const cardInfo = cards[match.id] || {};
+      const draftLineup = lineupDrafts[match.id] || {};
+      const draftCards = cardsDrafts[match.id] || {};
+      const homeSelected = Array.isArray(draftLineup.home) ? draftLineup.home : (lineup.homeStarters || []);
+      const awaySelected = Array.isArray(draftLineup.away) ? draftLineup.away : (lineup.awayStarters || []);
+      const yellowSelected = Array.isArray(draftCards.yellow) ? draftCards.yellow : (cardInfo.yellow || []);
+      const redSelected = Array.isArray(draftCards.red) ? draftCards.red : (cardInfo.red || []);
+      const hasLineup = homeSelected.length > 0 || awaySelected.length > 0;
+      const hasCards = yellowSelected.length > 0 || redSelected.length > 0;
+      const expanded = !adminCompactMode || Boolean(adminCardExpanded[match.id]);
+
       return `
         <article class="match-card glass" data-match-id="${match.id}">
           <div class="match-head">
@@ -8928,10 +9591,27 @@
             <input class="result-home" type="number" min="0" max="30" placeholder="Goles local" value="${result.homeScore ?? ""}" />
             <input class="result-away" type="number" min="0" max="30" placeholder="Goles visita" value="${result.awayScore ?? ""}" />
             <label>⚽ Primer goleador real</label>
-            <select class="result-scorer wide">${scorerOptions(match.home, match.away, result.scorer)}</select>
+            <select class="result-scorer wide">${scorerOptions(match.home, match.away, result.scorer, match)}</select>
             ${winnerSelect(match, result.winnerTeam, "result-winnerTeam")}
             <button class="btn btn-gold wide save-result">📝 Guardar resultado</button>
             <button class="btn wide clear-result">🗑️ Limpiar resultado</button>
+            ${adminCompactMode ? `<button class="btn wide toggle-admin-extra" data-match-id="${escapeHtml(match.id)}">${expanded ? "Ocultar XI/Tarjetas" : "Editar XI y Tarjetas"}</button>` : ""}
+            <div class="admin-extra ${expanded ? "" : "hide"}">
+            <label class="wide">⭐ Titulares ${escapeHtml(match.home || "Local")} (elige máximo 11)</label>
+            <div class="pill">Seleccionados: <b class="lineup-count-home">${homeSelected.length}</b>/11</div>
+            <div class="admin-lineup-grid wide">
+              ${lineupAdminRows(match.home, "home", homeSelected, yellowSelected, redSelected)}
+            </div>
+            <label class="wide">⭐ Titulares ${escapeHtml(match.away || "Visitante")} (elige máximo 11)</label>
+            <div class="pill">Seleccionados: <b class="lineup-count-away">${awaySelected.length}</b>/11</div>
+            <div class="admin-lineup-grid wide">
+              ${lineupAdminRows(match.away, "away", awaySelected, yellowSelected, redSelected)}
+            </div>
+            <button class="btn wide save-lineup">⭐ Guardar titulares</button>
+            <span class="pill ${hasLineup ? "live" : "bad"}">${hasLineup ? "Titulares capturados" : "Sin titulares capturados"}</span>
+            <button class="btn wide save-cards">🟨🟥 Guardar tarjetas</button>
+            <span class="pill ${hasCards ? "gold" : "bad"}">${hasCards ? "Tarjetas capturadas" : "Sin tarjetas capturadas"}</span>
+            </div>
           </div>
         </article>
       `;
@@ -9029,16 +9709,79 @@
       $("rankingList").innerHTML = rows.map((row, index) => {
         const medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : "";
         return `
-          <div class="rank-card glass">
+          <div class="rank-card glass clickable" data-player-uid="${escapeHtml(row.uid)}" tabindex="0" role="button" aria-label="Ver detalle de ${escapeHtml(row.name)}">
             <div class="rank-badge">${index + 1}</div>
             <div>
               <b>${escapeHtml(row.name)} ${medal}</b>
               <div class="pill">Campeón: ${escapeHtml(row.champion || "sin pick")}</div>
+              <div class="rank-hint">Toca para ver detalle por partido</div>
             </div>
             <b>${row.points} pts</b>
           </div>
         `;
       }).join("") || `<div class="glass notice">Aún no hay participantes.</div>`;
+    }
+
+    function closePlayerDetail() {
+      activePlayerDetailUid = "";
+      $("playerDetailOverlay").classList.add("hide");
+      $("playerDetailOverlay").setAttribute("aria-hidden", "true");
+    }
+
+    function renderPlayerDetail(uid) {
+      if (!uid || !users[uid]) return;
+
+      const userName = users[uid]?.name || users[uid]?.email || uid;
+      const closedMatches = getAllMatches()
+        .filter((match) => isFinalResult(results[match.id]))
+        .sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
+
+      const detailRows = closedMatches.map((match) => {
+        const prediction = predictions[`${uid}_${match.id}`];
+        const result = results[match.id];
+        const points = prediction ? calculatePredictionPoints(match, prediction, result) : 0;
+        return {
+          match,
+          prediction,
+          result,
+          points
+        };
+      });
+
+      const withPick = detailRows.filter((item) => item.prediction).length;
+      const totalPoints = detailRows.reduce((sum, item) => sum + Number(item.points || 0), 0);
+
+      $("playerDetailTitle").textContent = `Detalle de ${userName}`;
+      $("playerDetailSubtitle").textContent = `${detailRows.length} partidos cerrados`;
+      $("playerDetailStats").innerHTML = `
+        <span class="pill">Puntos cerrados: ${totalPoints}</span>
+        <span class="pill">Con pick: ${withPick}/${detailRows.length}</span>
+        <span class="pill">Liga: ${escapeHtml(currentLeagueCode)}</span>
+      `;
+
+      $("playerDetailRows").innerHTML = detailRows.map((item) => {
+        const pickLabel = item.prediction
+          ? `${Number(item.prediction.homeScore)}-${Number(item.prediction.awayScore)}${item.prediction.scorer ? ` · ⚽ ${escapeHtml(item.prediction.scorer)}` : ""}`
+          : "Sin pick";
+        return `
+          <tr>
+            <td>${escapeHtml(item.match.id)} · ${teamNameWithFlag(item.match.home || "Local", 18)} vs ${teamNameWithFlag(item.match.away || "Visitante", 18)}</td>
+            <td>${escapeHtml(formatDate(item.match.date))}</td>
+            <td>${pickLabel}</td>
+            <td>${Number(item.result.homeScore)}-${Number(item.result.awayScore)}${item.result.scorer ? ` · ⚽ ${escapeHtml(item.result.scorer)}` : ""}</td>
+            <td><b>${item.points}</b></td>
+          </tr>
+        `;
+      }).join("");
+
+      $("playerDetailEmpty").classList.toggle("hide", detailRows.length > 0);
+    }
+
+    function openPlayerDetail(uid) {
+      activePlayerDetailUid = uid;
+      renderPlayerDetail(uid);
+      $("playerDetailOverlay").classList.remove("hide");
+      $("playerDetailOverlay").setAttribute("aria-hidden", "false");
     }
 
     function renderAiPage() {
@@ -9084,6 +9827,77 @@
       });
 
       $("aiList").innerHTML = items.join("") || `<div class="glass notice">No hay partidos para mostrar.</div>`;
+    }
+
+    function renderDemoPage() {
+      const playerSelect = $("demoPlayerFilter");
+      const groupSelect = $("demoGroupFilter");
+      const statusSelect = $("demoStatusFilter");
+      const summary = $("demoSummary");
+      const rowsTarget = $("demoRows");
+      if (!playerSelect || !groupSelect || !statusSelect || !summary || !rowsTarget) return;
+
+      const usersRows = Object.keys(users)
+        .map((uid) => ({ uid, label: users[uid]?.name || users[uid]?.email || uid }))
+        .sort((a, b) => a.label.localeCompare(b.label, "es"));
+
+      const selectedUid = playerSelect.value && users[playerSelect.value]
+        ? playerSelect.value
+        : usersRows[0]?.uid || "";
+
+      playerSelect.innerHTML = usersRows.map((row) => {
+        return `<option value="${escapeHtml(row.uid)}" ${row.uid === selectedUid ? "selected" : ""}>${escapeHtml(row.label)}</option>`;
+      }).join("") || `<option value="">Sin participantes</option>`;
+
+      if (!selectedUid) {
+        rowsTarget.innerHTML = `<tr><td colspan="6">Sin participantes en esta liga.</td></tr>`;
+        summary.textContent = "No hay jugadores disponibles todavía.";
+        return;
+      }
+
+      const groupFilter = groupSelect.value || "";
+      const statusMode = statusSelect.value || "closed";
+      const selectedLabel = users[selectedUid]?.name || users[selectedUid]?.email || selectedUid;
+
+      const list = getAllMatches()
+        .filter((match) => {
+          if (groupFilter === "KO") return match.phase !== "Grupos";
+          if (groupFilter && match.group !== groupFilter) return false;
+          if (statusMode === "closed" && !isFinalResult(results[match.id])) return false;
+          return true;
+        })
+        .sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
+        .map((match) => {
+          const prediction = predictions[`${selectedUid}_${match.id}`];
+          const result = results[match.id];
+          const closed = isFinalResult(result);
+          const points = closed && prediction ? calculatePredictionPoints(match, prediction, result) : 0;
+          return { match, prediction, result, closed, points };
+        });
+
+      const picksCount = list.filter((row) => row.prediction).length;
+      const closedCount = list.filter((row) => row.closed).length;
+      const totalPoints = list.reduce((sum, row) => sum + Number(row.points || 0), 0);
+      summary.textContent = `${selectedLabel} · Picks ${picksCount}/${list.length} · Cerrados ${closedCount} · Puntos ${totalPoints}`;
+
+      rowsTarget.innerHTML = list.map((row) => {
+        const pickText = row.prediction
+          ? `${Number(row.prediction.homeScore)}-${Number(row.prediction.awayScore)}${row.prediction.scorer ? ` · ⚽ ${escapeHtml(row.prediction.scorer)}` : ""}`
+          : "Sin pick";
+        const finalText = row.closed
+          ? `${Number(row.result.homeScore)}-${Number(row.result.awayScore)}${row.result.scorer ? ` · ⚽ ${escapeHtml(row.result.scorer)}` : ""}`
+          : "Pendiente";
+        return `
+          <tr>
+            <td>${escapeHtml(row.match.id)} · ${teamNameWithFlag(row.match.home || "Local", 18)} vs ${teamNameWithFlag(row.match.away || "Visitante", 18)}</td>
+            <td>${escapeHtml(row.match.phase)}${row.match.group ? ` · Grupo ${escapeHtml(row.match.group)}` : ""}</td>
+            <td>${escapeHtml(formatDate(row.match.date))}</td>
+            <td>${pickText}</td>
+            <td>${finalText}</td>
+            <td><b>${row.points}</b></td>
+          </tr>
+        `;
+      }).join("") || `<tr><td colspan="6">Sin partidos para ese filtro.</td></tr>`;
     }
 
     function renderPicksPage() {
@@ -9188,6 +10002,9 @@
       $("adminPanel").classList.toggle("hide", !show);
       if (!show) return;
 
+      const compactBtn = $("adminCompactToggle");
+      if (compactBtn) compactBtn.textContent = `Modo compacto: ${adminCompactMode ? "ON" : "OFF"}`;
+
       const search = normalize($("adminSearchInput").value);
       const phase = $("adminPhaseFilter").value;
       const matches = getAllMatches().filter((match) => {
@@ -9213,6 +10030,33 @@
           clearResult(match);
         });
       });
+
+      document.querySelectorAll(".save-lineup").forEach((button) => {
+        button.addEventListener("click", () => {
+          const card = button.closest(".match-card");
+          const match = getAllMatches().find((item) => item.id === card.dataset.matchId);
+          if (!match) return;
+          saveLineup(match, card);
+        });
+      });
+
+      document.querySelectorAll(".save-cards").forEach((button) => {
+        button.addEventListener("click", () => {
+          const card = button.closest(".match-card");
+          const match = getAllMatches().find((item) => item.id === card.dataset.matchId);
+          if (!match) return;
+          saveCards(match, card);
+        });
+      });
+
+      document.querySelectorAll(".toggle-admin-extra").forEach((button) => {
+        button.addEventListener("click", () => {
+          const matchId = button.dataset.matchId;
+          if (!matchId) return;
+          adminCardExpanded[matchId] = !adminCardExpanded[matchId];
+          renderAdmin();
+        });
+      });
     }
 
     function renderVenues() {
@@ -9230,17 +10074,22 @@
       if (currentUser) {
         $("userBadge").textContent = `${preferredUserName(currentUser.uid)}${isAdmin() ? " · admin" : ""}`;
       }
+      renderAuthState();
       renderChampionSelector();
       renderKpis();
       renderMatches();
       renderGroups();
       renderPicksPage();
       renderAiPage();
+      renderDemoPage();
       renderBracket();
       renderRanking();
       renderAdmin();
       renderVenues();
       renderTeamsPage();
+      if (activePlayerDetailUid) {
+        renderPlayerDetail(activePlayerDetailUid);
+      }
     }
 
     function setupEvents() {
@@ -9347,28 +10196,164 @@
       });
       $("saveChampionButton").addEventListener("click", saveChampionPick);
       $("syncApiButton").addEventListener("click", syncFootballData);
+      $("syncLineupsButton").addEventListener("click", syncLiveLineups);
+      $("adminCompactToggle").addEventListener("click", () => {
+        adminCompactMode = !adminCompactMode;
+        if (!adminCompactMode) adminCardExpanded = {};
+        renderAdmin();
+      });
       $("recalculateButton").addEventListener("click", () => recalculateAllPoints(true));
       $("clearAllResultsButton").addEventListener("click", clearAllResults);
       $("searchInput").addEventListener("input", renderMatches);
       $("viewModeFilter").addEventListener("change", renderMatches);
       $("phaseFilter").addEventListener("change", renderMatches);
       $("groupFilter").addEventListener("change", renderMatches);
+      $("demoPlayerFilter").addEventListener("change", renderDemoPage);
+      $("demoGroupFilter").addEventListener("change", renderDemoPage);
+      $("demoStatusFilter").addEventListener("change", renderDemoPage);
       $("adminSearchInput").addEventListener("input", renderAdmin);
       $("adminPhaseFilter").addEventListener("change", renderAdmin);
       $("teamSelector").addEventListener("change", renderTeamsPage);
       $("teamFormation").addEventListener("change", renderTeamsPage);
+
+      $("rankingList").addEventListener("click", (event) => {
+        const card = event.target.closest(".rank-card[data-player-uid]");
+        if (!card) return;
+        openPlayerDetail(card.dataset.playerUid || "");
+      });
+
+      $("rankingList").addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        const card = event.target.closest(".rank-card[data-player-uid]");
+        if (!card) return;
+        event.preventDefault();
+        openPlayerDetail(card.dataset.playerUid || "");
+      });
+
+      $("playerDetailClose").addEventListener("click", closePlayerDetail);
+      $("playerDetailOverlay").addEventListener("click", (event) => {
+        if (event.target.id === "playerDetailOverlay") closePlayerDetail();
+      });
+
+      document.addEventListener("click", (event) => {
+        const button = event.target.closest(".lineup-toggle-item");
+        if (!button) return;
+        if (button.disabled) return;
+        const card = button.closest(".match-card");
+        if (!card) return;
+        const matchId = card.dataset.matchId;
+        const side = button.dataset.lineupSide;
+        const activeButtons = card.querySelectorAll(`.lineup-toggle-item[data-lineup-side="${side}"].active`).length;
+        const willActivate = !button.classList.contains("active");
+        if (willActivate && activeButtons >= 11) {
+          toast("Solo puedes seleccionar 11 titulares por equipo.");
+          return;
+        }
+        button.classList.toggle("active", willActivate);
+        button.textContent = `${willActivate ? "✅ " : ""}${button.dataset.playerLabel || button.dataset.playerName}`;
+
+        const selected = Array.from(card.querySelectorAll(`.lineup-toggle-item[data-lineup-side="${side}"].active`))
+          .map((item) => String(item.dataset.playerName || "").trim())
+          .filter(Boolean);
+        lineupDrafts[matchId] = {
+          ...(lineupDrafts[matchId] || {}),
+          [side]: selected
+        };
+
+        const countEl = card.querySelector(`.lineup-count-${side}`);
+        if (countEl) countEl.textContent = String(selected.length);
+      });
+
+      document.addEventListener("change", (event) => {
+        const input = event.target;
+
+        if (input?.classList?.contains("card-yellow-input") || input?.classList?.contains("card-red-input")) {
+          const card = input.closest(".match-card");
+          if (!card) return;
+          const matchId = card.dataset.matchId;
+          const player = String(input.dataset.cardPlayer || "");
+          if (!player) return;
+
+          if (input.classList.contains("card-yellow-input") && input.checked) {
+            const redInput = Array.from(card.querySelectorAll(".card-red-input"))
+              .find((item) => String(item.dataset.cardPlayer || "") === player);
+            if (redInput) redInput.checked = false;
+          }
+          if (input.classList.contains("card-red-input") && input.checked) {
+            const yellowInput = Array.from(card.querySelectorAll(".card-yellow-input"))
+              .find((item) => String(item.dataset.cardPlayer || "") === player);
+            if (yellowInput) yellowInput.checked = false;
+          }
+
+          const yellow = Array.from(card.querySelectorAll('.card-yellow-input:checked'))
+            .map((item) => String(item.dataset.cardPlayer || "").trim())
+            .filter(Boolean);
+          const red = Array.from(card.querySelectorAll('.card-red-input:checked'))
+            .map((item) => String(item.dataset.cardPlayer || "").trim())
+            .filter(Boolean);
+          cardsDrafts[matchId] = { yellow, red };
+          return;
+        }
+
+        const select = input;
+        if (!select?.classList?.contains("pred-scorer")) return;
+        const card = select.closest(".match-card");
+        if (!card) return;
+        const match = getAllMatches().find((item) => item.id === card.dataset.matchId);
+        if (!match) return;
+
+        const selectedPlayer = findPlayerInMatch(match, select.value || "");
+        const preview = card.querySelector(".scorer-preview");
+        if (!preview) return;
+        preview.innerHTML = selectedPlayer
+          ? `${playerImageTag(selectedPlayer.name, 28)}<span>${escapeHtml(selectedPlayer.name)} · ${escapeHtml(selectedPlayer.pos)}${isStarterForMatch(match, selectedPlayer.name) ? '<span class="starter-dot">⭐ Titular</span>' : ""}</span>`
+          : '<span class="muted">Selecciona goleador.</span>';
+      });
+
+      window.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        if (!$("playerDetailOverlay").classList.contains("hide")) closePlayerDetail();
+      });
     }
 
     function setupMobileTopbarBehavior() {
+      let compact = false;
+      let ticking = false;
+      let lastY = window.scrollY || 0;
+
+      const hasInputFocus = () => {
+        const tag = document.activeElement?.tagName;
+        return tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA";
+      };
+
       const updateMobileTopbarState = () => {
         if (window.innerWidth > MOBILE_TOPBAR_BREAKPOINT) {
           document.body.classList.remove("mobile-topbar-compact");
+          compact = false;
+          lastY = window.scrollY || 0;
           return;
         }
-        document.body.classList.toggle("mobile-topbar-compact", window.scrollY > MOBILE_TOPBAR_COLLAPSE_Y);
+
+        const y = window.scrollY;
+        if (hasInputFocus()) {
+          lastY = y;
+          return;
+        }
+        if (Math.abs(y - lastY) < 6) return;
+        if (!compact && y > MOBILE_TOPBAR_COLLAPSE_Y) compact = true;
+        if (compact && y < MOBILE_TOPBAR_EXPAND_Y) compact = false;
+        document.body.classList.toggle("mobile-topbar-compact", compact);
+        lastY = y;
       };
 
-      window.addEventListener("scroll", updateMobileTopbarState, { passive: true });
+      window.addEventListener("scroll", () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          updateMobileTopbarState();
+          ticking = false;
+        });
+      }, { passive: true });
       window.addEventListener("resize", updateMobileTopbarState);
       updateMobileTopbarState();
     }
@@ -9392,6 +10377,18 @@
       firestoreUnsubs.push(onSnapshot(leagueCollection("results"), (snapshot) => {
         results = {};
         snapshot.forEach((document) => results[document.id] = document.data());
+        renderAll();
+      }));
+
+      firestoreUnsubs.push(onSnapshot(leagueCollection("lineups"), (snapshot) => {
+        lineups = {};
+        snapshot.forEach((document) => lineups[document.id] = document.data());
+        renderAll();
+      }));
+
+      firestoreUnsubs.push(onSnapshot(leagueCollection("cards"), (snapshot) => {
+        cards = {};
+        snapshot.forEach((document) => cards[document.id] = document.data());
         renderAll();
       }));
 
@@ -9424,6 +10421,7 @@
       $("userBadge").classList.toggle("hide", !user);
       $("userBadge").textContent = user ? `${preferredUserName(user.uid)}${isAdmin() ? " · admin" : ""}` : "";
 
+      renderAuthState();
       renderAll();
     });
 
