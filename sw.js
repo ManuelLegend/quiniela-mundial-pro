@@ -1,4 +1,4 @@
-const CACHE_NAME = "quiniela-pwa-v2";
+const CACHE_NAME = "quiniela-pwa-v3";
 const URLS = [
   "./",
   "./index.html",
@@ -25,6 +25,19 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
+
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      fetch(event.request)
+        .then((networkRes) => {
+          const copy = networkRes.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put("./index.html", copy));
+          return networkRes;
+        })
+        .catch(() => caches.match("./index.html"))
+    );
+    return;
+  }
 
   event.respondWith(
     caches.match(event.request).then((cached) => {

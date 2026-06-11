@@ -2018,7 +2018,7 @@
       </div>
 
       <div class="glass notice">
-        <b>Campeón (+50 pts)</b> · Se bloquea el 11 de junio de 2026. &nbsp;
+        <b>Campeón (+50 pts)</b> · Se bloquea al terminar el 11 de junio de 2026 (CDMX). &nbsp;
         <select id="championSelect" class="select"></select>
         <span id="championFlagPreview" class="pill"></span>
         <button id="saveChampionButton" class="btn btn-gold">Guardar campeón</button>
@@ -2198,6 +2198,20 @@
 
   <div id="toast" class="toast hide"></div>
 
+  <script>
+    (function forceLatestBuild() {
+      const APP_BUILD = "v12";
+      try {
+        const url = new URL(window.location.href);
+        if (url.searchParams.get("app") === APP_BUILD) return;
+        url.searchParams.set("app", APP_BUILD);
+        window.location.replace(url.toString());
+      } catch (error) {
+        console.warn("No se pudo forzar version", error);
+      }
+    })();
+  </script>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
     import {
@@ -2238,7 +2252,7 @@
     const API_KEY = "7e3a0285fa9d41efb1d28ddb78eb1c15";
     const LINEUPS_FEED_URL = "";
     const MEXICO_TZ_OFFSET = "-06:00";
-    const CHAMPION_LOCK_DATE = new Date("2026-06-11T00:00:00-06:00");
+    const CHAMPION_LOCK_DATE = new Date("2026-06-12T00:00:00-06:00");
     const UI_CLOCK_REFRESH_MS = 30000;
     const MOBILE_TOPBAR_BREAKPOINT = 1100;
     const MOBILE_TOPBAR_COLLAPSE_Y = 150;
@@ -7914,6 +7928,7 @@
     let results = {};
     let lineups = {};
     let cards = {};
+    let resultDrafts = {};
     let lineupDrafts = {};
     let cardsDrafts = {};
     let adminCompactMode = true;
@@ -8909,6 +8924,12 @@
         ...data,
         leagueCode: currentLeagueCode
       }, { merge: true });
+      resultDrafts[match.id] = {
+        homeScore,
+        awayScore,
+        scorer: data.scorer,
+        winnerTeam: data.winnerTeam
+      };
       await recalculateAllPoints(false);
       toast("Resultado guardado y puntos recalculados ✅");
     }
@@ -9000,6 +9021,7 @@
     async function clearResult(match) {
       if (!isAdmin()) return toast("Solo el admin puede limpiar resultados.");
       await deleteDoc(leagueDoc("results", match.id));
+      delete resultDrafts[match.id];
       await recalculateAllPoints(false);
       toast("Resultado limpiado ✅");
     }
@@ -9612,8 +9634,17 @@
     function renderAdminMatchCard(match, result) {
       const lineup = getLiveLineup(match.id) || {};
       const cardInfo = cards[match.id] || {};
+      const draftResult = resultDrafts[match.id] || {};
       const draftLineup = lineupDrafts[match.id] || {};
       const draftCards = cardsDrafts[match.id] || {};
+      const hasDraftHome = Object.prototype.hasOwnProperty.call(draftResult, "homeScore");
+      const hasDraftAway = Object.prototype.hasOwnProperty.call(draftResult, "awayScore");
+      const hasDraftScorer = Object.prototype.hasOwnProperty.call(draftResult, "scorer");
+      const hasDraftWinnerTeam = Object.prototype.hasOwnProperty.call(draftResult, "winnerTeam");
+      const viewHomeScore = hasDraftHome ? draftResult.homeScore : (result.homeScore ?? "");
+      const viewAwayScore = hasDraftAway ? draftResult.awayScore : (result.awayScore ?? "");
+      const viewScorer = hasDraftScorer ? draftResult.scorer : (result.scorer || "");
+      const viewWinnerTeam = hasDraftWinnerTeam ? draftResult.winnerTeam : (result.winnerTeam || "");
       const homeSelected = Array.isArray(draftLineup.home) ? draftLineup.home : (lineup.homeStarters || []);
       const awaySelected = Array.isArray(draftLineup.away) ? draftLineup.away : (lineup.awayStarters || []);
       const yellowSelected = Array.isArray(draftCards.yellow) ? draftCards.yellow : (cardInfo.yellow || []);
@@ -9636,11 +9667,12 @@
           </div>
 
           <div class="prediction-inputs admin-panel">
-            <input class="result-home" type="number" min="0" max="30" placeholder="Goles local" value="${result.homeScore ?? ""}" />
-            <input class="result-away" type="number" min="0" max="30" placeholder="Goles visita" value="${result.awayScore ?? ""}" />
+            <input class="result-home" type="number" min="0" max="30" placeholder="Goles local" value="${viewHomeScore}" />
+            <input class="result-away" type="number" min="0" max="30" placeholder="Goles visita" value="${viewAwayScore}" />
             <label>⚽ Primer goleador real</label>
-            <select class="result-scorer wide">${scorerOptions(match.home, match.away, result.scorer, match)}</select>
-            ${winnerSelect(match, result.winnerTeam, "result-winnerTeam")}
+            <select class="result-scorer wide">${scorerOptions(match.home, match.away, viewScorer, match)}</select>
+            ${winnerSelect(match, viewWinnerTeam, "result-winnerTeam")}
+            <span class="pill info wide">Tip: puedes guardar marcador primero y luego regresar a poner goleador.</span>
             <button class="btn btn-gold wide save-result">📝 Guardar resultado</button>
             <button class="btn wide clear-result">🗑️ Limpiar resultado</button>
             ${adminCompactMode ? `<button class="btn wide toggle-admin-extra" data-match-id="${escapeHtml(match.id)}">${expanded ? "Ocultar XI/Tarjetas" : "Editar XI y Tarjetas"}</button>` : ""}
@@ -10365,6 +10397,19 @@
       document.addEventListener("change", (event) => {
         const input = event.target;
 
+        if (input?.classList?.contains("result-home") || input?.classList?.contains("result-away") || input?.classList?.contains("result-scorer") || input?.classList?.contains("result-winnerTeam")) {
+          const card = input.closest(".match-card");
+          if (!card) return;
+          const matchId = card.dataset.matchId;
+          if (!matchId) return;
+          resultDrafts[matchId] = {
+            homeScore: card.querySelector(".result-home")?.value ?? "",
+            awayScore: card.querySelector(".result-away")?.value ?? "",
+            scorer: card.querySelector(".result-scorer")?.value || "",
+            winnerTeam: card.querySelector(".result-winnerTeam")?.value || ""
+          };
+        }
+
         if (input?.classList?.contains("card-yellow-input") || input?.classList?.contains("card-red-input")) {
           const card = input.closest(".match-card");
           if (!card) return;
@@ -10406,6 +10451,21 @@
         preview.innerHTML = selectedPlayer
           ? `${playerImageTag(selectedPlayer.name, 28)}<span>${escapeHtml(selectedPlayer.name)} · ${escapeHtml(selectedPlayer.pos)}${isStarterForMatch(match, selectedPlayer.name) ? '<span class="starter-dot">⭐ Titular</span>' : ""}</span>`
           : '<span class="muted">Selecciona goleador.</span>';
+      });
+
+      document.addEventListener("input", (event) => {
+        const input = event.target;
+        if (!input?.classList?.contains("result-home") && !input?.classList?.contains("result-away")) return;
+        const card = input.closest(".match-card");
+        if (!card) return;
+        const matchId = card.dataset.matchId;
+        if (!matchId) return;
+        resultDrafts[matchId] = {
+          homeScore: card.querySelector(".result-home")?.value ?? "",
+          awayScore: card.querySelector(".result-away")?.value ?? "",
+          scorer: card.querySelector(".result-scorer")?.value || "",
+          winnerTeam: card.querySelector(".result-winnerTeam")?.value || ""
+        };
       });
 
       window.addEventListener("keydown", (event) => {
