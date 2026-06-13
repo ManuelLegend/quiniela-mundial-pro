@@ -910,6 +910,18 @@
       margin-bottom: 10px;
     }
 
+    .player-detail-filters {
+      display: grid;
+      grid-template-columns: minmax(170px, 240px) minmax(220px, 1fr);
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .player-detail-filters .select,
+    .player-detail-filters input {
+      width: 100%;
+    }
+
     .player-detail-table-wrap {
       overflow-x: auto;
     }
@@ -939,6 +951,25 @@
     .player-detail-empty {
       margin-top: 8px;
       color: var(--muted);
+    }
+
+    #playerDetailLoadMore {
+      margin-top: 10px;
+    }
+
+    @media (max-width: 640px) {
+      .player-detail-filters {
+        grid-template-columns: 1fr;
+      }
+
+      .player-detail-table {
+        min-width: 620px;
+      }
+
+      .player-detail-table th,
+      .player-detail-table td {
+        font-size: 0.78rem;
+      }
     }
 
     .rank-badge {
@@ -2178,6 +2209,12 @@
         <button id="playerDetailClose" class="btn btn-danger" type="button">Cerrar</button>
       </div>
       <div id="playerDetailStats" class="player-detail-stats"></div>
+      <div class="player-detail-filters">
+        <select id="playerDetailPhaseFilter" class="select">
+          <option value="">Todas las fases</option>
+        </select>
+        <input id="playerDetailSearchInput" placeholder="Buscar equipo o partido" />
+      </div>
       <div class="player-detail-table-wrap">
         <table class="player-detail-table">
           <thead>
@@ -2192,6 +2229,7 @@
           <tbody id="playerDetailRows"></tbody>
         </table>
       </div>
+      <button id="playerDetailLoadMore" class="btn hide" type="button">Cargar más</button>
       <div id="playerDetailEmpty" class="player-detail-empty hide">Aún no hay partidos cerrados para mostrar.</div>
     </div>
   </div>
@@ -2200,7 +2238,7 @@
 
   <script>
     (function forceLatestBuild() {
-      const APP_BUILD = "v12";
+      const APP_BUILD = "v14";
       try {
         const url = new URL(window.location.href);
         if (url.searchParams.get("app") === APP_BUILD) return;
@@ -7925,6 +7963,7 @@
     let currentUser = null;
     let users = {};
     let predictions = {};
+    let predictionDrafts = {};
     let results = {};
     let lineups = {};
     let cards = {};
@@ -7933,6 +7972,7 @@
     let cardsDrafts = {};
     let adminCompactMode = true;
     let adminCardExpanded = {};
+    let picksAccordionState = {};
     let championPicks = {};
     let userTotals = {};
     let firestoreUnsubs = [];
@@ -7941,6 +7981,9 @@
     const LEAGUE_QUERY_PARAM = "liga";
     let currentLeagueCode = "general";
     let activePlayerDetailUid = "";
+    let playerDetailPhaseFilter = "";
+    let playerDetailSearch = "";
+    let playerDetailVisibleCount = 25;
 
     const $ = (id) => document.getElementById(id);
 
@@ -8872,7 +8915,10 @@
 
     async function savePrediction(match, card) {
       if (!currentUser) return toast("Inicia sesión para guardar tu quiniela.");
-      if (isMatchLocked(match)) return toast("Este partido ya está bloqueado porque ya inició.");
+      if (isMatchLocked(match)) {
+        delete predictionDrafts[match.id];
+        return toast("Este partido ya está bloqueado porque ya inició.");
+      }
 
       const homeScore = numberOrNull(card.querySelector(".pred-home").value);
       const awayScore = numberOrNull(card.querySelector(".pred-away").value);
@@ -8897,6 +8943,12 @@
         ...data,
         leagueCode: currentLeagueCode
       }, { merge: true });
+      predictionDrafts[match.id] = {
+        homeScore,
+        awayScore,
+        scorer: data.scorer,
+        winnerTeam: data.winnerTeam
+      };
       toast("Pronóstico guardado ✅");
     }
 
@@ -9489,8 +9541,46 @@
       $("kpiPoints").textContent = uid ? getUserTotal(uid) : 0;
     }
 
+    let _pendingMatchesRender = false;
+
     function renderMatches() {
       const matchesRoot = $("matchesList");
+
+      // If a prediction input is focused, snapshot its draft first, then defer the
+      // full DOM rebuild until the user leaves the field to avoid erasing their input.
+      const focusedEl = document.activeElement;
+      const isInMatchCard = focusedEl && focusedEl.closest && focusedEl.closest("#matchesList .match-card");
+      const isPredInput = focusedEl && (
+        focusedEl.classList.contains("pred-home") ||
+        focusedEl.classList.contains("pred-away") ||
+        focusedEl.classList.contains("pred-scorer") ||
+        focusedEl.classList.contains("winnerTeam")
+      );
+
+      if (isInMatchCard && isPredInput) {
+        // Capture current values into draft before any future re-render
+        const card = focusedEl.closest(".match-card");
+        const matchId = card && card.dataset.matchId;
+        if (matchId) {
+          predictionDrafts[matchId] = {
+            homeScore: card.querySelector(".pred-home")?.value ?? "",
+            awayScore: card.querySelector(".pred-away")?.value ?? "",
+            scorer: card.querySelector(".pred-scorer")?.value || "",
+            winnerTeam: card.querySelector(".winnerTeam")?.value || ""
+          };
+        }
+        // Schedule deferred rebuild on blur so the user never loses a focused field
+        if (!_pendingMatchesRender) {
+          _pendingMatchesRender = true;
+          const doRenderOnBlur = () => {
+            _pendingMatchesRender = false;
+            renderMatches();
+          };
+          focusedEl.addEventListener("blur", doRenderOnBlur, { once: true });
+        }
+        return;
+      }
+
       const search = normalize($("searchInput").value);
       const phase = $("phaseFilter").value;
       const group = $("groupFilter").value;
@@ -9564,6 +9654,15 @@
     function renderMatchCard(match, adminMode) {
       const key = currentUser ? `${currentUser.uid}_${match.id}` : "";
       const prediction = predictions[key] || {};
+      const draftPrediction = predictionDrafts[match.id] || {};
+      const hasDraftHome = Object.prototype.hasOwnProperty.call(draftPrediction, "homeScore");
+      const hasDraftAway = Object.prototype.hasOwnProperty.call(draftPrediction, "awayScore");
+      const hasDraftScorer = Object.prototype.hasOwnProperty.call(draftPrediction, "scorer");
+      const hasDraftWinnerTeam = Object.prototype.hasOwnProperty.call(draftPrediction, "winnerTeam");
+      const viewHomeScore = hasDraftHome ? draftPrediction.homeScore : (prediction.homeScore ?? "");
+      const viewAwayScore = hasDraftAway ? draftPrediction.awayScore : (prediction.awayScore ?? "");
+      const viewScorer = hasDraftScorer ? draftPrediction.scorer : (prediction.scorer || "");
+      const viewWinnerTeam = hasDraftWinnerTeam ? draftPrediction.winnerTeam : (prediction.winnerTeam || "");
       const result = results[match.id] || {};
       const lineup = getLiveLineup(match.id) || {};
       const homeXI = Array.isArray(lineup.homeStarters) ? lineup.homeStarters : [];
@@ -9574,7 +9673,7 @@
       const redCount = Array.isArray(cardInfo.red) ? cardInfo.red.length : 0;
       const locked = isMatchLocked(match) || isFinalResult(result);
       const points = currentUser ? calculatePredictionPoints(match, prediction, result) : 0;
-      const selectedScorer = findPlayerInMatch(match, prediction.scorer);
+      const selectedScorer = findPlayerInMatch(match, viewScorer);
 
       if (adminMode) {
         return renderAdminMatchCard(match, result);
@@ -9611,10 +9710,10 @@
           </div>
 
           <div class="prediction-inputs">
-            <input class="pred-home" type="number" min="0" max="30" placeholder="Goles ${escapeHtml(match.home || "local")}" value="${prediction.homeScore ?? ""}" ${locked ? "disabled" : ""} />
-            <input class="pred-away" type="number" min="0" max="30" placeholder="Goles ${escapeHtml(match.away || "visita")}" value="${prediction.awayScore ?? ""}" ${locked ? "disabled" : ""} />
+            <input class="pred-home" type="number" min="0" max="30" placeholder="Goles ${escapeHtml(match.home || "local")}" value="${viewHomeScore}" ${locked ? "disabled" : ""} />
+            <input class="pred-away" type="number" min="0" max="30" placeholder="Goles ${escapeHtml(match.away || "visita")}" value="${viewAwayScore}" ${locked ? "disabled" : ""} />
             <label>⚽ Primer goleador</label>
-            <select class="pred-scorer wide" ${locked ? "disabled" : ""}>${scorerOptions(match.home, match.away, prediction.scorer, match)}</select>
+            <select class="pred-scorer wide" ${locked ? "disabled" : ""}>${scorerOptions(match.home, match.away, viewScorer, match)}</select>
             <div class="scorer-preview wide">
               ${selectedScorer ? `${playerImageTag(selectedScorer.name, 28)}<span>${escapeHtml(selectedScorer.name)} · ${escapeHtml(selectedScorer.pos)}${isStarterForMatch(match, selectedScorer.name) ? '<span class="starter-dot">⭐ Titular</span>' : ""}</span>` : '<span class="muted">Selecciona goleador.</span>'}
             </div>
@@ -9624,7 +9723,7 @@
                 <div class="lineup-live-line"><span class="lineup-live-label">XI ${escapeHtml(match.away || "Visitante")}</span>: ${escapeHtml(awayXI.join(", ") || "pendiente")}</div>
               </div>
             ` : ""}
-            ${winnerSelect(match, prediction.winnerTeam)}
+            ${winnerSelect(match, viewWinnerTeam)}
             <button class="btn btn-gold wide save-prediction" ${locked || !currentUser ? "disabled" : ""}>💾 Guardar predicción</button>
           </div>
         </article>
@@ -9804,6 +9903,9 @@
 
     function closePlayerDetail() {
       activePlayerDetailUid = "";
+      playerDetailPhaseFilter = "";
+      playerDetailSearch = "";
+      playerDetailVisibleCount = 25;
       $("playerDetailOverlay").classList.add("hide");
       $("playerDetailOverlay").setAttribute("aria-hidden", "true");
     }
@@ -9828,18 +9930,69 @@
         };
       });
 
+      const orderedPhases = detailRows
+        .map((item) => item.match.phase || "Partido")
+        .filter((value, index, array) => array.indexOf(value) === index)
+        .sort((a, b) => {
+          const ai = PHASES.indexOf(a);
+          const bi = PHASES.indexOf(b);
+          if (ai === -1 && bi === -1) return a.localeCompare(b);
+          if (ai === -1) return 1;
+          if (bi === -1) return -1;
+          return ai - bi;
+        });
+
+      const phaseSelect = $("playerDetailPhaseFilter");
+      if (phaseSelect) {
+        phaseSelect.innerHTML = `<option value="">Todas las fases</option>` +
+          orderedPhases.map((phase) => `<option value="${escapeHtml(phase)}">${escapeHtml(phase)}</option>`).join("");
+        if (playerDetailPhaseFilter && orderedPhases.includes(playerDetailPhaseFilter)) {
+          phaseSelect.value = playerDetailPhaseFilter;
+        } else {
+          playerDetailPhaseFilter = "";
+          phaseSelect.value = "";
+        }
+      }
+
+      const searchInput = $("playerDetailSearchInput");
+      if (searchInput && searchInput.value !== playerDetailSearch) {
+        searchInput.value = playerDetailSearch;
+      }
+
+      const searchQuery = normalize(playerDetailSearch).trim();
+      const filteredRows = detailRows.filter((item) => {
+        if (playerDetailPhaseFilter && item.match.phase !== playerDetailPhaseFilter) return false;
+        if (!searchQuery) return true;
+        const haystack = normalize([
+          item.match.id,
+          item.match.phase,
+          item.match.group,
+          item.match.home,
+          item.match.away,
+          item.prediction?.scorer,
+          item.result?.scorer
+        ].join(" "));
+        return haystack.includes(searchQuery);
+      });
+
+      const visibleRows = filteredRows.slice(0, playerDetailVisibleCount);
+
       const withPick = detailRows.filter((item) => item.prediction).length;
       const totalPoints = detailRows.reduce((sum, item) => sum + Number(item.points || 0), 0);
+      const hasFilters = Boolean(playerDetailPhaseFilter || searchQuery);
 
       $("playerDetailTitle").textContent = `Detalle de ${userName}`;
-      $("playerDetailSubtitle").textContent = `${detailRows.length} partidos cerrados`;
+      $("playerDetailSubtitle").textContent = hasFilters
+        ? `${filteredRows.length} de ${detailRows.length} partidos cerrados`
+        : `${detailRows.length} partidos cerrados`;
       $("playerDetailStats").innerHTML = `
         <span class="pill">Puntos cerrados: ${totalPoints}</span>
         <span class="pill">Con pick: ${withPick}/${detailRows.length}</span>
+        <span class="pill">Mostrando: ${visibleRows.length}/${filteredRows.length}</span>
         <span class="pill">Liga: ${escapeHtml(currentLeagueCode)}</span>
       `;
 
-      $("playerDetailRows").innerHTML = detailRows.map((item) => {
+      $("playerDetailRows").innerHTML = visibleRows.map((item) => {
         const pickLabel = item.prediction
           ? `${Number(item.prediction.homeScore)}-${Number(item.prediction.awayScore)}${item.prediction.scorer ? ` · ⚽ ${escapeHtml(item.prediction.scorer)}` : ""}`
           : "Sin pick";
@@ -9854,11 +10007,24 @@
         `;
       }).join("");
 
-      $("playerDetailEmpty").classList.toggle("hide", detailRows.length > 0);
+      const loadMoreButton = $("playerDetailLoadMore");
+      if (loadMoreButton) {
+        const hasMore = filteredRows.length > visibleRows.length;
+        loadMoreButton.classList.toggle("hide", !hasMore);
+        loadMoreButton.textContent = hasMore
+          ? `Cargar más (${filteredRows.length - visibleRows.length} restantes)`
+          : "";
+      }
+
+      $("playerDetailEmpty").textContent = hasFilters
+        ? "No hay partidos que coincidan con el filtro."
+        : "Aún no hay partidos cerrados para mostrar.";
+      $("playerDetailEmpty").classList.toggle("hide", filteredRows.length > 0);
     }
 
     function openPlayerDetail(uid) {
       activePlayerDetailUid = uid;
+      playerDetailVisibleCount = 25;
       renderPlayerDetail(uid);
       $("playerDetailOverlay").classList.remove("hide");
       $("playerDetailOverlay").setAttribute("aria-hidden", "false");
@@ -9986,6 +10152,9 @@
 
         const locked = isMatchLocked(match);
         const showFullPicks = locked;
+        const expanded = Object.prototype.hasOwnProperty.call(picksAccordionState, match.id)
+          ? Boolean(picksAccordionState[match.id])
+          : locked;
 
         const finalResult = results[match.id];
         const hasResult = isFinalResult(finalResult);
@@ -10036,7 +10205,7 @@
           : `<div class="picks-lock-note">Sin picks todavía para este partido.</div>`;
 
         return `
-          <details class="rank-card glass picks-card picks-accordion" ${locked ? "open" : ""}>
+          <details class="rank-card glass picks-card picks-accordion" data-match-id="${escapeHtml(match.id)}" ${expanded ? "open" : ""}>
             <summary class="picks-summary">
               <div class="picks-head">
                 <div>
@@ -10074,6 +10243,14 @@
       }).filter(Boolean);
 
       $("picksList").innerHTML = items.join("") || `<div class="glass notice">Aún no hay picks guardados en esta liga.</div>`;
+
+      document.querySelectorAll(".picks-accordion[data-match-id]").forEach((accordion) => {
+        accordion.addEventListener("toggle", () => {
+          const matchId = accordion.dataset.matchId;
+          if (!matchId) return;
+          picksAccordionState[matchId] = accordion.open;
+        });
+      });
     }
 
     function renderAdmin() {
@@ -10361,6 +10538,20 @@
       });
 
       $("playerDetailClose").addEventListener("click", closePlayerDetail);
+      $("playerDetailPhaseFilter").addEventListener("change", (event) => {
+        playerDetailPhaseFilter = event.target.value || "";
+        playerDetailVisibleCount = 25;
+        if (activePlayerDetailUid) renderPlayerDetail(activePlayerDetailUid);
+      });
+      $("playerDetailSearchInput").addEventListener("input", (event) => {
+        playerDetailSearch = event.target.value || "";
+        playerDetailVisibleCount = 25;
+        if (activePlayerDetailUid) renderPlayerDetail(activePlayerDetailUid);
+      });
+      $("playerDetailLoadMore").addEventListener("click", () => {
+        playerDetailVisibleCount += 25;
+        if (activePlayerDetailUid) renderPlayerDetail(activePlayerDetailUid);
+      });
       $("playerDetailOverlay").addEventListener("click", (event) => {
         if (event.target.id === "playerDetailOverlay") closePlayerDetail();
       });
@@ -10396,6 +10587,19 @@
 
       document.addEventListener("change", (event) => {
         const input = event.target;
+
+        if (input?.classList?.contains("pred-scorer") || input?.classList?.contains("winnerTeam")) {
+          const card = input.closest(".match-card");
+          if (!card) return;
+          const matchId = card.dataset.matchId;
+          if (!matchId) return;
+          predictionDrafts[matchId] = {
+            homeScore: card.querySelector(".pred-home")?.value ?? "",
+            awayScore: card.querySelector(".pred-away")?.value ?? "",
+            scorer: card.querySelector(".pred-scorer")?.value || "",
+            winnerTeam: card.querySelector(".winnerTeam")?.value || ""
+          };
+        }
 
         if (input?.classList?.contains("result-home") || input?.classList?.contains("result-away") || input?.classList?.contains("result-scorer") || input?.classList?.contains("result-winnerTeam")) {
           const card = input.closest(".match-card");
@@ -10455,6 +10659,20 @@
 
       document.addEventListener("input", (event) => {
         const input = event.target;
+        if (input?.classList?.contains("pred-home") || input?.classList?.contains("pred-away")) {
+          const card = input.closest(".match-card");
+          if (!card) return;
+          const matchId = card.dataset.matchId;
+          if (!matchId) return;
+          predictionDrafts[matchId] = {
+            homeScore: card.querySelector(".pred-home")?.value ?? "",
+            awayScore: card.querySelector(".pred-away")?.value ?? "",
+            scorer: card.querySelector(".pred-scorer")?.value || "",
+            winnerTeam: card.querySelector(".winnerTeam")?.value || ""
+          };
+          return;
+        }
+
         if (!input?.classList?.contains("result-home") && !input?.classList?.contains("result-away")) return;
         const card = input.closest(".match-card");
         if (!card) return;
