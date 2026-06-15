@@ -559,6 +559,28 @@
       text-transform: capitalize;
     }
 
+    .day-section-collapsed .day-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      margin-bottom: 0;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .day-section-collapsed .day-title .day-count {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .day-section-collapsed .match-list-horizontal {
+      display: none;
+    }
+
     .match-list-horizontal {
       display: grid;
       grid-auto-flow: column;
@@ -658,6 +680,30 @@
       margin: 10px 0;
     }
 
+    .day-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      list-style: none;
+      cursor: pointer;
+      margin-bottom: 0;
+    }
+
+    .day-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .day-section details {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 12px 8px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .day-section details[open] .day-summary {
+      margin-bottom: 12px;
+    }
     .prediction-inputs {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1782,6 +1828,20 @@
         grid-template-columns: 1fr;
       }
 
+      .match-list-horizontal {
+        grid-auto-flow: row;
+        grid-auto-columns: auto;
+        grid-template-columns: 1fr;
+        overflow-x: visible;
+        overflow-y: visible;
+        padding: 2px 0 8px;
+        scroll-snap-type: none;
+      }
+
+      .match-list-horizontal .match-card {
+        scroll-snap-align: none;
+      }
+
       .topbar-inner {
         display: grid;
         gap: 8px;
@@ -2064,6 +2124,7 @@
           </select>
           <select id="phaseFilter"></select>
           <select id="groupFilter"></select>
+          <button id="pastDaysToggle" class="btn">Pasados: colapsados</button>
         </div>
         <button id="syncApiButton" class="btn">🔄 Sincronizar API</button>
       </div>
@@ -2238,7 +2299,7 @@
 
   <script>
     (function forceLatestBuild() {
-      const APP_BUILD = "v14";
+      const APP_BUILD = "v20";
       try {
         const url = new URL(window.location.href);
         if (url.searchParams.get("app") === APP_BUILD) return;
@@ -3207,11 +3268,7 @@
   ],
   "Qatar": [
     {
-      "name": "Shehab Elleithy",
-      "pos": "POR"
-    },
-    {
-      "name": "Salah Zakaria",
+      "name": "Mahmud Abunada",
       "pos": "POR"
     },
     {
@@ -3219,15 +3276,11 @@
       "pos": "POR"
     },
     {
-      "name": "Mahmoud Abunada",
+      "name": "Salah Zakaria",
       "pos": "POR"
     },
     {
-      "name": "Boualem Khoukhi",
-      "pos": "DEF"
-    },
-    {
-      "name": "Pedro Miguel",
+      "name": "Ayoub Al Alawi",
       "pos": "DEF"
     },
     {
@@ -3235,23 +3288,15 @@
       "pos": "DEF"
     },
     {
-      "name": "Tarek Salman",
+      "name": "Alhashmi Alhussein",
       "pos": "DEF"
     },
     {
-      "name": "Al-Hashmi Al-Hussain",
+      "name": "Homam Ahmed",
       "pos": "DEF"
     },
     {
-      "name": "Ayoub Al-Alawi",
-      "pos": "DEF"
-    },
-    {
-      "name": "Bassam Al-Rawi",
-      "pos": "DEF"
-    },
-    {
-      "name": "Rayyan Al-Ali",
+      "name": "Boualem Khoukhi",
       "pos": "DEF"
     },
     {
@@ -3263,44 +3308,40 @@
       "pos": "DEF"
     },
     {
-      "name": "Mohammed Waad",
+      "name": "Pedro Miguel",
       "pos": "DEF"
     },
     {
-      "name": "Niall Mason",
-      "pos": "DEF"
+      "name": "Karim Boudiaf",
+      "pos": "MED"
+    },
+    {
+      "name": "Ahmed Fathy",
+      "pos": "MED"
+    },
+    {
+      "name": "Jassim Gaber",
+      "pos": "MED"
+    },
+    {
+      "name": "Abdulaziz Hatem",
+      "pos": "MED"
     },
     {
       "name": "Assim Madibo",
       "pos": "MED"
     },
     {
-      "name": "Moustafa Tarek",
+      "name": "Mohamed Mannai",
       "pos": "MED"
     },
     {
-      "name": "Abdullah Al-Ahrak",
-      "pos": "MED"
+      "name": "Ahmed Al Janehi",
+      "pos": "DEL"
     },
     {
-      "name": "Mostafa Meshaal",
-      "pos": "MED"
-    },
-    {
-      "name": "Ahmed Fathi",
-      "pos": "MED"
-    },
-    {
-      "name": "Abdelaziz Hatem",
-      "pos": "MED"
-    },
-    {
-      "name": "Homam Al-Amin",
-      "pos": "MED"
-    },
-    {
-      "name": "Hasan Al-Haydos",
-      "pos": "MED"
+      "name": "Ahmed Alaa",
+      "pos": "DEL"
     },
     {
       "name": "Akram Afif",
@@ -3311,11 +3352,15 @@
       "pos": "DEL"
     },
     {
-      "name": "Ahmed Alaaeldin",
+      "name": "Yusuf Abdurisag",
       "pos": "DEL"
     },
     {
-      "name": "Yusuf Abdurisag",
+      "name": "Edmilson Junior",
+      "pos": "DEL"
+    },
+    {
+      "name": "Hassan Al Haydos",
       "pos": "DEL"
     },
     {
@@ -3323,7 +3368,7 @@
       "pos": "DEL"
     },
     {
-      "name": "Ismail Mohamad",
+      "name": "Tahsin Jamshid",
       "pos": "DEL"
     }
   ],
@@ -7979,8 +8024,10 @@
 
     const LEAGUE_STORAGE_KEY = "quiniela_league_code";
     const LEAGUE_QUERY_PARAM = "liga";
+    const NO_SCORER_VALUE = "__NO_GOAL__";
     let currentLeagueCode = "general";
     let activePlayerDetailUid = "";
+    let compactPastDays = true;
     let playerDetailPhaseFilter = "";
     let playerDetailSearch = "";
     let playerDetailVisibleCount = 25;
@@ -8328,9 +8375,18 @@
     }
 
     function findPlayerInMatch(match, playerName) {
-      if (!playerName) return null;
+      if (!playerName || playerName === NO_SCORER_VALUE) return null;
       const candidates = [...(ROSTERS[match.home] || []), ...(ROSTERS[match.away] || [])];
       return candidates.find((p) => p.name === playerName) || null;
+    }
+
+    function isNoScorerSelection(value) {
+      return String(value || "") === NO_SCORER_VALUE;
+    }
+
+    function scorerLabel(value) {
+      if (isNoScorerSelection(value)) return "Nadie anota";
+      return String(value || "");
     }
 
     function teamNameWithFlag(team, size = 24) {
@@ -8439,7 +8495,7 @@
       C: [cdmxIso("2026-06-13", "16:00"), cdmxIso("2026-06-13", "19:00"), cdmxIso("2026-06-19", "18:30"), cdmxIso("2026-06-19", "16:00"), cdmxIso("2026-06-24", "16:00"), cdmxIso("2026-06-24", "16:00")],
       D: [cdmxIso("2026-06-12", "19:00"), cdmxIso("2026-06-13", "22:00"), cdmxIso("2026-06-19", "13:00"), cdmxIso("2026-06-19", "21:00"), cdmxIso("2026-06-25", "20:00"), cdmxIso("2026-06-25", "20:00")],
       E: [cdmxIso("2026-06-14", "11:00"), cdmxIso("2026-06-14", "17:00"), cdmxIso("2026-06-20", "14:00"), cdmxIso("2026-06-20", "18:00"), cdmxIso("2026-06-25", "14:00"), cdmxIso("2026-06-25", "14:00")],
-      F: [cdmxIso("2026-06-14", "14:00"), cdmxIso("2026-06-14", "22:00"), cdmxIso("2026-06-20", "11:00"), cdmxIso("2026-06-20", "22:00"), cdmxIso("2026-06-25", "17:00"), cdmxIso("2026-06-25", "17:00")],
+      F: [cdmxIso("2026-06-14", "14:00"), cdmxIso("2026-06-14", "20:00"), cdmxIso("2026-06-20", "11:00"), cdmxIso("2026-06-20", "22:00"), cdmxIso("2026-06-25", "17:00"), cdmxIso("2026-06-25", "17:00")],
       G: [cdmxIso("2026-06-15", "13:00"), cdmxIso("2026-06-15", "19:00"), cdmxIso("2026-06-21", "13:00"), cdmxIso("2026-06-21", "19:00"), cdmxIso("2026-06-26", "21:00"), cdmxIso("2026-06-26", "21:00")],
       H: [cdmxIso("2026-06-15", "10:00"), cdmxIso("2026-06-15", "16:00"), cdmxIso("2026-06-21", "10:00"), cdmxIso("2026-06-21", "16:00"), cdmxIso("2026-06-26", "18:00"), cdmxIso("2026-06-26", "18:00")],
       I: [cdmxIso("2026-06-16", "13:00"), cdmxIso("2026-06-16", "16:00"), cdmxIso("2026-06-22", "15:00"), cdmxIso("2026-06-22", "18:00"), cdmxIso("2026-06-26", "13:00"), cdmxIso("2026-06-26", "13:00")],
@@ -8750,7 +8806,8 @@
       };
 
       return `
-        <option value="">Sin goleador / 0-0 / pendiente</option>
+        <option value="">Selecciona primer goleador</option>
+        <option value="${NO_SCORER_VALUE}" ${selected === NO_SCORER_VALUE ? "selected" : ""}>Nadie anota</option>
         <optgroup label="${escapeHtml(homeTeam || "Local por definir")}">
           ${makeOptions(homeTeam)}
         </optgroup>
@@ -8923,6 +8980,7 @@
       const homeScore = numberOrNull(card.querySelector(".pred-home").value);
       const awayScore = numberOrNull(card.querySelector(".pred-away").value);
       if (homeScore === null || awayScore === null) return toast("Completa el marcador antes de guardar.");
+      const scorer = card.querySelector(".pred-scorer").value || "";
 
       const data = {
         userId: currentUser.uid,
@@ -8934,7 +8992,7 @@
         away: match.away,
         homeScore,
         awayScore,
-        scorer: card.querySelector(".pred-scorer").value || "",
+        scorer,
         winnerTeam: card.querySelector(".winnerTeam")?.value || "",
         updatedAt: serverTimestamp()
       };
@@ -8958,6 +9016,13 @@
       const homeScore = numberOrNull(card.querySelector(".result-home").value);
       const awayScore = numberOrNull(card.querySelector(".result-away").value);
       if (homeScore === null || awayScore === null) return toast("Completa el resultado real.");
+      let scorer = card.querySelector(".result-scorer").value || "";
+      if (!scorer && homeScore === 0 && awayScore === 0) {
+        scorer = NO_SCORER_VALUE;
+      }
+      if (scorer === NO_SCORER_VALUE && (homeScore !== 0 || awayScore !== 0)) {
+        return toast("'Sin gol' solo aplica si el resultado real queda 0-0.");
+      }
 
       const data = {
         matchId: match.id,
@@ -8967,7 +9032,7 @@
         away: match.away,
         homeScore,
         awayScore,
-        scorer: card.querySelector(".result-scorer").value || "",
+        scorer,
         winnerTeam: card.querySelector(".result-winnerTeam")?.value || "",
         updatedAt: serverTimestamp()
       };
@@ -9615,6 +9680,7 @@
           timeZone: "America/Mexico_City"
         });
 
+        const todayKey = formatKey.format(new Date());
         const sortedMatches = [...matches].sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
         const sections = new Map();
 
@@ -9623,21 +9689,39 @@
           const key = formatKey.format(dateObj);
           const label = formatHeader.format(dateObj);
           if (!sections.has(key)) {
-            sections.set(key, { label, matches: [] });
+            sections.set(key, { key, label, matches: [] });
           }
           sections.get(key).matches.push(match);
         });
 
+        const pastDaysBtn = $("pastDaysToggle");
+        if (pastDaysBtn) {
+          pastDaysBtn.textContent = compactPastDays ? "Pasados: colapsados" : "Pasados: visibles";
+        }
+
         matchesRoot.innerHTML = Array.from(sections.values()).map((section) => {
+          const isPast = compactPastDays && section.key < todayKey;
+          const collapsedClass = isPast ? " day-section-collapsed" : "";
+          const cardsHtml = section.matches.map((match) => renderMatchCard(match, false)).join("");
           return `
-            <section class="day-section">
-              <h3 class="day-title">${escapeHtml(section.label)}</h3>
+            <section class="day-section${collapsedClass}" data-day-key="${escapeHtml(section.key)}">
+              <h3 class="day-title">
+                <span>${escapeHtml(section.label)}</span>
+                ${isPast ? `<span class="day-count">${section.matches.length} partidos ▼</span>` : ""}
+              </h3>
               <div class="match-list-horizontal">
-                ${section.matches.map((match) => renderMatchCard(match, false)).join("")}
+                ${cardsHtml}
               </div>
             </section>
           `;
         }).join("");
+
+        matchesRoot.querySelectorAll(".day-section-collapsed .day-title").forEach((titleEl) => {
+          titleEl.addEventListener("click", () => {
+            const section = titleEl.closest(".day-section");
+            if (section) section.classList.toggle("day-section-collapsed");
+          });
+        });
       } else {
         matchesRoot.innerHTML = matches.map((match) => renderMatchCard(match, false)).join("");
       }
@@ -9715,7 +9799,11 @@
             <label>⚽ Primer goleador</label>
             <select class="pred-scorer wide" ${locked ? "disabled" : ""}>${scorerOptions(match.home, match.away, viewScorer, match)}</select>
             <div class="scorer-preview wide">
-              ${selectedScorer ? `${playerImageTag(selectedScorer.name, 28)}<span>${escapeHtml(selectedScorer.name)} · ${escapeHtml(selectedScorer.pos)}${isStarterForMatch(match, selectedScorer.name) ? '<span class="starter-dot">⭐ Titular</span>' : ""}</span>` : '<span class="muted">Selecciona goleador.</span>'}
+              ${selectedScorer
+                ? `${playerImageTag(selectedScorer.name, 28)}<span>${escapeHtml(selectedScorer.name)} · ${escapeHtml(selectedScorer.pos)}${isStarterForMatch(match, selectedScorer.name) ? '<span class="starter-dot">⭐ Titular</span>' : ""}</span>`
+                : isNoScorerSelection(viewScorer)
+                  ? '<span class="muted">Nadie anota.</span>'
+                  : '<span class="muted">Selecciona goleador.</span>'}
             </div>
             ${hasLineup ? `
               <div class="lineup-live-box wide">
@@ -9994,14 +10082,14 @@
 
       $("playerDetailRows").innerHTML = visibleRows.map((item) => {
         const pickLabel = item.prediction
-          ? `${Number(item.prediction.homeScore)}-${Number(item.prediction.awayScore)}${item.prediction.scorer ? ` · ⚽ ${escapeHtml(item.prediction.scorer)}` : ""}`
+          ? `${Number(item.prediction.homeScore)}-${Number(item.prediction.awayScore)}${item.prediction.scorer ? ` · ${escapeHtml(scorerLabel(item.prediction.scorer))}` : ""}`
           : "Sin pick";
         return `
           <tr>
             <td>${escapeHtml(item.match.id)} · ${teamNameWithFlag(item.match.home || "Local", 18)} vs ${teamNameWithFlag(item.match.away || "Visitante", 18)}</td>
             <td>${escapeHtml(formatDate(item.match.date))}</td>
             <td>${pickLabel}</td>
-            <td>${Number(item.result.homeScore)}-${Number(item.result.awayScore)}${item.result.scorer ? ` · ⚽ ${escapeHtml(item.result.scorer)}` : ""}</td>
+            <td>${Number(item.result.homeScore)}-${Number(item.result.awayScore)}${item.result.scorer ? ` · ${escapeHtml(scorerLabel(item.result.scorer))}` : ""}</td>
             <td><b>${item.points}</b></td>
           </tr>
         `;
@@ -10128,10 +10216,10 @@
 
       rowsTarget.innerHTML = list.map((row) => {
         const pickText = row.prediction
-          ? `${Number(row.prediction.homeScore)}-${Number(row.prediction.awayScore)}${row.prediction.scorer ? ` · ⚽ ${escapeHtml(row.prediction.scorer)}` : ""}`
+          ? `${Number(row.prediction.homeScore)}-${Number(row.prediction.awayScore)}${row.prediction.scorer ? ` · ${escapeHtml(scorerLabel(row.prediction.scorer))}` : ""}`
           : "Sin pick";
         const finalText = row.closed
-          ? `${Number(row.result.homeScore)}-${Number(row.result.awayScore)}${row.result.scorer ? ` · ⚽ ${escapeHtml(row.result.scorer)}` : ""}`
+          ? `${Number(row.result.homeScore)}-${Number(row.result.awayScore)}${row.result.scorer ? ` · ${escapeHtml(scorerLabel(row.result.scorer))}` : ""}`
           : "Pendiente";
         return `
           <tr>
@@ -10515,6 +10603,10 @@
       $("viewModeFilter").addEventListener("change", renderMatches);
       $("phaseFilter").addEventListener("change", renderMatches);
       $("groupFilter").addEventListener("change", renderMatches);
+      $("pastDaysToggle").addEventListener("click", () => {
+        compactPastDays = !compactPastDays;
+        renderMatches();
+      });
       $("demoPlayerFilter").addEventListener("change", renderDemoPage);
       $("demoGroupFilter").addEventListener("change", renderDemoPage);
       $("demoStatusFilter").addEventListener("change", renderDemoPage);
@@ -10654,7 +10746,9 @@
         if (!preview) return;
         preview.innerHTML = selectedPlayer
           ? `${playerImageTag(selectedPlayer.name, 28)}<span>${escapeHtml(selectedPlayer.name)} · ${escapeHtml(selectedPlayer.pos)}${isStarterForMatch(match, selectedPlayer.name) ? '<span class="starter-dot">⭐ Titular</span>' : ""}</span>`
-          : '<span class="muted">Selecciona goleador.</span>';
+          : isNoScorerSelection(select.value || "")
+            ? '<span class="muted">Nadie anota.</span>'
+            : '<span class="muted">Selecciona goleador.</span>';
       });
 
       document.addEventListener("input", (event) => {
