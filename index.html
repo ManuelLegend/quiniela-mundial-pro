@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>⚽ Quiniela Mundial 2026 Pro</title>
+  <title>âš½ Quiniela Mundial 2026 Pro</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     :root {
@@ -1694,6 +1694,24 @@
       background: rgba(255, 255, 255, 0.02);
     }
 
+    .pendientes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 6px;
+      margin-top: 10px;
+      padding: 4px 0;
+    }
+    .pendiente-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+    .pendiente-ok { background: rgba(0, 200, 100, 0.13); }
+    .pendiente-missing { background: rgba(255, 60, 60, 0.13); }
+
     .picks-consensus {
       display: grid;
       gap: 8px;
@@ -2062,10 +2080,10 @@
   <header class="topbar">
     <div class="shell topbar-inner">
       <div class="brand">
-        <div class="brand-icon">🏆</div>
+        <div class="brand-icon">ðŸ†</div>
         <div>
           <h1>Quiniela Mundial 2026 Pro</h1>
-          <small>USA • México • Canadá · Bracket dinámico · Huso México (-06:00)</small>
+          <small>USA â€¢ MÃ©xico â€¢ CanadÃ¡ Â· Bracket dinÃ¡mico Â· Huso MÃ©xico (-06:00)</small>
         </div>
       </div>
 
@@ -2073,10 +2091,10 @@
         <input id="leagueCodeInput" class="league-input" type="text" placeholder="liga: amigos" />
         <button class="btn" id="applyLeagueButton">Cambiar liga</button>
         <span class="pill" id="leagueBadge">Liga: general</span>
-        <span class="pill bad" id="authStateBadge">No has iniciado sesión</span>
-        <input id="usernameInput" type="text" placeholder="👤 Username" autocomplete="nickname" />
-        <input id="emailInput" type="email" placeholder="📧 Correo" autocomplete="email" />
-        <input id="passwordInput" type="password" placeholder="🔒 Contraseña" autocomplete="current-password" />
+        <span class="pill bad" id="authStateBadge">No has iniciado sesiÃ³n</span>
+        <input id="usernameInput" type="text" placeholder="ðŸ‘¤ Username" autocomplete="nickname" />
+        <input id="emailInput" type="email" placeholder="ðŸ“§ Correo" autocomplete="email" />
+        <input id="passwordInput" type="password" placeholder="ðŸ”’ ContraseÃ±a" autocomplete="current-password" />
         <button class="btn btn-gold" id="loginButton">Entrar</button>
         <button class="btn" id="registerButton">Registro</button>
         <button class="btn" id="resetPasswordButton">Olvide mi contrasena</button>
@@ -2095,8 +2113,8 @@
         <div class="hero-card glass">
           <h2>Predice cada partido y pelea la tabla en vivo.</h2>
           <p>
-            Marcadores, primer goleador desde dropdown con jugadores reales de cada selección,
-            puntos automáticos, tabla de grupos y bracket que se llena conforme avanza el torneo.
+            Marcadores, primer goleador desde dropdown con jugadores reales de cada selecciÃ³n,
+            puntos automÃ¡ticos, tabla de grupos y bracket que se llena conforme avanza el torneo.
           </p>
         </div>
 
@@ -2109,24 +2127,24 @@
       </div>
 
       <div class="glass notice">
-        <b>Campeón (+50 pts)</b> · Se bloquea al terminar el 11 de junio de 2026 (CDMX). &nbsp;
+        <b>CampeÃ³n (+50 pts)</b> Â· Se bloquea al terminar el 11 de junio de 2026 (CDMX). &nbsp;
         <select id="championSelect" class="select"></select>
         <span id="championFlagPreview" class="pill"></span>
-        <button id="saveChampionButton" class="btn btn-gold">Guardar campeón</button>
+        <button id="saveChampionButton" class="btn btn-gold">Guardar campeÃ³n</button>
       </div>
 
       <div class="toolbar">
         <div class="toolbar-left">
-          <input id="searchInput" placeholder="Buscar selección, fase o jugador" />
+          <input id="searchInput" placeholder="Buscar selecciÃ³n, fase o jugador" />
           <select id="viewModeFilter">
-            <option value="day" selected>Vista: Por día</option>
+            <option value="day" selected>Vista: Por dÃ­a</option>
             <option value="group">Vista: Por grupo/fase</option>
           </select>
           <select id="phaseFilter"></select>
           <select id="groupFilter"></select>
           <button id="pastDaysToggle" class="btn">Pasados: colapsados</button>
         </div>
-        <button id="syncApiButton" class="btn">🔄 Sincronizar API</button>
+        <button id="syncApiButton" class="btn">ðŸ”„ Sincronizar API</button>
       </div>
 
       <div id="matchesList" class="match-grid"></div>
@@ -2134,7 +2152,7 @@
 
     <section class="page" id="page-groups">
       <div class="toolbar">
-        <h2>📊 Grupos</h2>
+        <h2>ðŸ“Š Grupos</h2>
         <span class="pill info">PTS, GF, GC y DG se calculan solos con Firestore</span>
       </div>
       <div id="groupsList" class="groups-grid"></div>
@@ -2142,23 +2160,32 @@
 
     <section class="page" id="page-picks">
       <div class="toolbar">
-        <h2>🧾 Picks de todos</h2>
-        <span class="pill info">Aquí van los pronósticos de usuarios (se revelan al iniciar).</span>
+        <h2>ðŸ§¾ Picks de todos</h2>
+        <span class="pill info">AquÃ­ van los pronÃ³sticos de usuarios (se revelan al iniciar).</span>
+        <button class="btn" id="picksCompactToggle">Pasados: colapsados</button>
       </div>
       <div id="picksList" class="ranking-list"></div>
     </section>
 
+    <section class="page" id="page-pendientes">
+      <div class="toolbar">
+        <h2>âš ï¸ Pendientes</h2>
+        <span class="pill info">QuiÃ©n falta de meter pronÃ³stico por partido prÃ³ximo.</span>
+      </div>
+      <div id="pendientesList" class="ranking-list"></div>
+    </section>
+
     <section class="page" id="page-ia">
       <div class="toolbar">
-        <h2>🤖 Pronósticos IA</h2>
-        <span class="pill info">Probabilidades automáticas: local / empate / visitante.</span>
+        <h2>ðŸ¤– PronÃ³sticos IA</h2>
+        <span class="pill info">Probabilidades automÃ¡ticas: local / empate / visitante.</span>
       </div>
       <div id="aiList" class="ranking-list"></div>
     </section>
 
     <section class="page" id="page-demo">
       <div class="toolbar">
-        <h2>🧪 Demo Picks</h2>
+        <h2>ðŸ§ª Demo Picks</h2>
         <span class="pill info">Elige jugador y grupo para revisar picks previos.</span>
       </div>
       <div class="glass" style="padding:14px;">
@@ -2191,7 +2218,7 @@
 
     <section class="page" id="page-bracket">
       <div class="toolbar">
-        <h2>🏆 Bracket dinámico</h2>
+        <h2>ðŸ† Bracket dinÃ¡mico</h2>
         <span class="pill gold">Se llena al terminar grupos y cada ronda</span>
       </div>
       <div id="bracketBoard" class="bracket-board"></div>
@@ -2199,7 +2226,7 @@
 
     <section class="page" id="page-ranking">
       <div class="toolbar">
-        <h2>🥇 Tabla de posiciones</h2>
+        <h2>ðŸ¥‡ Tabla de posiciones</h2>
         <span class="pill info">Toca/clic en un jugador para ver sus partidos terminados y puntos por partido.</span>
         <button class="btn" id="recalculateButton">Recalcular puntos</button>
       </div>
@@ -2207,32 +2234,32 @@
     </section>
 
     <section class="page" id="page-rules">
-      <div class="toolbar"><h2>📖 Reglas</h2></div>
+      <div class="toolbar"><h2>ðŸ“– Reglas</h2></div>
       <div class="rules-grid">
-        <div class="rule-card glass"><h3>🧭 Instrucciones rápidas</h3><p>1) En la pestaña Pronósticos capturas marcador y primer goleador. 2) En Picks ves los picks de todos por partido (se revelan al iniciar). 3) En Tabla toca a cualquier jugador para ver su historial y puntos por partidos terminados. 4) En Admin se capturan resultados, XI titulares y tarjetas.</p></div>
-        <div class="rule-card glass"><h3>🎯 Exacto</h3><p>Marcador exacto: +5 puntos antes de multiplicador.</p></div>
-        <div class="rule-card glass"><h3>✅ Ganador</h3><p>Aciertas ganador o empate sin marcador exacto: +2 puntos.</p></div>
-        <div class="rule-card glass"><h3>📊 Diferencial</h3><p>Aciertas la diferencia de goles (positiva, cero o negativa): +1 punto.</p></div>
-        <div class="rule-card glass"><h3>⚽ Goleador</h3><p>Aciertas primer goleador del partido: +3 puntos.</p></div>
-        <div class="rule-card glass"><h3>👑 Campeón</h3><p>Aciertas campeón del torneo: +50 puntos.</p></div>
-        <div class="rule-card glass"><h3>🔥 Multiplicadores</h3><p>Grupos x1 · Dieciseisavos/Octavos x2 · Cuartos x3 · Semis/Tercer Lugar x4 · Final x5.</p></div>
+        <div class="rule-card glass"><h3>ðŸ§­ Instrucciones rÃ¡pidas</h3><p>1) En la pestaÃ±a PronÃ³sticos capturas marcador y primer goleador. 2) En Picks ves los picks de todos por partido (se revelan al iniciar). 3) En Tabla toca a cualquier jugador para ver su historial y puntos por partidos terminados. 4) En Admin se capturan resultados, XI titulares y tarjetas.</p></div>
+        <div class="rule-card glass"><h3>ðŸŽ¯ Exacto</h3><p>Marcador exacto: +5 puntos antes de multiplicador.</p></div>
+        <div class="rule-card glass"><h3>âœ… Ganador</h3><p>Aciertas ganador o empate sin marcador exacto: +2 puntos.</p></div>
+        <div class="rule-card glass"><h3>ðŸ“Š Diferencial</h3><p>Aciertas la diferencia de goles (positiva, cero o negativa): +1 punto.</p></div>
+        <div class="rule-card glass"><h3>âš½ Goleador</h3><p>Aciertas primer goleador del partido: +3 puntos.</p></div>
+        <div class="rule-card glass"><h3>ðŸ‘‘ CampeÃ³n</h3><p>Aciertas campeÃ³n del torneo: +50 puntos.</p></div>
+        <div class="rule-card glass"><h3>ðŸ”¥ Multiplicadores</h3><p>Grupos x1 Â· Dieciseisavos/Octavos x2 Â· Cuartos x3 Â· Semis/Tercer Lugar x4 Â· Final x5.</p></div>
       </div>
     </section>
 
     <section class="page" id="page-venues">
-      <div class="toolbar"><h2>🏟️ Sedes</h2></div>
+      <div class="toolbar"><h2>ðŸŸï¸ Sedes</h2></div>
       <div class="venues-grid" id="venuesGrid"></div>
     </section>
 
     <section class="page" id="page-teams">
-      <div class="toolbar"><h2>👥 Equipos</h2></div>
+      <div class="toolbar"><h2>ðŸ‘¥ Equipos</h2></div>
       <div class="glass lineup-board">
         <div class="teams-tools">
           <select id="teamSelector" class="select"></select>
           <select id="teamFormation" class="select">
-            <option value="4-3-3">Alineación: 4-3-3</option>
-            <option value="4-4-2">Alineación: 4-4-2</option>
-            <option value="3-5-2">Alineación: 3-5-2</option>
+            <option value="4-3-3">AlineaciÃ³n: 4-3-3</option>
+            <option value="4-4-2">AlineaciÃ³n: 4-4-2</option>
+            <option value="3-5-2">AlineaciÃ³n: 3-5-2</option>
           </select>
         </div>
         <div id="lineupBoard"></div>
@@ -2243,15 +2270,16 @@
       <div id="adminWarning" class="glass notice">Solo admins pueden capturar resultados. Admins autorizados: manuelgdar@gmail.com, bibicita_39@yahoo.com.mx</div>
       <div id="adminPanel" class="hide">
         <div class="toolbar">
-          <h2>👑 Panel Admin</h2>
+          <h2>ðŸ‘‘ Panel Admin</h2>
           <span class="pill bad">Captura resultados y primer goleador real</span>
-          <button class="btn" id="clearAllResultsButton">🧹 Resetear resultados</button>
+          <button class="btn" id="clearAllResultsButton">ðŸ§¹ Resetear resultados</button>
         </div>
         <div class="toolbar-left toolbar">
           <input id="adminSearchInput" placeholder="Buscar partido" />
           <select id="adminPhaseFilter"></select>
           <button class="btn" id="adminCompactToggle">Modo compacto: ON</button>
-          <button class="btn" id="syncLineupsButton">⭐ Sincronizar titulares</button>
+          <button class="btn" id="adminPastDaysToggle">Pasados: colapsados</button>
+          <button class="btn" id="syncLineupsButton">â­ Sincronizar titulares</button>
         </div>
         <div id="adminUsersSummary" class="glass notice">Participantes cargados: 0</div>
         <div id="adminUsersList" class="ranking-list"></div>
@@ -2290,8 +2318,8 @@
           <tbody id="playerDetailRows"></tbody>
         </table>
       </div>
-      <button id="playerDetailLoadMore" class="btn hide" type="button">Cargar más</button>
-      <div id="playerDetailEmpty" class="player-detail-empty hide">Aún no hay partidos cerrados para mostrar.</div>
+      <button id="playerDetailLoadMore" class="btn hide" type="button">Cargar mÃ¡s</button>
+      <div id="playerDetailEmpty" class="player-detail-empty hide">AÃºn no hay partidos cerrados para mostrar.</div>
     </div>
   </div>
 
@@ -2299,7 +2327,7 @@
 
   <script>
     (function forceLatestBuild() {
-      const APP_BUILD = "v20";
+      const APP_BUILD = "v22";
       try {
         const url = new URL(window.location.href);
         if (url.searchParams.get("app") === APP_BUILD) return;
@@ -2379,13 +2407,13 @@
 
     const GROUPS = {
   "A": [
-    "México",
-    "Sudáfrica",
+    "MÃ©xico",
+    "SudÃ¡frica",
     "Corea del Sur",
     "Chequia"
   ],
   "B": [
-    "Canadá",
+    "CanadÃ¡",
     "Bosnia y Herzegovina",
     "Qatar",
     "Suiza"
@@ -2393,35 +2421,35 @@
   "C": [
     "Brasil",
     "Marruecos",
-    "Haití",
+    "HaitÃ­",
     "Escocia"
   ],
   "D": [
     "Estados Unidos",
     "Paraguay",
     "Australia",
-    "Türkiye"
+    "TÃ¼rkiye"
   ],
   "E": [
     "Alemania",
-    "Curaçao",
+    "CuraÃ§ao",
     "Costa de Marfil",
     "Ecuador"
   ],
   "F": [
-    "Países Bajos",
-    "Japón",
+    "PaÃ­ses Bajos",
+    "JapÃ³n",
     "Suecia",
-    "Túnez"
+    "TÃºnez"
   ],
   "G": [
-    "Bélgica",
+    "BÃ©lgica",
     "Egipto",
-    "Irán",
+    "IrÃ¡n",
     "Nueva Zelanda"
   ],
   "H": [
-    "España",
+    "EspaÃ±a",
     "Cabo Verde",
     "Arabia Saudita",
     "Uruguay"
@@ -2441,47 +2469,47 @@
   "K": [
     "Portugal",
     "RD Congo",
-    "Uzbekistán",
+    "UzbekistÃ¡n",
     "Colombia"
   ],
   "L": [
     "Inglaterra",
     "Croacia",
     "Ghana",
-    "Panamá"
+    "PanamÃ¡"
   ]
 };
 
     const TEAMS = [
-  "México",
-  "Sudáfrica",
+  "MÃ©xico",
+  "SudÃ¡frica",
   "Corea del Sur",
   "Chequia",
-  "Canadá",
+  "CanadÃ¡",
   "Bosnia y Herzegovina",
   "Qatar",
   "Suiza",
   "Brasil",
   "Marruecos",
-  "Haití",
+  "HaitÃ­",
   "Escocia",
   "Estados Unidos",
   "Paraguay",
   "Australia",
-  "Türkiye",
+  "TÃ¼rkiye",
   "Alemania",
-  "Curaçao",
+  "CuraÃ§ao",
   "Costa de Marfil",
   "Ecuador",
-  "Países Bajos",
-  "Japón",
+  "PaÃ­ses Bajos",
+  "JapÃ³n",
   "Suecia",
-  "Túnez",
-  "Bélgica",
+  "TÃºnez",
+  "BÃ©lgica",
   "Egipto",
-  "Irán",
+  "IrÃ¡n",
   "Nueva Zelanda",
-  "España",
+  "EspaÃ±a",
   "Cabo Verde",
   "Arabia Saudita",
   "Uruguay",
@@ -2495,44 +2523,44 @@
   "Jordania",
   "Portugal",
   "RD Congo",
-  "Uzbekistán",
+  "UzbekistÃ¡n",
   "Colombia",
   "Inglaterra",
   "Croacia",
   "Ghana",
-  "Panamá"
+  "PanamÃ¡"
 ];
 
     const TEAM_FLAG_CODE = {
-      "México": "mx",
-      "Sudáfrica": "za",
+      "MÃ©xico": "mx",
+      "SudÃ¡frica": "za",
       "Corea del Sur": "kr",
       "Chequia": "cz",
-      "Canadá": "ca",
+      "CanadÃ¡": "ca",
       "Bosnia y Herzegovina": "ba",
       "Qatar": "qa",
       "Suiza": "ch",
       "Brasil": "br",
       "Marruecos": "ma",
-      "Haití": "ht",
+      "HaitÃ­": "ht",
       "Escocia": "gb-sct",
       "Estados Unidos": "us",
       "Paraguay": "py",
       "Australia": "au",
-      "Türkiye": "tr",
+      "TÃ¼rkiye": "tr",
       "Alemania": "de",
-      "Curaçao": "cw",
+      "CuraÃ§ao": "cw",
       "Costa de Marfil": "ci",
       "Ecuador": "ec",
-      "Países Bajos": "nl",
-      "Japón": "jp",
+      "PaÃ­ses Bajos": "nl",
+      "JapÃ³n": "jp",
       "Suecia": "se",
-      "Túnez": "tn",
-      "Bélgica": "be",
+      "TÃºnez": "tn",
+      "BÃ©lgica": "be",
       "Egipto": "eg",
-      "Irán": "ir",
+      "IrÃ¡n": "ir",
       "Nueva Zelanda": "nz",
-      "España": "es",
+      "EspaÃ±a": "es",
       "Cabo Verde": "cv",
       "Arabia Saudita": "sa",
       "Uruguay": "uy",
@@ -2546,31 +2574,31 @@
       "Jordania": "jo",
       "Portugal": "pt",
       "RD Congo": "cd",
-      "Uzbekistán": "uz",
+      "UzbekistÃ¡n": "uz",
       "Colombia": "co",
       "Inglaterra": "gb-eng",
       "Croacia": "hr",
       "Ghana": "gh",
-      "Panamá": "pa"
+      "PanamÃ¡": "pa"
     };
 
     const TEAM_AI_POWER = {
       "Argentina": 92,
       "Brasil": 92,
       "Francia": 91,
-      "España": 90,
+      "EspaÃ±a": 90,
       "Inglaterra": 90,
       "Portugal": 88,
       "Alemania": 87,
-      "Países Bajos": 86,
+      "PaÃ­ses Bajos": 86,
       "Uruguay": 84,
       "Croacia": 84,
       "Colombia": 83,
-      "Bélgica": 82,
-      "México": 81,
+      "BÃ©lgica": 82,
+      "MÃ©xico": 81,
       "Estados Unidos": 80,
       "Suiza": 79,
-      "Japón": 79,
+      "JapÃ³n": 79,
       "Senegal": 78,
       "Marruecos": 78,
       "Noruega": 77,
@@ -2579,40 +2607,40 @@
       "Chequia": 76,
       "Paraguay": 75,
       "Austria": 75,
-      "Canadá": 75,
+      "CanadÃ¡": 75,
       "Costa de Marfil": 75,
       "Australia": 74,
       "Corea del Sur": 74,
       "Argelia": 73,
       "Egipto": 73,
-      "Irán": 72,
-      "Túnez": 71,
+      "IrÃ¡n": 72,
+      "TÃºnez": 71,
       "Bosnia y Herzegovina": 71,
-      "Uzbekistán": 71,
+      "UzbekistÃ¡n": 71,
       "Ghana": 70,
       "Irak": 69,
       "Qatar": 68,
       "Arabia Saudita": 68,
-      "Sudáfrica": 67,
-      "Panamá": 67,
+      "SudÃ¡frica": 67,
+      "PanamÃ¡": 67,
       "Jordania": 66,
       "Nueva Zelanda": 66,
       "Cabo Verde": 65,
       "RD Congo": 65,
-      "Türkiye": 79,
-      "Curaçao": 62,
-      "Haití": 61,
+      "TÃ¼rkiye": 79,
+      "CuraÃ§ao": 62,
+      "HaitÃ­": 61,
       "Escocia": 78
     };
 
     const ROSTERS = {
-  "México": [
+  "MÃ©xico": [
     {
       "name": "Guillermo Ochoa",
       "pos": "POR"
     },
     {
-      "name": "Raúl Rangel",
+      "name": "RaÃºl Rangel",
       "pos": "POR"
     },
     {
@@ -2620,7 +2648,7 @@
       "pos": "POR"
     },
     {
-      "name": "Jesús Gallardo",
+      "name": "JesÃºs Gallardo",
       "pos": "DEF"
     },
     {
@@ -2628,19 +2656,19 @@
       "pos": "DEF"
     },
     {
-      "name": "César Montes",
+      "name": "CÃ©sar Montes",
       "pos": "DEF"
     },
     {
-      "name": "Jorge Sánchez",
+      "name": "Jorge SÃ¡nchez",
       "pos": "DEF"
     },
     {
-      "name": "Johan Vásquez",
+      "name": "Johan VÃ¡squez",
       "pos": "DEF"
     },
     {
-      "name": "Mateo Chávez",
+      "name": "Mateo ChÃ¡vez",
       "pos": "DEF"
     },
     {
@@ -2648,11 +2676,11 @@
       "pos": "MED"
     },
     {
-      "name": "Edson Álvarez",
+      "name": "Edson Ãlvarez",
       "pos": "MED"
     },
     {
-      "name": "Orbelín Pineda",
+      "name": "OrbelÃ­n Pineda",
       "pos": "MED"
     },
     {
@@ -2660,7 +2688,7 @@
       "pos": "MED"
     },
     {
-      "name": "Brian Gutiérrez",
+      "name": "Brian GutiÃ©rrez",
       "pos": "MED"
     },
     {
@@ -2668,11 +2696,11 @@
       "pos": "MED"
     },
     {
-      "name": "César Huerta",
+      "name": "CÃ©sar Huerta",
       "pos": "MED"
     },
     {
-      "name": "Luis Chávez",
+      "name": "Luis ChÃ¡vez",
       "pos": "MED"
     },
     {
@@ -2680,7 +2708,7 @@
       "pos": "MED"
     },
     {
-      "name": "Álvaro Fidalgo",
+      "name": "Ãlvaro Fidalgo",
       "pos": "MED"
     },
     {
@@ -2688,23 +2716,23 @@
       "pos": "MED"
     },
     {
-      "name": "Armando González",
+      "name": "Armando GonzÃ¡lez",
       "pos": "DEL"
     },
     {
-      "name": "Raúl Jiménez",
+      "name": "RaÃºl JimÃ©nez",
       "pos": "DEL"
     },
     {
-      "name": "Julián Quiñones",
+      "name": "JuliÃ¡n QuiÃ±ones",
       "pos": "DEL"
     },
     {
-      "name": "Santiago Giménez",
+      "name": "Santiago GimÃ©nez",
       "pos": "DEL"
     },
     {
-      "name": "Guillermo Martínez",
+      "name": "Guillermo MartÃ­nez",
       "pos": "DEL"
     },
     {
@@ -2712,7 +2740,7 @@
       "pos": "DEL"
     }
   ],
-  "Sudáfrica": [
+  "SudÃ¡frica": [
     {
       "name": "Ronwen Williams",
       "pos": "POR"
@@ -2926,11 +2954,11 @@
   ],
   "Chequia": [
     {
-      "name": "Lukáš Hornícek",
+      "name": "LukÃ¡Å¡ HornÃ­cek",
       "pos": "POR"
     },
     {
-      "name": "Matej Kovár",
+      "name": "Matej KovÃ¡r",
       "pos": "POR"
     },
     {
@@ -2938,7 +2966,7 @@
       "pos": "POR"
     },
     {
-      "name": "Vladimír Coufal",
+      "name": "VladimÃ­r Coufal",
       "pos": "DEF"
     },
     {
@@ -2946,27 +2974,27 @@
       "pos": "DEF"
     },
     {
-      "name": "Tomáš Holeš",
+      "name": "TomÃ¡Å¡ HoleÅ¡",
       "pos": "DEF"
     },
     {
-      "name": "Robin Hranác",
+      "name": "Robin HranÃ¡c",
       "pos": "DEF"
     },
     {
-      "name": "Štepán Chaloupek",
+      "name": "Å tepÃ¡n Chaloupek",
       "pos": "DEF"
     },
     {
-      "name": "David Jurásek",
+      "name": "David JurÃ¡sek",
       "pos": "DEF"
     },
     {
-      "name": "Ladislav Krejcí",
+      "name": "Ladislav KrejcÃ­",
       "pos": "DEF"
     },
     {
-      "name": "Jaroslav Zelený",
+      "name": "Jaroslav ZelenÃ½",
       "pos": "DEF"
     },
     {
@@ -2974,19 +3002,19 @@
       "pos": "DEF"
     },
     {
-      "name": "Lukáš Cerv",
+      "name": "LukÃ¡Å¡ Cerv",
       "pos": "MED"
     },
     {
-      "name": "Vladimír Darida",
+      "name": "VladimÃ­r Darida",
       "pos": "MED"
     },
     {
-      "name": "Lukáš Provod",
+      "name": "LukÃ¡Å¡ Provod",
       "pos": "MED"
     },
     {
-      "name": "Michal Sadílek",
+      "name": "Michal SadÃ­lek",
       "pos": "MED"
     },
     {
@@ -2998,27 +3026,27 @@
       "pos": "MED"
     },
     {
-      "name": "Tomáš Soucek",
+      "name": "TomÃ¡Å¡ Soucek",
       "pos": "MED"
     },
     {
-      "name": "Pavel Šulc",
+      "name": "Pavel Å ulc",
       "pos": "MED"
     },
     {
-      "name": "Denis Višinský",
+      "name": "Denis ViÅ¡inskÃ½",
       "pos": "MED"
     },
     {
-      "name": "Tomáš Chorý",
+      "name": "TomÃ¡Å¡ ChorÃ½",
       "pos": "DEL"
     },
     {
-      "name": "Adam Hložek",
+      "name": "Adam HloÅ¾ek",
       "pos": "DEL"
     },
     {
-      "name": "Mojmír Chytil",
+      "name": "MojmÃ­r Chytil",
       "pos": "DEL"
     },
     {
@@ -3030,9 +3058,9 @@
       "pos": "DEL"
     }
   ],
-  "Canadá": [
+  "CanadÃ¡": [
     {
-      "name": "Maxime Crépeau",
+      "name": "Maxime CrÃ©peau",
       "pos": "POR"
     },
     {
@@ -3048,7 +3076,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Moïse Bombito",
+      "name": "MoÃ¯se Bombito",
       "pos": "DEF"
     },
     {
@@ -3100,11 +3128,11 @@
       "pos": "MED"
     },
     {
-      "name": "Mathieu Choinière",
+      "name": "Mathieu ChoiniÃ¨re",
       "pos": "MED"
     },
     {
-      "name": "Stephen Eustáquio",
+      "name": "Stephen EustÃ¡quio",
       "pos": "MED"
     },
     {
@@ -3112,7 +3140,7 @@
       "pos": "MED"
     },
     {
-      "name": "Ismaël Koné",
+      "name": "IsmaÃ«l KonÃ©",
       "pos": "MED"
     },
     {
@@ -3166,103 +3194,103 @@
       "pos": "POR"
     },
     {
-      "name": "Martin Zlomislić",
+      "name": "Martin ZlomisliÄ‡",
       "pos": "POR"
     },
     {
-      "name": "Osman Hadžikić",
+      "name": "Osman HadÅ¾ikiÄ‡",
       "pos": "POR"
     },
     {
-      "name": "Sead Kolašinac",
+      "name": "Sead KolaÅ¡inac",
       "pos": "DEF"
     },
     {
-      "name": "Amar Dedić",
+      "name": "Amar DediÄ‡",
       "pos": "DEF"
     },
     {
-      "name": "Nihad Mujakić",
+      "name": "Nihad MujakiÄ‡",
       "pos": "DEF"
     },
     {
-      "name": "Nikola Katić",
+      "name": "Nikola KatiÄ‡",
       "pos": "DEF"
     },
     {
-      "name": "Tarik Muharemović",
+      "name": "Tarik MuharemoviÄ‡",
       "pos": "DEF"
     },
     {
-      "name": "Stjepan Radeljić",
+      "name": "Stjepan RadeljiÄ‡",
       "pos": "DEF"
     },
     {
-      "name": "Dennis Hadžikadunić",
+      "name": "Dennis HadÅ¾ikaduniÄ‡",
       "pos": "DEF"
     },
     {
-      "name": "Nidal Čelik",
+      "name": "Nidal ÄŒelik",
       "pos": "DEF"
     },
     {
-      "name": "Amir Hadžiahmetović",
+      "name": "Amir HadÅ¾iahmetoviÄ‡",
       "pos": "MED"
     },
     {
-      "name": "Ivan Šunjić",
+      "name": "Ivan Å unjiÄ‡",
       "pos": "MED"
     },
     {
-      "name": "Ivan Bašić",
+      "name": "Ivan BaÅ¡iÄ‡",
       "pos": "MED"
     },
     {
-      "name": "Dženis Burnić",
+      "name": "DÅ¾enis BurniÄ‡",
       "pos": "MED"
     },
     {
-      "name": "Ermin Mahmić",
+      "name": "Ermin MahmiÄ‡",
       "pos": "MED"
     },
     {
-      "name": "Benjamin Tahirović",
+      "name": "Benjamin TahiroviÄ‡",
       "pos": "MED"
     },
     {
-      "name": "Amar Memić",
+      "name": "Amar MemiÄ‡",
       "pos": "MED"
     },
     {
-      "name": "Armin Gigović",
+      "name": "Armin GigoviÄ‡",
       "pos": "MED"
     },
     {
-      "name": "Kerim Alajbegović",
+      "name": "Kerim AlajbegoviÄ‡",
       "pos": "DEL"
     },
     {
-      "name": "Esmir Bajraktarević",
+      "name": "Esmir BajraktareviÄ‡",
       "pos": "DEL"
     },
     {
-      "name": "Ermedin Demirović",
+      "name": "Ermedin DemiroviÄ‡",
       "pos": "DEL"
     },
     {
-      "name": "Jovo Lukić",
+      "name": "Jovo LukiÄ‡",
       "pos": "DEL"
     },
     {
-      "name": "Samed Baždar",
+      "name": "Samed BaÅ¾dar",
       "pos": "DEL"
     },
     {
-      "name": "Haris Tabaković",
+      "name": "Haris TabakoviÄ‡",
       "pos": "DEL"
     },
     {
-      "name": "Edin Džeko",
+      "name": "Edin DÅ¾eko",
       "pos": "DEL"
     }
   ],
@@ -3410,7 +3438,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Ricardo Rodríguez",
+      "name": "Ricardo RodrÃ­guez",
       "pos": "DEF"
     },
     {
@@ -3454,7 +3482,7 @@
       "pos": "MED"
     },
     {
-      "name": "Rubén Vargas",
+      "name": "RubÃ©n Vargas",
       "pos": "MED"
     },
     {
@@ -3568,7 +3596,7 @@
       "pos": "DEL"
     },
     {
-      "name": "Vinicius Júnior",
+      "name": "Vinicius JÃºnior",
       "pos": "DEL"
     },
     {
@@ -3666,7 +3694,7 @@
       "pos": "MED"
     },
     {
-      "name": "Brahim Díaz",
+      "name": "Brahim DÃ­az",
       "pos": "DEL"
     },
     {
@@ -3690,7 +3718,7 @@
       "pos": "DEL"
     }
   ],
-  "Haití": [
+  "HaitÃ­": [
     {
       "name": "Jhony Placide",
       "pos": "POR"
@@ -3720,7 +3748,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Jean-Kévin Duverne",
+      "name": "Jean-KÃ©vin Duverne",
       "pos": "DEF"
     },
     {
@@ -3736,7 +3764,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Carl Fred Sainté",
+      "name": "Carl Fred SaintÃ©",
       "pos": "MED"
     },
     {
@@ -3788,7 +3816,7 @@
       "pos": "DEL"
     },
     {
-      "name": "Yassin Fortuné",
+      "name": "Yassin FortunÃ©",
       "pos": "DEL"
     },
     {
@@ -3882,7 +3910,7 @@
       "pos": "MED"
     },
     {
-      "name": "Ché Adams",
+      "name": "ChÃ© Adams",
       "pos": "DEL"
     },
     {
@@ -3920,7 +3948,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Sergiño Dest",
+      "name": "SergiÃ±o Dest",
       "pos": "DEF"
     },
     {
@@ -4010,7 +4038,7 @@
   ],
   "Paraguay": [
     {
-      "name": "Roberto Fernández",
+      "name": "Roberto FernÃ¡ndez",
       "pos": "POR"
     },
     {
@@ -4018,7 +4046,7 @@
       "pos": "POR"
     },
     {
-      "name": "Gastón Olveira",
+      "name": "GastÃ³n Olveira",
       "pos": "POR"
     },
     {
@@ -4030,19 +4058,19 @@
       "pos": "POR"
     },
     {
-      "name": "Juan Espínola",
+      "name": "Juan EspÃ­nola",
       "pos": "POR"
     },
     {
-      "name": "Gustavo Gómez",
+      "name": "Gustavo GÃ³mez",
       "pos": "DEF"
     },
     {
-      "name": "Júnior Alonso",
+      "name": "JÃºnior Alonso",
       "pos": "DEF"
     },
     {
-      "name": "Fabián Balbuena",
+      "name": "FabiÃ¡n Balbuena",
       "pos": "DEF"
     },
     {
@@ -4050,7 +4078,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Juan Cáceres",
+      "name": "Juan CÃ¡ceres",
       "pos": "DEF"
     },
     {
@@ -4058,11 +4086,11 @@
       "pos": "DEF"
     },
     {
-      "name": "Alan Benítez",
+      "name": "Alan BenÃ­tez",
       "pos": "DEF"
     },
     {
-      "name": "Agustín Sandez",
+      "name": "AgustÃ­n Sandez",
       "pos": "DEF"
     },
     {
@@ -4070,15 +4098,15 @@
       "pos": "DEF"
     },
     {
-      "name": "Saúl Salcedo",
+      "name": "SaÃºl Salcedo",
       "pos": "DEF"
     },
     {
-      "name": "José Canale",
+      "name": "JosÃ© Canale",
       "pos": "DEF"
     },
     {
-      "name": "Diego León",
+      "name": "Diego LeÃ³n",
       "pos": "DEF"
     },
     {
@@ -4086,7 +4114,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Alcides Benítez",
+      "name": "Alcides BenÃ­tez",
       "pos": "DEF"
     },
     {
@@ -4094,15 +4122,15 @@
       "pos": "DEF"
     },
     {
-      "name": "Alan Núñez",
+      "name": "Alan NÃºÃ±ez",
       "pos": "DEF"
     },
     {
-      "name": "Miguel Almirón",
+      "name": "Miguel AlmirÃ³n",
       "pos": "MED"
     },
     {
-      "name": "Mathías Villasanti",
+      "name": "MathÃ­as Villasanti",
       "pos": "MED"
     },
     {
@@ -4110,19 +4138,19 @@
       "pos": "MED"
     },
     {
-      "name": "Andrés Cubas",
+      "name": "AndrÃ©s Cubas",
       "pos": "MED"
     },
     {
-      "name": "Ramón Sosa",
+      "name": "RamÃ³n Sosa",
       "pos": "MED"
     },
     {
-      "name": "Diego Gómez",
+      "name": "Diego GÃ³mez",
       "pos": "MED"
     },
     {
-      "name": "Damián Bobadilla",
+      "name": "DamiÃ¡n Bobadilla",
       "pos": "MED"
     },
     {
@@ -4130,7 +4158,7 @@
       "pos": "MED"
     },
     {
-      "name": "Matías Galarza",
+      "name": "MatÃ­as Galarza",
       "pos": "MED"
     },
     {
@@ -4158,7 +4186,7 @@
       "pos": "MED"
     },
     {
-      "name": "Enso González",
+      "name": "Enso GonzÃ¡lez",
       "pos": "MED"
     },
     {
@@ -4166,11 +4194,11 @@
       "pos": "MED"
     },
     {
-      "name": "Óscar Romero",
+      "name": "Ã“scar Romero",
       "pos": "DEL"
     },
     {
-      "name": "Ángel Romero",
+      "name": "Ãngel Romero",
       "pos": "DEL"
     },
     {
@@ -4182,11 +4210,11 @@
       "pos": "DEL"
     },
     {
-      "name": "Gabriel Ávalos",
+      "name": "Gabriel Ãvalos",
       "pos": "DEL"
     },
     {
-      "name": "Carlos González",
+      "name": "Carlos GonzÃ¡lez",
       "pos": "DEL"
     },
     {
@@ -4206,7 +4234,7 @@
       "pos": "DEL"
     },
     {
-      "name": "Ronaldo Martínez",
+      "name": "Ronaldo MartÃ­nez",
       "pos": "DEL"
     },
     {
@@ -4218,7 +4246,7 @@
       "pos": "DEL"
     },
     {
-      "name": "Adrián Alcaraz",
+      "name": "AdriÃ¡n Alcaraz",
       "pos": "DEL"
     },
     {
@@ -4300,7 +4328,7 @@
       "pos": "MED"
     },
     {
-      "name": "O’Neill",
+      "name": "Oâ€™Neill",
       "pos": "MED"
     },
     {
@@ -4332,29 +4360,29 @@
       "pos": "DEL"
     }
   ],
-  "Türkiye": [
+  "TÃ¼rkiye": [
     {
-      "name": "Altay Bayındır",
+      "name": "Altay BayÄ±ndÄ±r",
       "pos": "POR"
     },
     {
-      "name": "Ersin Destanoğlu",
+      "name": "Ersin DestanoÄŸlu",
       "pos": "POR"
     },
     {
-      "name": "Mert Günok",
+      "name": "Mert GÃ¼nok",
       "pos": "POR"
     },
     {
-      "name": "Muhammed Şengezer",
+      "name": "Muhammed Åžengezer",
       "pos": "POR"
     },
     {
-      "name": "Uğurcan Çakır",
+      "name": "UÄŸurcan Ã‡akÄ±r",
       "pos": "POR"
     },
     {
-      "name": "Abdülkerim Bardakcı",
+      "name": "AbdÃ¼lkerim BardakcÄ±",
       "pos": "DEF"
     },
     {
@@ -4362,15 +4390,15 @@
       "pos": "DEF"
     },
     {
-      "name": "Çağlar Söyüncü",
+      "name": "Ã‡aÄŸlar SÃ¶yÃ¼ncÃ¼",
       "pos": "DEF"
     },
     {
-      "name": "Eren Elmalı",
+      "name": "Eren ElmalÄ±",
       "pos": "DEF"
     },
     {
-      "name": "Ferdi Kadıoğlu",
+      "name": "Ferdi KadÄ±oÄŸlu",
       "pos": "DEF"
     },
     {
@@ -4378,11 +4406,11 @@
       "pos": "DEF"
     },
     {
-      "name": "Mert Müldür",
+      "name": "Mert MÃ¼ldÃ¼r",
       "pos": "DEF"
     },
     {
-      "name": "Mustafa Eskihellaç",
+      "name": "Mustafa EskihellaÃ§",
       "pos": "DEF"
     },
     {
@@ -4390,15 +4418,15 @@
       "pos": "DEF"
     },
     {
-      "name": "Samet Akaydın",
+      "name": "Samet AkaydÄ±n",
       "pos": "DEF"
     },
     {
-      "name": "Yusuf Akçiçek",
+      "name": "Yusuf AkÃ§iÃ§ek",
       "pos": "DEF"
     },
     {
-      "name": "Zeki Çelik",
+      "name": "Zeki Ã‡elik",
       "pos": "DEF"
     },
     {
@@ -4406,15 +4434,15 @@
       "pos": "MED"
     },
     {
-      "name": "Demir Ege Tıknaz",
+      "name": "Demir Ege TÄ±knaz",
       "pos": "MED"
     },
     {
-      "name": "Hakan Çalhanoğlu",
+      "name": "Hakan Ã‡alhanoÄŸlu",
       "pos": "MED"
     },
     {
-      "name": "İsmail Yüksek",
+      "name": "Ä°smail YÃ¼ksek",
       "pos": "MED"
     },
     {
@@ -4422,23 +4450,23 @@
       "pos": "MED"
     },
     {
-      "name": "Orkun Kökçü",
+      "name": "Orkun KÃ¶kÃ§Ã¼",
       "pos": "MED"
     },
     {
-      "name": "Salih Özcan",
+      "name": "Salih Ã–zcan",
       "pos": "MED"
     },
     {
-      "name": "Aral Şimşir",
+      "name": "Aral ÅžimÅŸir",
       "pos": "MED"
     },
     {
-      "name": "Arda Güler",
+      "name": "Arda GÃ¼ler",
       "pos": "MED"
     },
     {
-      "name": "Barış Alper Yılmaz",
+      "name": "BarÄ±ÅŸ Alper YÄ±lmaz",
       "pos": "DEL"
     },
     {
@@ -4446,31 +4474,31 @@
       "pos": "DEL"
     },
     {
-      "name": "Deniz Gül",
+      "name": "Deniz GÃ¼l",
       "pos": "DEL"
     },
     {
-      "name": "İrfan Can Kahveci",
+      "name": "Ä°rfan Can Kahveci",
       "pos": "DEL"
     },
     {
-      "name": "Kenan Yıldız",
+      "name": "Kenan YÄ±ldÄ±z",
       "pos": "DEL"
     },
     {
-      "name": "Kerem Aktürkoğlu",
+      "name": "Kerem AktÃ¼rkoÄŸlu",
       "pos": "DEL"
     },
     {
-      "name": "Oğuz Aydın",
+      "name": "OÄŸuz AydÄ±n",
       "pos": "DEL"
     },
     {
-      "name": "Yunus Akgün",
+      "name": "Yunus AkgÃ¼n",
       "pos": "DEL"
     },
     {
-      "name": "Yusuf Sarı",
+      "name": "Yusuf SarÄ±",
       "pos": "DEL"
     }
   ],
@@ -4580,7 +4608,7 @@
       "pos": "DEL"
     }
   ],
-  "Curaçao": [
+  "CuraÃ§ao": [
     {
       "name": "Tyrick Bodak",
       "pos": "POR"
@@ -4614,7 +4642,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Juriën Gaari",
+      "name": "JuriÃ«n Gaari",
       "pos": "DEF"
     },
     {
@@ -4642,7 +4670,7 @@
       "pos": "MED"
     },
     {
-      "name": "Ar’Jany Martha",
+      "name": "Arâ€™Jany Martha",
       "pos": "MED"
     },
     {
@@ -4662,7 +4690,7 @@
       "pos": "DEL"
     },
     {
-      "name": "Kenji Gorré",
+      "name": "Kenji GorrÃ©",
       "pos": "DEL"
     },
     {
@@ -4678,7 +4706,7 @@
       "pos": "DEL"
     },
     {
-      "name": "Jürgen Locadia",
+      "name": "JÃ¼rgen Locadia",
       "pos": "DEL"
     },
     {
@@ -4740,7 +4768,7 @@
       "pos": "MED"
     },
     {
-      "name": "Christ Inao Oulaï",
+      "name": "Christ Inao OulaÃ¯",
       "pos": "MED"
     },
     {
@@ -4748,7 +4776,7 @@
       "pos": "MED"
     },
     {
-      "name": "Ibrahim Sangaré",
+      "name": "Ibrahim SangarÃ©",
       "pos": "MED"
     },
     {
@@ -4794,11 +4822,11 @@
   ],
   "Ecuador": [
     {
-      "name": "Hernán Galíndez",
+      "name": "HernÃ¡n GalÃ­ndez",
       "pos": "POR"
     },
     {
-      "name": "Moisés Ramírez",
+      "name": "MoisÃ©s RamÃ­rez",
       "pos": "POR"
     },
     {
@@ -4810,23 +4838,23 @@
       "pos": "DEF"
     },
     {
-      "name": "Piero Hincapié",
+      "name": "Piero HincapiÃ©",
       "pos": "DEF"
     },
     {
-      "name": "Joel Ordóñez",
+      "name": "Joel OrdÃ³Ã±ez",
       "pos": "DEF"
     },
     {
-      "name": "Félix Torres",
+      "name": "FÃ©lix Torres",
       "pos": "DEF"
     },
     {
-      "name": "Pervis Estupiñán",
+      "name": "Pervis EstupiÃ±Ã¡n",
       "pos": "DEF"
     },
     {
-      "name": "Ángelo Preciado",
+      "name": "Ãngelo Preciado",
       "pos": "DEF"
     },
     {
@@ -4834,11 +4862,11 @@
       "pos": "DEF"
     },
     {
-      "name": "Moisés Caicedo",
+      "name": "MoisÃ©s Caicedo",
       "pos": "MED"
     },
     {
-      "name": "Jordy Alcívar",
+      "name": "Jordy AlcÃ­var",
       "pos": "MED"
     },
     {
@@ -4854,7 +4882,7 @@
       "pos": "MED"
     },
     {
-      "name": "Kendry Páez",
+      "name": "Kendry PÃ¡ez",
       "pos": "MED"
     },
     {
@@ -4862,7 +4890,7 @@
       "pos": "MED"
     },
     {
-      "name": "Kevin Rodríguez",
+      "name": "Kevin RodrÃ­guez",
       "pos": "DEL"
     },
     {
@@ -4878,7 +4906,7 @@
       "pos": "DEL"
     },
     {
-      "name": "Jeremy Arévalo",
+      "name": "Jeremy ArÃ©valo",
       "pos": "DEL"
     },
     {
@@ -4898,7 +4926,7 @@
       "pos": "DEL"
     }
   ],
-  "Países Bajos": [
+  "PaÃ­ses Bajos": [
     {
       "name": "Mark Flekken",
       "pos": "POR"
@@ -4912,7 +4940,7 @@
       "pos": "POR"
     },
     {
-      "name": "Nathan Aké",
+      "name": "Nathan AkÃ©",
       "pos": "DEF"
     },
     {
@@ -4924,7 +4952,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Jurriën Timber",
+      "name": "JurriÃ«n Timber",
       "pos": "DEF"
     },
     {
@@ -5004,7 +5032,7 @@
       "pos": "DEL"
     }
   ],
-  "Japón": [
+  "JapÃ³n": [
     {
       "name": "Zion Suzuki",
       "pos": "POR"
@@ -5120,7 +5148,7 @@
       "pos": "POR"
     },
     {
-      "name": "Jacob Widell Zetterström",
+      "name": "Jacob Widell ZetterstrÃ¶m",
       "pos": "POR"
     },
     {
@@ -5144,7 +5172,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Victor Lindelöf",
+      "name": "Victor LindelÃ¶f",
       "pos": "DEF"
     },
     {
@@ -5164,7 +5192,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Jesper Kalström",
+      "name": "Jesper KalstrÃ¶m",
       "pos": "MED"
     },
     {
@@ -5196,7 +5224,7 @@
       "pos": "DEL"
     },
     {
-      "name": "Viktor Gyökeres",
+      "name": "Viktor GyÃ¶keres",
       "pos": "DEL"
     },
     {
@@ -5216,7 +5244,7 @@
       "pos": "DEL"
     }
   ],
-  "Túnez": [
+  "TÃºnez": [
     {
       "name": "Aymen Dahmen",
       "pos": "POR"
@@ -5290,7 +5318,7 @@
       "pos": "MED"
     },
     {
-      "name": "Ismaël Gharbi",
+      "name": "IsmaÃ«l Gharbi",
       "pos": "MED"
     },
     {
@@ -5322,7 +5350,7 @@
       "pos": "DEL"
     }
   ],
-  "Bélgica": [
+  "BÃ©lgica": [
     {
       "name": "Mats Sels",
       "pos": "POR"
@@ -5538,7 +5566,7 @@
       "pos": "DEL"
     }
   ],
-  "Irán": [
+  "IrÃ¡n": [
     {
       "name": "Alireza Beiranvand",
       "pos": "POR"
@@ -5714,7 +5742,7 @@
       "pos": "MED"
     },
     {
-      "name": "Marko Stamenić",
+      "name": "Marko StameniÄ‡",
       "pos": "MED"
     },
     {
@@ -5766,7 +5794,7 @@
       "pos": "DEL"
     }
   ],
-  "España": [
+  "EspaÃ±a": [
     {
       "name": "Unai Simon",
       "pos": "POR"
@@ -5788,7 +5816,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Erick García",
+      "name": "Erick GarcÃ­a",
       "pos": "DEF"
     },
     {
@@ -5926,7 +5954,7 @@
       "pos": "MED"
     },
     {
-      "name": "João Paulo Fernandes",
+      "name": "JoÃ£o Paulo Fernandes",
       "pos": "MED"
     },
     {
@@ -6102,11 +6130,11 @@
       "pos": "DEF"
     },
     {
-      "name": "Ronald Araújo",
+      "name": "Ronald AraÃºjo",
       "pos": "DEF"
     },
     {
-      "name": "José María Giménez",
+      "name": "JosÃ© MarÃ­a GimÃ©nez",
       "pos": "DEF"
     },
     {
@@ -6114,19 +6142,19 @@
       "pos": "DEF"
     },
     {
-      "name": "Sebastián Cáceres",
+      "name": "SebastiÃ¡n CÃ¡ceres",
       "pos": "DEF"
     },
     {
-      "name": "Mathías Olivera",
+      "name": "MathÃ­as Olivera",
       "pos": "DEF"
     },
     {
-      "name": "Joaquín Piquerez",
+      "name": "JoaquÃ­n Piquerez",
       "pos": "DEF"
     },
     {
-      "name": "Matías Viña",
+      "name": "MatÃ­as ViÃ±a",
       "pos": "DEF"
     },
     {
@@ -6134,7 +6162,7 @@
       "pos": "MED"
     },
     {
-      "name": "Emiliano Martínez",
+      "name": "Emiliano MartÃ­nez",
       "pos": "MED"
     },
     {
@@ -6146,7 +6174,7 @@
       "pos": "MED"
     },
     {
-      "name": "Agustín Canobbio",
+      "name": "AgustÃ­n Canobbio",
       "pos": "MED"
     },
     {
@@ -6158,7 +6186,7 @@
       "pos": "MED"
     },
     {
-      "name": "Nicolás de la Cruz",
+      "name": "NicolÃ¡s de la Cruz",
       "pos": "MED"
     },
     {
@@ -6170,11 +6198,11 @@
       "pos": "MED"
     },
     {
-      "name": "Maximiliano Araújo",
+      "name": "Maximiliano AraÃºjo",
       "pos": "MED"
     },
     {
-      "name": "Brian Rodríguez",
+      "name": "Brian RodrÃ­guez",
       "pos": "MED"
     },
     {
@@ -6182,11 +6210,11 @@
       "pos": "DEL"
     },
     {
-      "name": "Federico Viñas",
+      "name": "Federico ViÃ±as",
       "pos": "DEL"
     },
     {
-      "name": "Darwin Núñez",
+      "name": "Darwin NÃºÃ±ez",
       "pos": "DEL"
     }
   ],
@@ -6220,11 +6248,11 @@
       "pos": "DEF"
     },
     {
-      "name": "Ibrahima Konaté",
+      "name": "Ibrahima KonatÃ©",
       "pos": "DEF"
     },
     {
-      "name": "Jules Koundé",
+      "name": "Jules KoundÃ©",
       "pos": "DEF"
     },
     {
@@ -6240,11 +6268,11 @@
       "pos": "DEF"
     },
     {
-      "name": "N’Golo Kanté",
+      "name": "Nâ€™Golo KantÃ©",
       "pos": "MED"
     },
     {
-      "name": "Manu Koné",
+      "name": "Manu KonÃ©",
       "pos": "MED"
     },
     {
@@ -6252,11 +6280,11 @@
       "pos": "MED"
     },
     {
-      "name": "Aurélien Tchouameni",
+      "name": "AurÃ©lien Tchouameni",
       "pos": "MED"
     },
     {
-      "name": "Warren Zaïre-Emery",
+      "name": "Warren ZaÃ¯re-Emery",
       "pos": "MED"
     },
     {
@@ -6272,11 +6300,11 @@
       "pos": "DEL"
     },
     {
-      "name": "Ousmane Dembélé",
+      "name": "Ousmane DembÃ©lÃ©",
       "pos": "DEL"
     },
     {
-      "name": "Désiré Doué",
+      "name": "DÃ©sirÃ© DouÃ©",
       "pos": "DEL"
     },
     {
@@ -6284,7 +6312,7 @@
       "pos": "DEL"
     },
     {
-      "name": "Kylian Mbappé",
+      "name": "Kylian MbappÃ©",
       "pos": "DEL"
     },
     {
@@ -6538,7 +6566,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Sondre Langås",
+      "name": "Sondre LangÃ¥s",
       "pos": "DEF"
     },
     {
@@ -6754,7 +6782,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Rayan Aït-Nouri",
+      "name": "Rayan AÃ¯t-Nouri",
       "pos": "DEF"
     },
     {
@@ -6762,15 +6790,15 @@
       "pos": "DEF"
     },
     {
-      "name": "Aïssa Mandi",
+      "name": "AÃ¯ssa Mandi",
       "pos": "DEF"
     },
     {
-      "name": "Ramy Bensebaïni",
+      "name": "Ramy BensebaÃ¯ni",
       "pos": "DEF"
     },
     {
-      "name": "Zineddine Belaïd",
+      "name": "Zineddine BelaÃ¯d",
       "pos": "DEF"
     },
     {
@@ -6778,7 +6806,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Mohamed Amine Tougaï",
+      "name": "Mohamed Amine TougaÃ¯",
       "pos": "DEF"
     },
     {
@@ -6794,7 +6822,7 @@
       "pos": "MED"
     },
     {
-      "name": "Farès Chaïbi",
+      "name": "FarÃ¨s ChaÃ¯bi",
       "pos": "MED"
     },
     {
@@ -6822,7 +6850,7 @@
       "pos": "DEL"
     },
     {
-      "name": "Farès Ghedjemis",
+      "name": "FarÃ¨s Ghedjemis",
       "pos": "DEL"
     },
     {
@@ -6916,7 +6944,7 @@
       "pos": "MED"
     },
     {
-      "name": "Alessandro Schöpf",
+      "name": "Alessandro SchÃ¶pf",
       "pos": "MED"
     },
     {
@@ -6928,7 +6956,7 @@
       "pos": "DEL"
     },
     {
-      "name": "Saša Kalajdžić",
+      "name": "SaÅ¡a KalajdÅ¾iÄ‡",
       "pos": "DEL"
     },
     {
@@ -7064,7 +7092,7 @@
       "pos": "POR"
     },
     {
-      "name": "José Sá",
+      "name": "JosÃ© SÃ¡",
       "pos": "POR"
     },
     {
@@ -7084,11 +7112,11 @@
       "pos": "DEF"
     },
     {
-      "name": "Nélson Semedo",
+      "name": "NÃ©lson Semedo",
       "pos": "DEF"
     },
     {
-      "name": "João Cancelo",
+      "name": "JoÃ£o Cancelo",
       "pos": "DEF"
     },
     {
@@ -7096,7 +7124,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Gonçalo Inácio",
+      "name": "GonÃ§alo InÃ¡cio",
       "pos": "DEF"
     },
     {
@@ -7104,15 +7132,15 @@
       "pos": "DEF"
     },
     {
-      "name": "Rúben Dias",
+      "name": "RÃºben Dias",
       "pos": "DEF"
     },
     {
-      "name": "Tomás Araújo",
+      "name": "TomÃ¡s AraÃºjo",
       "pos": "DEF"
     },
     {
-      "name": "Rúben Neves",
+      "name": "RÃºben Neves",
       "pos": "MED"
     },
     {
@@ -7120,7 +7148,7 @@
       "pos": "MED"
     },
     {
-      "name": "João Neves",
+      "name": "JoÃ£o Neves",
       "pos": "MED"
     },
     {
@@ -7136,15 +7164,15 @@
       "pos": "MED"
     },
     {
-      "name": "João Félix",
+      "name": "JoÃ£o FÃ©lix",
       "pos": "DEL"
     },
     {
-      "name": "Trincão",
+      "name": "TrincÃ£o",
       "pos": "DEL"
     },
     {
-      "name": "Francisco Conceição",
+      "name": "Francisco ConceiÃ§Ã£o",
       "pos": "DEL"
     },
     {
@@ -7152,15 +7180,15 @@
       "pos": "DEL"
     },
     {
-      "name": "Rafael Leão",
+      "name": "Rafael LeÃ£o",
       "pos": "DEL"
     },
     {
-      "name": "Gonçalo Guedes",
+      "name": "GonÃ§alo Guedes",
       "pos": "DEL"
     },
     {
-      "name": "Gonçalo Ramos",
+      "name": "GonÃ§alo Ramos",
       "pos": "DEL"
     },
     {
@@ -7186,7 +7214,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Gédéon Kalulu",
+      "name": "GÃ©dÃ©on Kalulu",
       "pos": "DEF"
     },
     {
@@ -7238,7 +7266,7 @@
       "pos": "MED"
     },
     {
-      "name": "Ngal’ayel Mukau Mbuku",
+      "name": "Ngalâ€™ayel Mukau Mbuku",
       "pos": "MED"
     },
     {
@@ -7246,11 +7274,11 @@
       "pos": "MED"
     },
     {
-      "name": "Théo Bongonda",
+      "name": "ThÃ©o Bongonda",
       "pos": "MED"
     },
     {
-      "name": "Gaël Kakuta",
+      "name": "GaÃ«l Kakuta",
       "pos": "MED"
     },
     {
@@ -7262,7 +7290,7 @@
       "pos": "DEL"
     },
     {
-      "name": "Cédric Bakambu",
+      "name": "CÃ©dric Bakambu",
       "pos": "DEL"
     },
     {
@@ -7274,7 +7302,7 @@
       "pos": "DEL"
     }
   ],
-  "Uzbekistán": [
+  "UzbekistÃ¡n": [
     {
       "name": "Vladimir Nazarov",
       "pos": "POR"
@@ -7580,7 +7608,7 @@
       "pos": "DEF"
     },
     {
-      "name": "Nico O’Reilly",
+      "name": "Nico Oâ€™Reilly",
       "pos": "DEF"
     },
     {
@@ -7650,7 +7678,7 @@
   ],
   "Croacia": [
     {
-      "name": "Dominik Livaković",
+      "name": "Dominik LivakoviÄ‡",
       "pos": "POR"
     },
     {
@@ -7662,51 +7690,51 @@
       "pos": "POR"
     },
     {
-      "name": "Joško Gvardiol",
+      "name": "JoÅ¡ko Gvardiol",
       "pos": "DEF"
     },
     {
-      "name": "Duje Ćaleta-Car",
+      "name": "Duje Ä†aleta-Car",
       "pos": "DEF"
     },
     {
-      "name": "Josip Šutalo",
+      "name": "Josip Å utalo",
       "pos": "DEF"
     },
     {
-      "name": "Josip Stanišić",
+      "name": "Josip StaniÅ¡iÄ‡",
       "pos": "DEF"
     },
     {
-      "name": "Marin Pongračić",
+      "name": "Marin PongraÄiÄ‡",
       "pos": "DEF"
     },
     {
-      "name": "Martin Erlić",
+      "name": "Martin ErliÄ‡",
       "pos": "DEF"
     },
     {
-      "name": "Luka Vušković",
+      "name": "Luka VuÅ¡koviÄ‡",
       "pos": "DEF"
     },
     {
-      "name": "Luka Modrić",
+      "name": "Luka ModriÄ‡",
       "pos": "MED"
     },
     {
-      "name": "Mateo Kovačić",
+      "name": "Mateo KovaÄiÄ‡",
       "pos": "MED"
     },
     {
-      "name": "Mario Pašalić",
+      "name": "Mario PaÅ¡aliÄ‡",
       "pos": "MED"
     },
     {
-      "name": "Nikola Vlašić",
+      "name": "Nikola VlaÅ¡iÄ‡",
       "pos": "MED"
     },
     {
-      "name": "Luka Sučić",
+      "name": "Luka SuÄiÄ‡",
       "pos": "MED"
     },
     {
@@ -7714,11 +7742,11 @@
       "pos": "MED"
     },
     {
-      "name": "Kristijan Jakić",
+      "name": "Kristijan JakiÄ‡",
       "pos": "MED"
     },
     {
-      "name": "Petar Sučić",
+      "name": "Petar SuÄiÄ‡",
       "pos": "MED"
     },
     {
@@ -7730,11 +7758,11 @@
       "pos": "MED"
     },
     {
-      "name": "Ivan Perišić",
+      "name": "Ivan PeriÅ¡iÄ‡",
       "pos": "DEL"
     },
     {
-      "name": "Andrej Kramarić",
+      "name": "Andrej KramariÄ‡",
       "pos": "DEL"
     },
     {
@@ -7742,7 +7770,7 @@
       "pos": "DEL"
     },
     {
-      "name": "Marco Pašalić",
+      "name": "Marco PaÅ¡aliÄ‡",
       "pos": "DEL"
     },
     {
@@ -7750,7 +7778,7 @@
       "pos": "DEL"
     },
     {
-      "name": "Igor Matanović",
+      "name": "Igor MatanoviÄ‡",
       "pos": "DEL"
     }
   ],
@@ -7868,7 +7896,7 @@
       "pos": "DEL"
     }
   ],
-  "Panamá": [
+  "PanamÃ¡": [
     {
       "name": "Orlando Mosquera",
       "pos": "POR"
@@ -7977,22 +8005,22 @@
 };
 
     const VENUES = [
-      ["🇲🇽", "Ciudad de México", "Estadio Azteca"],
-      ["🇲🇽", "Guadalajara", "Estadio Akron"],
-      ["🇲🇽", "Monterrey", "Estadio BBVA"],
-      ["🇺🇸", "New York / New Jersey", "MetLife Stadium"],
-      ["🇺🇸", "Los Ángeles", "SoFi Stadium"],
-      ["🇺🇸", "Dallas", "AT&T Stadium"],
-      ["🇺🇸", "Miami", "Hard Rock Stadium"],
-      ["🇺🇸", "Atlanta", "Mercedes-Benz Stadium"],
-      ["🇺🇸", "Houston", "NRG Stadium"],
-      ["🇺🇸", "Philadelphia", "Lincoln Financial Field"],
-      ["🇺🇸", "Seattle", "Lumen Field"],
-      ["🇺🇸", "San Francisco Bay Area", "Levi's Stadium"],
-      ["🇺🇸", "Kansas City", "Arrowhead Stadium"],
-      ["🇺🇸", "Boston", "Gillette Stadium"],
-      ["🇨🇦", "Toronto", "BMO Field"],
-      ["🇨🇦", "Vancouver", "BC Place"]
+      ["ðŸ‡²ðŸ‡½", "Ciudad de MÃ©xico", "Estadio Azteca"],
+      ["ðŸ‡²ðŸ‡½", "Guadalajara", "Estadio Akron"],
+      ["ðŸ‡²ðŸ‡½", "Monterrey", "Estadio BBVA"],
+      ["ðŸ‡ºðŸ‡¸", "New York / New Jersey", "MetLife Stadium"],
+      ["ðŸ‡ºðŸ‡¸", "Los Ãngeles", "SoFi Stadium"],
+      ["ðŸ‡ºðŸ‡¸", "Dallas", "AT&T Stadium"],
+      ["ðŸ‡ºðŸ‡¸", "Miami", "Hard Rock Stadium"],
+      ["ðŸ‡ºðŸ‡¸", "Atlanta", "Mercedes-Benz Stadium"],
+      ["ðŸ‡ºðŸ‡¸", "Houston", "NRG Stadium"],
+      ["ðŸ‡ºðŸ‡¸", "Philadelphia", "Lincoln Financial Field"],
+      ["ðŸ‡ºðŸ‡¸", "Seattle", "Lumen Field"],
+      ["ðŸ‡ºðŸ‡¸", "San Francisco Bay Area", "Levi's Stadium"],
+      ["ðŸ‡ºðŸ‡¸", "Kansas City", "Arrowhead Stadium"],
+      ["ðŸ‡ºðŸ‡¸", "Boston", "Gillette Stadium"],
+      ["ðŸ‡¨ðŸ‡¦", "Toronto", "BMO Field"],
+      ["ðŸ‡¨ðŸ‡¦", "Vancouver", "BC Place"]
     ];
 
     const app = initializeApp(firebaseConfig);
@@ -8020,6 +8048,7 @@
     let picksAccordionState = {};
     let championPicks = {};
     let userTotals = {};
+    let bracketOverrides = {};
     let firestoreUnsubs = [];
 
     const LEAGUE_STORAGE_KEY = "quiniela_league_code";
@@ -8028,6 +8057,8 @@
     let currentLeagueCode = "general";
     let activePlayerDetailUid = "";
     let compactPastDays = true;
+    let compactPastPicks = true;
+    let compactPastAdmin = true;
     let playerDetailPhaseFilter = "";
     let playerDetailSearch = "";
     let playerDetailVisibleCount = 25;
@@ -8099,7 +8130,7 @@
         .trim()
         .toLowerCase()
         .normalize("NFD")
-        .replace(/[̀-ͯ]/g, "")
+        .replace(/[Ì€-Í¯]/g, "")
         .replace(/[^a-z0-9_-]+/g, "-")
         .replace(/-+/g, "-")
         .replace(/^-|-$/g, "");
@@ -8138,6 +8169,7 @@
       cardsDrafts = {};
       championPicks = {};
       userTotals = {};
+      bracketOverrides = {};
     }
 
     function updateLeagueUi() {
@@ -8169,7 +8201,7 @@
     function normalize(value) {
       return String(value || "")
         .normalize("NFD")
-        .replace(/[̀-ͯ]/g, "")
+        .replace(/[Ì€-Í¯]/g, "")
         .toLowerCase();
     }
 
@@ -8209,7 +8241,7 @@
     }
 
     function codeToFlagEmoji(code) {
-      if (!code || code.length !== 2) return "🏳️";
+      if (!code || code.length !== 2) return "ðŸ³ï¸";
       const upper = code.toUpperCase();
       const base = 127397;
       return String.fromCodePoint(upper.charCodeAt(0) + base, upper.charCodeAt(1) + base);
@@ -8217,13 +8249,13 @@
 
     function flagEmoji(team) {
       const code = TEAM_FLAG_CODE[team];
-      if (!code) return "🏳️";
-      if (code === "gb-sct" || code === "gb-eng") return "🏴";
+      if (!code) return "ðŸ³ï¸";
+      if (code === "gb-sct" || code === "gb-eng") return "ðŸ´";
       return codeToFlagEmoji(code);
     }
 
     function emojiToTwemojiUrl(emoji) {
-      const codePoints = [...String(emoji || "🏳️")].map((char) => char.codePointAt(0).toString(16));
+      const codePoints = [...String(emoji || "ðŸ³ï¸")].map((char) => char.codePointAt(0).toString(16));
       return `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${codePoints.join("-")}.svg`;
     }
 
@@ -8254,7 +8286,7 @@
 
     function candidatePhotoTitles(name) {
       const clean = String(name || "").trim();
-      const ascii = clean.normalize("NFD").replace(/[̀-ͯ]/g, "");
+      const ascii = clean.normalize("NFD").replace(/[Ì€-Í¯]/g, "");
       return [...new Set([
         clean,
         `${clean} (footballer)`,
@@ -8396,7 +8428,7 @@
     function slug(value) {
       return String(value || "")
         .normalize("NFD")
-        .replace(/[̀-ͯ]/g, "")
+        .replace(/[Ì€-Í¯]/g, "")
         .replace(/[^a-zA-Z0-9]+/g, "_")
         .replace(/^_|_$/g, "")
         .toUpperCase();
@@ -8511,11 +8543,63 @@
         cdmxIso("2026-07-01", "17:00"), cdmxIso("2026-07-01", "21:00"), cdmxIso("2026-07-02", "13:00"), cdmxIso("2026-07-02", "17:00"),
         cdmxIso("2026-07-02", "21:00"), cdmxIso("2026-07-03", "13:00"), cdmxIso("2026-07-03", "17:00"), cdmxIso("2026-07-03", "21:00")
       ],
-      Octavos: [cdmxIso("2026-07-04", "14:00"), cdmxIso("2026-07-04", "18:00"), cdmxIso("2026-07-05", "14:00"), cdmxIso("2026-07-05", "18:00"), cdmxIso("2026-07-06", "14:00"), cdmxIso("2026-07-06", "18:00"), cdmxIso("2026-07-07", "14:00"), cdmxIso("2026-07-07", "18:00")],
+      Octavos: [cdmxIso("2026-07-04", "15:00"), cdmxIso("2026-07-04", "11:00"), cdmxIso("2026-07-05", "14:00"), cdmxIso("2026-07-05", "18:00"), cdmxIso("2026-07-06", "13:00"), cdmxIso("2026-07-06", "18:00"), cdmxIso("2026-07-07", "10:00"), cdmxIso("2026-07-07", "14:00")],
       Cuartos: [cdmxIso("2026-07-09", "15:00"), cdmxIso("2026-07-09", "19:00"), cdmxIso("2026-07-10", "15:00"), cdmxIso("2026-07-10", "19:00")],
       Semifinales: [cdmxIso("2026-07-14", "19:00"), cdmxIso("2026-07-15", "19:00")],
       "Tercer Lugar": [cdmxIso("2026-07-18", "15:00")],
       Final: [cdmxIso("2026-07-19", "18:00")]
+    };
+
+    // Official FIFA 2026 Round of 32 structure (matches 73-88).
+    const OFFICIAL_ROUND_OF_32_RULES = [
+      { matchNo: 73, homeSeed: "2A", awaySeed: "2B" },
+      { matchNo: 74, homeSeed: "1E", thirdSlot: "74" },
+      { matchNo: 75, homeSeed: "1F", awaySeed: "2C" },
+      { matchNo: 76, homeSeed: "1C", awaySeed: "2F" },
+      { matchNo: 77, homeSeed: "1I", thirdSlot: "77" },
+      { matchNo: 78, homeSeed: "2E", awaySeed: "2I" },
+      { matchNo: 79, homeSeed: "1A", thirdSlot: "79" },
+      { matchNo: 80, homeSeed: "1L", thirdSlot: "80" },
+      { matchNo: 81, homeSeed: "1D", thirdSlot: "81" },
+      { matchNo: 82, homeSeed: "1G", thirdSlot: "82" },
+      { matchNo: 83, homeSeed: "2K", awaySeed: "2L" },
+      { matchNo: 84, homeSeed: "1H", awaySeed: "2J" },
+      { matchNo: 85, homeSeed: "1B", thirdSlot: "85" },
+      { matchNo: 86, homeSeed: "1J", awaySeed: "2H" },
+      { matchNo: 87, homeSeed: "1K", thirdSlot: "87" },
+      { matchNo: 88, homeSeed: "2D", awaySeed: "2G" }
+    ];
+
+    // Allowed third-placed groups per FIFA slot.
+    const OFFICIAL_THIRD_PLACE_SLOTS = [
+      { slot: "74", allowed: ["A", "B", "C", "D", "F"] },
+      { slot: "77", allowed: ["C", "D", "F", "G", "H"] },
+      { slot: "79", allowed: ["C", "E", "F", "H", "I"] },
+      { slot: "80", allowed: ["E", "H", "I", "J", "K"] },
+      { slot: "81", allowed: ["B", "E", "F", "I", "J"] },
+      { slot: "82", allowed: ["A", "E", "H", "I", "J"] },
+      { slot: "85", allowed: ["E", "F", "G", "I", "J"] },
+      { slot: "87", allowed: ["D", "E", "I", "J", "L"] }
+    ];
+
+    // User-confirmed final pairings for current Round of 32 snapshot.
+    const FIXED_ROUND_OF_32_TEAMS = {
+      73: { home: "SudÃ¡frica", away: "CanadÃ¡" },
+      74: { home: "Alemania", away: "Paraguay" },
+      75: { home: "PaÃ­ses Bajos", away: "Marruecos" },
+      76: { home: "Brasil", away: "JapÃ³n" },
+      77: { home: "Francia", away: "Suecia" },
+      78: { home: "Costa de Marfil", away: "Noruega" },
+      79: { home: "MÃ©xico", away: "Ecuador" },
+      80: { home: "Inglaterra", away: "RD Congo" },
+      81: { home: "Estados Unidos", away: "Bosnia y Herzegovina" },
+      82: { home: "BÃ©lgica", away: "Senegal" },
+      83: { home: "Portugal", away: "Croacia" },
+      84: { home: "EspaÃ±a", away: "Austria" },
+      85: { home: "Suiza", away: "Argelia" },
+      86: { home: "Argentina", away: "Cabo Verde" },
+      87: { home: "Colombia", away: "Ghana" },
+      88: { home: "Australia", away: "Egipto" }
     };
 
     function makeDateForMatch(index) {
@@ -8553,7 +8637,7 @@
             homeSeed: `${pairing[0] + 1}${group}`,
             awaySeed: `${pairing[1] + 1}${group}`,
             date: GROUP_STAGE_SCHEDULE[group]?.[roundIndex] || makeDateForMatch(index),
-            source: `Grupo ${group} · Jornada ${roundIndex + 1}`
+            source: `Grupo ${group} Â· Jornada ${roundIndex + 1}`
           });
           index += 1;
         });
@@ -8700,46 +8784,155 @@
       return output;
     }
 
-    function getQualifiers() {
-      const rankings = getGroupRankings();
-      const qualified = [];
-      const thirds = [];
+    function isGroupFinished(groupCode) {
+      const groupMatches = GROUP_MATCHES.filter((match) => match.group === groupCode);
+      return groupMatches.length > 0 && groupMatches.every((match) => isFinalResult(results[match.id]));
+    }
 
-      Object.keys(rankings).sort().forEach((group) => {
+    function getKnockoutInputs() {
+      const rankings = getGroupRankings();
+      const seedMap = {};
+      const thirds = [];
+      const sortedGroups = Object.keys(rankings).sort();
+      const allGroupsFinished = sortedGroups.every((group) => isGroupFinished(group));
+
+      sortedGroups.forEach((group) => {
         const rows = rankings[group];
-        if (rows[0]) qualified.push({ ...rows[0], seed: `1${group}` });
-        if (rows[1]) qualified.push({ ...rows[1], seed: `2${group}` });
-        if (rows[2]) thirds.push({ ...rows[2], seed: `3${group}` });
+        const finished = isGroupFinished(group);
+        seedMap[`1${group}`] = finished && rows[0] ? rows[0].team : "";
+        seedMap[`2${group}`] = finished && rows[1] ? rows[1].team : "";
+
+        if (finished && rows[2]) {
+          thirds.push({ ...rows[2], seed: `3${group}` });
+        }
       });
 
       thirds.sort((a, b) => {
-        return b.PTS - a.PTS ||
-          b.DG - a.DG ||
-          b.GF - a.GF ||
-          a.GC - b.GC ||
-          a.team.localeCompare(b.team, "es");
+        const aKnown = a.team ? 1 : 0;
+        const bKnown = b.team ? 1 : 0;
+        if (aKnown !== bKnown) return bKnown - aKnown;
+        const aPTS = Number.isFinite(Number(a.PTS)) ? Number(a.PTS) : -999;
+        const bPTS = Number.isFinite(Number(b.PTS)) ? Number(b.PTS) : -999;
+        const aDG = Number.isFinite(Number(a.DG)) ? Number(a.DG) : -999;
+        const bDG = Number.isFinite(Number(b.DG)) ? Number(b.DG) : -999;
+        const aGF = Number.isFinite(Number(a.GF)) ? Number(a.GF) : -999;
+        const bGF = Number.isFinite(Number(b.GF)) ? Number(b.GF) : -999;
+        const aGC = Number.isFinite(Number(a.GC)) ? Number(a.GC) : 999;
+        const bGC = Number.isFinite(Number(b.GC)) ? Number(b.GC) : 999;
+        return bPTS - aPTS ||
+          bDG - aDG ||
+          bGF - aGF ||
+          aGC - bGC ||
+          String(a.team || "").localeCompare(String(b.team || ""), "es");
       });
 
-      qualified.push(...thirds.slice(0, 8));
-      return qualified;
+      return {
+        seedMap,
+        allGroupsFinished,
+        qualifiedThirds: allGroupsFinished ? thirds.slice(0, 8) : []
+      };
+    }
+
+    function assignOfficialThirdPlaceSlots(qualifiedThirds) {
+      const assignments = {};
+      if (!Array.isArray(qualifiedThirds) || qualifiedThirds.length !== 8) return assignments;
+
+      const byGroup = new Map();
+      qualifiedThirds.forEach((entry, rankIndex) => {
+        byGroup.set(entry.group, {
+          ...entry,
+          rankIndex
+        });
+      });
+
+      const slots = OFFICIAL_THIRD_PLACE_SLOTS.map((slot) => ({
+        ...slot,
+        candidates: slot.allowed
+          .map((group) => byGroup.get(group))
+          .filter(Boolean)
+          .sort((a, b) => a.rankIndex - b.rankIndex || a.group.localeCompare(b.group, "es"))
+      }));
+
+      const pickOrder = slots
+        .map((slot, index) => ({ ...slot, index }))
+        .sort((a, b) => a.candidates.length - b.candidates.length || a.index - b.index);
+
+      function backtrack(position, usedGroups, current) {
+        if (position >= pickOrder.length) return true;
+        const slot = pickOrder[position];
+
+        for (const candidate of slot.candidates) {
+          if (usedGroups.has(candidate.group)) continue;
+          usedGroups.add(candidate.group);
+          current[slot.slot] = candidate;
+          if (backtrack(position + 1, usedGroups, current)) return true;
+          delete current[slot.slot];
+          usedGroups.delete(candidate.group);
+        }
+        return false;
+      }
+
+      backtrack(0, new Set(), assignments);
+      return assignments;
+    }
+
+    function applyBracketOverrides(knockoutMatches) {
+      knockoutMatches.forEach((match) => {
+        const override = bracketOverrides[match.id];
+        if (!override) return;
+        const home = String(override.home || "").trim();
+        const away = String(override.away || "").trim();
+        if (!home && !away) return;
+
+        if (home) {
+          match.home = home;
+          match.homeSeed = "MAN";
+        }
+        if (away) {
+          match.away = away;
+          match.awaySeed = "MAN";
+        }
+
+        const hasBoth = Boolean(home && away);
+        match.source = hasBoth ? "Manual admin" : "Manual admin (parcial)";
+      });
     }
 
     function hydrateKnockout(recursive = true) {
       const knockout = buildKnockoutBase();
 
-      if (GROUP_MATCHES.every((match) => isFinalResult(results[match.id]))) {
-        const qualifiers = getQualifiers();
-        const topHalf = qualifiers.slice(0, 16);
-        const bottomHalf = qualifiers.slice(16).reverse();
+      const { seedMap, qualifiedThirds } = getKnockoutInputs();
+      const thirdAssignments = assignOfficialThirdPlaceSlots(qualifiedThirds);
+      const roundOf32 = knockout.filter((match) => match.phase === "Dieciseisavos");
 
-        for (let index = 0; index < 16; index += 1) {
-          knockout[index].home = topHalf[index]?.team || "";
-          knockout[index].away = bottomHalf[index]?.team || "";
-          knockout[index].homeSeed = topHalf[index]?.seed || "";
-          knockout[index].awaySeed = bottomHalf[index]?.seed || "";
-          knockout[index].source = `${topHalf[index]?.seed || ""} vs ${bottomHalf[index]?.seed || ""}`;
+      OFFICIAL_ROUND_OF_32_RULES.forEach((rule, index) => {
+        const match = roundOf32[index];
+        if (!match) return;
+
+        match.homeSeed = rule.homeSeed;
+        match.home = seedMap[rule.homeSeed] || "";
+
+        if (rule.awaySeed) {
+          match.awaySeed = rule.awaySeed;
+          match.away = seedMap[rule.awaySeed] || "";
+        } else if (rule.thirdSlot) {
+          const assignedThird = thirdAssignments[rule.thirdSlot];
+          match.awaySeed = assignedThird ? `3${assignedThird.group}` : "3?";
+          match.away = assignedThird?.team || "";
         }
-      }
+
+        const fixedTeams = FIXED_ROUND_OF_32_TEAMS[rule.matchNo];
+        if (fixedTeams) {
+          match.home = fixedTeams.home;
+          match.away = fixedTeams.away;
+          match.homeSeed = "LOCK";
+          match.awaySeed = "LOCK";
+        }
+
+        match.source = `FIFA M${rule.matchNo}: ${match.homeSeed} vs ${match.awaySeed || "Por definir"}`;
+      });
+
+      applyBracketOverrides(knockout);
 
       if (!recursive) return knockout;
 
@@ -8784,6 +8977,8 @@
         }
       });
 
+      applyBracketOverrides(knockout);
+
       return knockout;
     }
 
@@ -8793,8 +8988,8 @@
           .map((player) => {
             const value = player.name;
             const isStarter = match ? isStarterForMatch(match, player.name) : false;
-            const starterPrefix = isStarter ? "⭐ TIT · " : "";
-            const label = `${starterPrefix}${player.name} · ${player.pos}`;
+            const starterPrefix = isStarter ? "â­ TIT Â· " : "";
+            const label = `${starterPrefix}${player.name} Â· ${player.pos}`;
             return {
               isStarter,
               html: `<option value="${escapeHtml(value)}" ${selected === value ? "selected" : ""}>${escapeHtml(label)}</option>`
@@ -8826,7 +9021,7 @@
           const isSelected = selectedSet.has(normalized);
           return {
             isSelected,
-            html: `<option value="${escapeHtml(value)}" ${isSelected ? "selected" : ""}>${escapeHtml(player.name)} · ${escapeHtml(player.pos)}</option>`
+            html: `<option value="${escapeHtml(value)}" ${isSelected ? "selected" : ""}>${escapeHtml(player.name)} Â· ${escapeHtml(player.pos)}</option>`
           };
         })
         .sort((a, b) => Number(b.isSelected) - Number(a.isSelected))
@@ -8838,27 +9033,20 @@
       const selectedSet = new Set((selected || []).map((name) => normalizePlayerName(name)));
       return (ROSTERS[team] || []).map((player) => {
         const active = selectedSet.has(normalizePlayerName(player.name));
-        const label = `${player.name} · ${player.pos}`;
-        return `<button type="button" class="lineup-toggle-item ${active ? "active" : ""}" data-lineup-side="${side}" data-player-name="${escapeHtml(player.name)}" data-player-label="${escapeHtml(label)}">${active ? "✅ " : ""}${escapeHtml(label)}</button>`;
+        const label = `${player.name} Â· ${player.pos}`;
+        return `<button type="button" class="lineup-toggle-item ${active ? "active" : ""}" data-lineup-side="${side}" data-player-name="${escapeHtml(player.name)}" data-player-label="${escapeHtml(label)}">${active ? "âœ… " : ""}${escapeHtml(label)}</button>`;
       }).join("");
     }
 
-    function lineupAdminRows(team, side, starterSelected = [], yellowSelected = [], redSelected = []) {
+    function lineupAdminRows(team, side, starterSelected = []) {
       const starterSet = new Set((starterSelected || []).map((name) => normalizePlayerName(name)));
-      const yellowSet = new Set((yellowSelected || []).map((name) => normalizePlayerName(name)));
-      const redSet = new Set((redSelected || []).map((name) => normalizePlayerName(name)));
 
       return (ROSTERS[team] || []).map((player) => {
         const starterActive = starterSet.has(normalizePlayerName(player.name));
-        const cardKey = `${player.name} - ${team}`;
-        const yellowActive = yellowSet.has(normalizePlayerName(cardKey));
-        const redActive = redSet.has(normalizePlayerName(cardKey));
-        const label = `${player.name} · ${player.pos}`;
+        const label = `${player.name} Â· ${player.pos}`;
         return `
           <div class="admin-lineup-row">
-            <button type="button" class="lineup-toggle-item ${starterActive ? "active" : ""}" data-lineup-side="${side}" data-player-name="${escapeHtml(player.name)}" data-player-label="${escapeHtml(label)}">${starterActive ? "✅ " : ""}${escapeHtml(label)}</button>
-            <label class="admin-card-flag"><input type="checkbox" class="card-yellow-input" data-card-player="${escapeHtml(cardKey)}" ${yellowActive ? "checked" : ""}>🟨</label>
-            <label class="admin-card-flag"><input type="checkbox" class="card-red-input" data-card-player="${escapeHtml(cardKey)}" ${redActive ? "checked" : ""}>🟥</label>
+            <button type="button" class="lineup-toggle-item ${starterActive ? "active" : ""}" data-lineup-side="${side}" data-player-name="${escapeHtml(player.name)}" data-player-label="${escapeHtml(label)}">${starterActive ? "âœ… " : ""}${escapeHtml(label)}</button>
             <span class="pill">${escapeHtml(player.pos)}</span>
           </div>
         `;
@@ -8869,8 +9057,8 @@
       const selectedSet = new Set((selected || []).map((name) => normalizePlayerName(name)));
       return candidates.map((playerLabel) => {
         const active = selectedSet.has(normalizePlayerName(playerLabel));
-        const prefix = color === "yellow" ? "🟨" : "🟥";
-        return `<button type="button" class="lineup-toggle-item card-toggle-item ${active ? `active-${color}` : ""}" data-card-color="${color}" data-card-player="${escapeHtml(playerLabel)}">${active ? "✅ " : ""}${prefix} ${escapeHtml(playerLabel)}</button>`;
+        const prefix = color === "yellow" ? "ðŸŸ¨" : "ðŸŸ¥";
+        return `<button type="button" class="lineup-toggle-item card-toggle-item ${active ? `active-${color}` : ""}" data-card-color="${color}" data-card-player="${escapeHtml(playerLabel)}">${active ? "âœ… " : ""}${prefix} ${escapeHtml(playerLabel)}</button>`;
       }).join("");
     }
 
@@ -8971,10 +9159,10 @@
     }
 
     async function savePrediction(match, card) {
-      if (!currentUser) return toast("Inicia sesión para guardar tu quiniela.");
+      if (!currentUser) return toast("Inicia sesiÃ³n para guardar tu quiniela.");
       if (isMatchLocked(match)) {
         delete predictionDrafts[match.id];
-        return toast("Este partido ya está bloqueado porque ya inició.");
+        return toast("Este partido ya estÃ¡ bloqueado porque ya iniciÃ³.");
       }
 
       const homeScore = numberOrNull(card.querySelector(".pred-home").value);
@@ -9007,7 +9195,7 @@
         scorer: data.scorer,
         winnerTeam: data.winnerTeam
       };
-      toast("Pronóstico guardado ✅");
+      toast("PronÃ³stico guardado âœ…");
     }
 
     async function saveResult(match, card) {
@@ -9048,7 +9236,7 @@
         winnerTeam: data.winnerTeam
       };
       await recalculateAllPoints(false);
-      toast("Resultado guardado y puntos recalculados ✅");
+      toast("Resultado guardado y puntos recalculados âœ…");
     }
 
     function parseLineupText(raw) {
@@ -9100,39 +9288,39 @@
 
       lineupDrafts[match.id] = { home: homeStarters, away: awayStarters };
 
-      toast("Titulares guardados ✅");
+      toast("Titulares guardados âœ…");
     }
 
-    async function saveCards(match, card) {
-      if (!isAdmin()) return toast("Solo el admin puede guardar tarjetas.");
+    async function saveBracketOverride(match, card) {
+      if (!isAdmin()) return toast("Solo el admin puede editar cruces manuales.");
+      if (!match || match.phase === "Grupos") return;
 
-      const yellow = Array.from(card.querySelectorAll('.card-yellow-input:checked'))
-        .map((input) => String(input.dataset.cardPlayer || "").trim())
-        .filter(Boolean)
-        .slice(0, 30);
-      const red = Array.from(card.querySelectorAll('.card-red-input:checked'))
-        .map((input) => String(input.dataset.cardPlayer || "").trim())
-        .filter(Boolean)
-        .slice(0, 30);
+      const home = String(card.querySelector(".manual-bracket-home")?.value || "").trim().slice(0, 48);
+      const away = String(card.querySelector(".manual-bracket-away")?.value || "").trim().slice(0, 48);
 
-      if (!yellow.length && !red.length) {
-        await deleteDoc(leagueDoc("cards", match.id));
-        toast("Tarjetas eliminadas para este partido.");
-        return;
+      if (!home && !away) {
+        return toast("Escribe al menos un equipo para guardar manualmente.");
       }
 
-      await setDoc(leagueDoc("cards", match.id), {
+      await setDoc(leagueDoc("bracketOverrides", match.id), {
         matchId: match.id,
-        yellow,
-        red,
-        source: "manual-admin",
+        phase: match.phase,
+        home,
+        away,
+        updatedBy: currentUser?.email || "admin",
         leagueCode: currentLeagueCode,
         updatedAt: serverTimestamp()
       }, { merge: true });
 
-      cardsDrafts[match.id] = { yellow, red };
+      toast("Cruce manual guardado âœ…");
+    }
 
-      toast("Tarjetas guardadas ✅");
+    async function clearBracketOverride(match) {
+      if (!isAdmin()) return toast("Solo el admin puede limpiar cruces manuales.");
+      if (!match || match.phase === "Grupos") return;
+
+      await deleteDoc(leagueDoc("bracketOverrides", match.id));
+      toast("Cruce manual limpiado: volviÃ³ a automÃ¡tico âœ…");
     }
 
     async function clearResult(match) {
@@ -9140,12 +9328,12 @@
       await deleteDoc(leagueDoc("results", match.id));
       delete resultDrafts[match.id];
       await recalculateAllPoints(false);
-      toast("Resultado limpiado ✅");
+      toast("Resultado limpiado âœ…");
     }
 
     async function clearAllResults() {
       if (!isAdmin()) return toast("Solo el admin puede resetear resultados.");
-      if (!confirm("¿Seguro que quieres borrar todos los resultados cargados?")) return;
+      if (!confirm("Â¿Seguro que quieres borrar todos los resultados cargados?")) return;
 
       const snapshot = await getDocs(leagueCollection("results"));
       if (snapshot.empty) {
@@ -9157,15 +9345,15 @@
       snapshot.forEach((item) => batch.delete(item.ref));
       await batch.commit();
       await recalculateAllPoints(false);
-      toast("Todos los resultados fueron reseteados ✅");
+      toast("Todos los resultados fueron reseteados âœ…");
     }
 
     async function saveChampionPick() {
-      if (!currentUser) return toast("Inicia sesión para elegir campeón.");
-      if (Date.now() >= CHAMPION_LOCK_DATE.getTime()) return toast("La selección de campeón ya está bloqueada.");
+      if (!currentUser) return toast("Inicia sesiÃ³n para elegir campeÃ³n.");
+      if (Date.now() >= CHAMPION_LOCK_DATE.getTime()) return toast("La selecciÃ³n de campeÃ³n ya estÃ¡ bloqueada.");
 
       const team = $("championSelect").value;
-      if (!team) return toast("Elige un campeón.");
+      if (!team) return toast("Elige un campeÃ³n.");
 
       await setDoc(leagueDoc("championPicks", currentUser.uid), {
         userId: currentUser.uid,
@@ -9175,7 +9363,7 @@
         updatedAt: serverTimestamp()
       }, { merge: true });
 
-      toast(`Campeón guardado: ${team} 🏆`);
+      toast(`CampeÃ³n guardado: ${team} ðŸ†`);
     }
 
     async function recalculateAllPoints(showToast = true) {
@@ -9231,7 +9419,7 @@
       });
 
       await batch.commit();
-      if (showToast) toast("Puntos recalculados ✅");
+      if (showToast) toast("Puntos recalculados âœ…");
     }
 
     async function syncFootballData() {
@@ -9334,7 +9522,7 @@
         });
 
         if (!saved) {
-          toast("No hubo alineaciones válidas para guardar.");
+          toast("No hubo alineaciones vÃ¡lidas para guardar.");
           return;
         }
 
@@ -9348,16 +9536,17 @@
 
     function renderTabs() {
       const tabs = [
-        ["matches", "🎯 Pronósticos"],
-        ["groups", "📊 Grupos"],
-        ["picks", "🧾 Picks"],
-        ["ia", "🤖 IA"],
-        ["bracket", "🏆 Bracket"],
-        ["ranking", "🥇 Tabla"],
-        ["rules", "📖 Reglas"],
-        ["venues", "🏟️ Sedes"],
-        ["teams", "👥 Equipos"],
-        ["admin", "👑 Admin"]
+        ["matches", "ðŸŽ¯ PronÃ³sticos"],
+        ["groups", "ðŸ“Š Grupos"],
+        ["picks", "ðŸ§¾ Picks"],
+        ["pendientes", "âš ï¸ Pendientes"],
+        ["ia", "ðŸ¤– IA"],
+        ["bracket", "ðŸ† Bracket"],
+        ["ranking", "ðŸ¥‡ Tabla"],
+        ["rules", "ðŸ“– Reglas"],
+        ["venues", "ðŸŸï¸ Sedes"],
+        ["teams", "ðŸ‘¥ Equipos"],
+        ["admin", "ðŸ‘‘ Admin"]
       ];
 
       $("tabs").innerHTML = tabs.map(([id, label], index) => {
@@ -9387,7 +9576,7 @@
       if (demoGroup) {
         demoGroup.innerHTML = `<option value="">Todos los grupos/fases</option>` +
           Object.keys(GROUPS).map((group) => `<option value="${group}">Grupo ${group}</option>`).join("") +
-          `<option value="KO">Eliminación directa</option>`;
+          `<option value="KO">EliminaciÃ³n directa</option>`;
       }
     }
 
@@ -9397,11 +9586,11 @@
       if (currentUser) {
         badge.classList.remove("bad");
         badge.classList.add("good");
-        badge.textContent = `Sesión activa: ${preferredUserName(currentUser.uid)}`;
+        badge.textContent = `SesiÃ³n activa: ${preferredUserName(currentUser.uid)}`;
       } else {
         badge.classList.remove("good");
         badge.classList.add("bad");
-        badge.textContent = "No has iniciado sesión";
+        badge.textContent = "No has iniciado sesiÃ³n";
       }
     }
 
@@ -9411,11 +9600,11 @@
       const preview = $("championFlagPreview");
       $("championSelect").disabled = locked || !currentUser;
       $("saveChampionButton").disabled = locked || !currentUser;
-      $("championSelect").innerHTML = `<option value="">Selecciona campeón</option>` +
+      $("championSelect").innerHTML = `<option value="">Selecciona campeÃ³n</option>` +
         TEAMS.map((team) => `<option value="${escapeHtml(team)}" ${team === currentPick ? "selected" : ""}>${escapeHtml(team)}</option>`).join("");
       if (!preview) return;
       if (!currentPick) {
-        preview.innerHTML = "Bandera campeón";
+        preview.innerHTML = "Bandera campeÃ³n";
         return;
       }
       preview.innerHTML = `${teamFlagMarkup(currentPick, 20)} ${escapeHtml(currentPick)}`;
@@ -9520,7 +9709,7 @@
         <div class="team-insight">
           <div>
             <h3>${teamNameWithFlag(selectedTeam, 30)}</h3>
-            <p>Edición previa del partido • Grupo ${escapeHtml(group)} • Estilo medio deportivo</p>
+            <p>EdiciÃ³n previa del partido â€¢ Grupo ${escapeHtml(group)} â€¢ Estilo medio deportivo</p>
           </div>
           <div class="toolbar" style="margin:0;"><span class="pill gold">${escapeHtml(formation)}</span><span class="pill">XI: ${starters}</span></div>
         </div>
@@ -9528,7 +9717,7 @@
           <div class="lineup-pitch">
             <div class="pitch-head">
               <h4>${liveStarters.length ? "XI titular sobre cancha" : "XI esperado sobre cancha"}</h4>
-              <span class="pill">Alineación ${escapeHtml(formation)}</span>
+              <span class="pill">AlineaciÃ³n ${escapeHtml(formation)}</span>
             </div>
             <div class="pitch-canvas">
               <div class="pitch-midline"></div>
@@ -9552,22 +9741,22 @@
             </div>
             ${liveMatch && liveStarters.length ? `
               <div class="lineup-live-box">
-                <div><b>⭐ Titulares confirmados</b> · ${escapeHtml(liveMatch.id)} · ${escapeHtml(formatDate(liveMatch.date))}</div>
+                <div><b>â­ Titulares confirmados</b> Â· ${escapeHtml(liveMatch.id)} Â· ${escapeHtml(formatDate(liveMatch.date))}</div>
                 <div class="lineup-live-list">
                   ${liveStarters.map((name) => `<span class="lineup-live-chip">${escapeHtml(name)}</span>`).join("")}
                 </div>
               </div>
             ` : `
               <div class="lineup-live-box">
-                <div><b>⏳ Titulares live</b> aún no disponibles para este equipo.</div>
+                <div><b>â³ Titulares live</b> aÃºn no disponibles para este equipo.</div>
               </div>
             `}
             ${cardMatch ? `
               <div class="lineup-live-box">
-                <div><b>🟨🟥 Tarjetas registradas</b> · ${escapeHtml(cardMatch.id)} · ${escapeHtml(formatDate(cardMatch.date))}</div>
+                <div><b>ðŸŸ¨ðŸŸ¥ Tarjetas registradas</b> Â· ${escapeHtml(cardMatch.id)} Â· ${escapeHtml(formatDate(cardMatch.date))}</div>
                 <div class="lineup-live-list" style="margin-top:6px;">
-                  <span class="lineup-live-chip">🟨 ${teamYellow.length}</span>
-                  <span class="lineup-live-chip">🟥 ${teamRed.length}</span>
+                  <span class="lineup-live-chip">ðŸŸ¨ ${teamYellow.length}</span>
+                  <span class="lineup-live-chip">ðŸŸ¥ ${teamRed.length}</span>
                 </div>
                 ${teamYellow.length ? `<div style="margin-top:8px;"><b>Amarillas:</b> ${escapeHtml(teamYellow.join(", "))}</div>` : ""}
                 ${teamRed.length ? `<div style="margin-top:6px;"><b>Rojas:</b> ${escapeHtml(teamRed.join(", "))}</div>` : ""}
@@ -9575,7 +9764,7 @@
               </div>
             ` : `
               <div class="lineup-live-box">
-                <div><b>🟨🟥 Tarjetas</b> sin registros todavía para este equipo.</div>
+                <div><b>ðŸŸ¨ðŸŸ¥ Tarjetas</b> sin registros todavÃ­a para este equipo.</div>
               </div>
             `}
           </div>
@@ -9707,7 +9896,7 @@
             <section class="day-section${collapsedClass}" data-day-key="${escapeHtml(section.key)}">
               <h3 class="day-title">
                 <span>${escapeHtml(section.label)}</span>
-                ${isPast ? `<span class="day-count">${section.matches.length} partidos ▼</span>` : ""}
+                ${isPast ? `<span class="day-count">${section.matches.length} partidos â–¼</span>` : ""}
               </h3>
               <div class="match-list-horizontal">
                 ${cardsHtml}
@@ -9766,7 +9955,7 @@
       return `
         <article class="match-card glass" data-match-id="${match.id}">
           <div class="match-head">
-            <span>${escapeHtml(match.phase)} ${match.group !== "KO" ? `· Grupo ${match.group}` : ""}</span>
+            <span>${escapeHtml(match.phase)} ${match.group !== "KO" ? `Â· Grupo ${match.group}` : ""}</span>
             <span>${formatDate(match.date)}</span>
           </div>
 
@@ -9783,24 +9972,24 @@
           </div>
 
           <div class="result-row">
-            <span class="pill ${locked ? "bad" : "good"}">${locked ? "🔒 Bloqueado" : "🟢 Abierto"}</span>
+            <span class="pill ${locked ? "bad" : "good"}">${locked ? "ðŸ”’ Bloqueado" : "ðŸŸ¢ Abierto"}</span>
             <span class="pill gold">x${MULTIPLIERS[match.phase] || 1}</span>
             <span class="pill">Bloquea CDMX: ${formatLockTimeCdmx(match.date)}</span>
             <span class="pill info">Resultado: ${isFinalResult(result) ? `${result.homeScore}-${result.awayScore}` : "pendiente"}</span>
-            ${yellowCount ? `<span class="pill" title="Tarjetas amarillas">🟨 ${yellowCount}</span>` : ""}
-            ${redCount ? `<span class="pill bad" title="Tarjetas rojas">🟥 ${redCount}</span>` : ""}
-            <span class="pill ${hasLineup ? "live" : "bad"}">${hasLineup ? "⭐ XI titulares disponibles" : "⏳ XI titulares pendientes"}</span>
+            ${yellowCount ? `<span class="pill" title="Tarjetas amarillas">ðŸŸ¨ ${yellowCount}</span>` : ""}
+            ${redCount ? `<span class="pill bad" title="Tarjetas rojas">ðŸŸ¥ ${redCount}</span>` : ""}
+            <span class="pill ${hasLineup ? "live" : "bad"}">${hasLineup ? "â­ XI titulares disponibles" : "â³ XI titulares pendientes"}</span>
             <span class="pill good">Mis pts: ${points}</span>
           </div>
 
           <div class="prediction-inputs">
             <input class="pred-home" type="number" min="0" max="30" placeholder="Goles ${escapeHtml(match.home || "local")}" value="${viewHomeScore}" ${locked ? "disabled" : ""} />
             <input class="pred-away" type="number" min="0" max="30" placeholder="Goles ${escapeHtml(match.away || "visita")}" value="${viewAwayScore}" ${locked ? "disabled" : ""} />
-            <label>⚽ Primer goleador</label>
+            <label>âš½ Primer goleador</label>
             <select class="pred-scorer wide" ${locked ? "disabled" : ""}>${scorerOptions(match.home, match.away, viewScorer, match)}</select>
             <div class="scorer-preview wide">
               ${selectedScorer
-                ? `${playerImageTag(selectedScorer.name, 28)}<span>${escapeHtml(selectedScorer.name)} · ${escapeHtml(selectedScorer.pos)}${isStarterForMatch(match, selectedScorer.name) ? '<span class="starter-dot">⭐ Titular</span>' : ""}</span>`
+                ? `${playerImageTag(selectedScorer.name, 28)}<span>${escapeHtml(selectedScorer.name)} Â· ${escapeHtml(selectedScorer.pos)}${isStarterForMatch(match, selectedScorer.name) ? '<span class="starter-dot">â­ Titular</span>' : ""}</span>`
                 : isNoScorerSelection(viewScorer)
                   ? '<span class="muted">Nadie anota.</span>'
                   : '<span class="muted">Selecciona goleador.</span>'}
@@ -9812,7 +10001,7 @@
               </div>
             ` : ""}
             ${winnerSelect(match, viewWinnerTeam)}
-            <button class="btn btn-gold wide save-prediction" ${locked || !currentUser ? "disabled" : ""}>💾 Guardar predicción</button>
+            <button class="btn btn-gold wide save-prediction" ${locked || !currentUser ? "disabled" : ""}>ðŸ’¾ Guardar predicciÃ³n</button>
           </div>
         </article>
       `;
@@ -9820,10 +10009,8 @@
 
     function renderAdminMatchCard(match, result) {
       const lineup = getLiveLineup(match.id) || {};
-      const cardInfo = cards[match.id] || {};
       const draftResult = resultDrafts[match.id] || {};
       const draftLineup = lineupDrafts[match.id] || {};
-      const draftCards = cardsDrafts[match.id] || {};
       const hasDraftHome = Object.prototype.hasOwnProperty.call(draftResult, "homeScore");
       const hasDraftAway = Object.prototype.hasOwnProperty.call(draftResult, "awayScore");
       const hasDraftScorer = Object.prototype.hasOwnProperty.call(draftResult, "scorer");
@@ -9834,16 +10021,27 @@
       const viewWinnerTeam = hasDraftWinnerTeam ? draftResult.winnerTeam : (result.winnerTeam || "");
       const homeSelected = Array.isArray(draftLineup.home) ? draftLineup.home : (lineup.homeStarters || []);
       const awaySelected = Array.isArray(draftLineup.away) ? draftLineup.away : (lineup.awayStarters || []);
-      const yellowSelected = Array.isArray(draftCards.yellow) ? draftCards.yellow : (cardInfo.yellow || []);
-      const redSelected = Array.isArray(draftCards.red) ? draftCards.red : (cardInfo.red || []);
       const hasLineup = homeSelected.length > 0 || awaySelected.length > 0;
-      const hasCards = yellowSelected.length > 0 || redSelected.length > 0;
       const expanded = !adminCompactMode || Boolean(adminCardExpanded[match.id]);
+      const bracketOverride = bracketOverrides[match.id] || {};
+      const overrideHome = String(bracketOverride.home || "");
+      const overrideAway = String(bracketOverride.away || "");
+      const hasManualOverride = Boolean(overrideHome || overrideAway);
+      const manualBracketControls = match.phase !== "Grupos" ? `
+            <div class="lineup-live-box wide">
+              <label class="wide">ðŸ§© Cruce manual (opcional)</label>
+              <input class="manual-bracket-home" type="text" maxlength="48" placeholder="Equipo local manual" value="${escapeHtml(overrideHome)}" />
+              <input class="manual-bracket-away" type="text" maxlength="48" placeholder="Equipo visitante manual" value="${escapeHtml(overrideAway)}" />
+              <button class="btn wide save-bracket-manual">ðŸ§© Guardar cruce manual</button>
+              <button class="btn wide clear-bracket-manual">â†©ï¸ Volver a automÃ¡tico</button>
+              <span class="pill ${hasManualOverride ? "gold" : "info"}">${hasManualOverride ? "Manual activo" : "AutomÃ¡tico activo"}</span>
+            </div>
+      ` : "";
 
       return `
         <article class="match-card glass" data-match-id="${match.id}">
           <div class="match-head">
-            <span>${escapeHtml(match.phase)} ${match.group !== "KO" ? `· Grupo ${match.group}` : ""}</span>
+            <span>${escapeHtml(match.phase)} ${match.group !== "KO" ? `Â· Grupo ${match.group}` : ""}</span>
             <span>${formatDate(match.date)}</span>
           </div>
 
@@ -9856,28 +10054,27 @@
           <div class="prediction-inputs admin-panel">
             <input class="result-home" type="number" min="0" max="30" placeholder="Goles local" value="${viewHomeScore}" />
             <input class="result-away" type="number" min="0" max="30" placeholder="Goles visita" value="${viewAwayScore}" />
-            <label>⚽ Primer goleador real</label>
+            <label>âš½ Primer goleador real</label>
             <select class="result-scorer wide">${scorerOptions(match.home, match.away, viewScorer, match)}</select>
             ${winnerSelect(match, viewWinnerTeam, "result-winnerTeam")}
             <span class="pill info wide">Tip: puedes guardar marcador primero y luego regresar a poner goleador.</span>
-            <button class="btn btn-gold wide save-result">📝 Guardar resultado</button>
-            <button class="btn wide clear-result">🗑️ Limpiar resultado</button>
+            <button class="btn btn-gold wide save-result">ðŸ“ Guardar resultado</button>
+            <button class="btn wide clear-result">ðŸ—‘ï¸ Limpiar resultado</button>
             ${adminCompactMode ? `<button class="btn wide toggle-admin-extra" data-match-id="${escapeHtml(match.id)}">${expanded ? "Ocultar XI/Tarjetas" : "Editar XI y Tarjetas"}</button>` : ""}
             <div class="admin-extra ${expanded ? "" : "hide"}">
-            <label class="wide">⭐ Titulares ${escapeHtml(match.home || "Local")} (elige máximo 11)</label>
+            <label class="wide">â­ Titulares ${escapeHtml(match.home || "Local")} (elige mÃ¡ximo 11)</label>
             <div class="pill">Seleccionados: <b class="lineup-count-home">${homeSelected.length}</b>/11</div>
             <div class="admin-lineup-grid wide">
-              ${lineupAdminRows(match.home, "home", homeSelected, yellowSelected, redSelected)}
+              ${lineupAdminRows(match.home, "home", homeSelected)}
             </div>
-            <label class="wide">⭐ Titulares ${escapeHtml(match.away || "Visitante")} (elige máximo 11)</label>
+            <label class="wide">â­ Titulares ${escapeHtml(match.away || "Visitante")} (elige mÃ¡ximo 11)</label>
             <div class="pill">Seleccionados: <b class="lineup-count-away">${awaySelected.length}</b>/11</div>
             <div class="admin-lineup-grid wide">
-              ${lineupAdminRows(match.away, "away", awaySelected, yellowSelected, redSelected)}
+              ${lineupAdminRows(match.away, "away", awaySelected)}
             </div>
-            <button class="btn wide save-lineup">⭐ Guardar titulares</button>
+            <button class="btn wide save-lineup">â­ Guardar titulares</button>
             <span class="pill ${hasLineup ? "live" : "bad"}">${hasLineup ? "Titulares capturados" : "Sin titulares capturados"}</span>
-            <button class="btn wide save-cards">🟨🟥 Guardar tarjetas</button>
-            <span class="pill ${hasCards ? "gold" : "bad"}">${hasCards ? "Tarjetas capturadas" : "Sin tarjetas capturadas"}</span>
+            ${manualBracketControls}
             </div>
           </div>
         </article>
@@ -9894,8 +10091,8 @@
               <span class="pill gold">Top 2 avanzan</span>
             </div>
             <div class="group-legend">
-              <span class="pill">✅ Clasifica directo</span>
-              <span class="pill">⭐ En pelea</span>
+              <span class="pill">âœ… Clasifica directo</span>
+              <span class="pill">â­ En pelea</span>
             </div>
             <div class="table-wrap">
               <table class="table-sports">
@@ -9945,7 +10142,7 @@
                 : "";
               return `
                 <div class="bracket-match">
-                  <div class="pill">${escapeHtml(match.source)} · ${formatDate(match.date)}</div>
+                  <div class="pill">${escapeHtml(match.source)} Â· ${formatDate(match.date)}</div>
                   <div class="bracket-team ${winner === match.home ? "win" : ""}">
                     <span>${escapeHtml(match.home || "Por definir")}</span>
                     <b>${isFinalResult(result) ? result.homeScore : ""}</b>
@@ -9974,19 +10171,19 @@
       }).sort((a, b) => b.points - a.points || a.email.localeCompare(b.email));
 
       $("rankingList").innerHTML = rows.map((row, index) => {
-        const medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : "";
+        const medal = index === 0 ? "ðŸ¥‡" : index === 1 ? "ðŸ¥ˆ" : index === 2 ? "ðŸ¥‰" : "";
         return `
           <div class="rank-card glass clickable" data-player-uid="${escapeHtml(row.uid)}" tabindex="0" role="button" aria-label="Ver detalle de ${escapeHtml(row.name)}">
             <div class="rank-badge">${index + 1}</div>
             <div>
               <b>${escapeHtml(row.name)} ${medal}</b>
-              <div class="pill">Campeón: ${escapeHtml(row.champion || "sin pick")}</div>
+              <div class="pill">CampeÃ³n: ${escapeHtml(row.champion || "sin pick")}</div>
               <div class="rank-hint">Toca para ver detalle por partido</div>
             </div>
             <b>${row.points} pts</b>
           </div>
         `;
-      }).join("") || `<div class="glass notice">Aún no hay participantes.</div>`;
+      }).join("") || `<div class="glass notice">AÃºn no hay participantes.</div>`;
     }
 
     function closePlayerDetail() {
@@ -10082,14 +10279,14 @@
 
       $("playerDetailRows").innerHTML = visibleRows.map((item) => {
         const pickLabel = item.prediction
-          ? `${Number(item.prediction.homeScore)}-${Number(item.prediction.awayScore)}${item.prediction.scorer ? ` · ${escapeHtml(scorerLabel(item.prediction.scorer))}` : ""}`
+          ? `${Number(item.prediction.homeScore)}-${Number(item.prediction.awayScore)}${item.prediction.scorer ? ` Â· ${escapeHtml(scorerLabel(item.prediction.scorer))}` : ""}`
           : "Sin pick";
         return `
           <tr>
-            <td>${escapeHtml(item.match.id)} · ${teamNameWithFlag(item.match.home || "Local", 18)} vs ${teamNameWithFlag(item.match.away || "Visitante", 18)}</td>
+            <td>${escapeHtml(item.match.id)} Â· ${teamNameWithFlag(item.match.home || "Local", 18)} vs ${teamNameWithFlag(item.match.away || "Visitante", 18)}</td>
             <td>${escapeHtml(formatDate(item.match.date))}</td>
             <td>${pickLabel}</td>
-            <td>${Number(item.result.homeScore)}-${Number(item.result.awayScore)}${item.result.scorer ? ` · ${escapeHtml(scorerLabel(item.result.scorer))}` : ""}</td>
+            <td>${Number(item.result.homeScore)}-${Number(item.result.awayScore)}${item.result.scorer ? ` Â· ${escapeHtml(scorerLabel(item.result.scorer))}` : ""}</td>
             <td><b>${item.points}</b></td>
           </tr>
         `;
@@ -10100,13 +10297,13 @@
         const hasMore = filteredRows.length > visibleRows.length;
         loadMoreButton.classList.toggle("hide", !hasMore);
         loadMoreButton.textContent = hasMore
-          ? `Cargar más (${filteredRows.length - visibleRows.length} restantes)`
+          ? `Cargar mÃ¡s (${filteredRows.length - visibleRows.length} restantes)`
           : "";
       }
 
       $("playerDetailEmpty").textContent = hasFilters
         ? "No hay partidos que coincidan con el filtro."
-        : "Aún no hay partidos cerrados para mostrar.";
+        : "AÃºn no hay partidos cerrados para mostrar.";
       $("playerDetailEmpty").classList.toggle("hide", filteredRows.length > 0);
     }
 
@@ -10125,7 +10322,7 @@
           <div class="rank-card glass picks-card">
             <div class="picks-head">
               <div>
-                <b>${escapeHtml(match.id)} · ${teamNameWithFlag(match.home || "Por definir", 22)} vs ${teamNameWithFlag(match.away || "Por definir", 22)}</b>
+                <b>${escapeHtml(match.id)} Â· ${teamNameWithFlag(match.home || "Por definir", 22)} vs ${teamNameWithFlag(match.away || "Por definir", 22)}</b>
                 <div class="picks-meta">
                   <span>${escapeHtml(match.phase || "Partido")}</span>
                   <span>${escapeHtml(formatDate(match.date))}</span>
@@ -10134,7 +10331,7 @@
             </div>
             ${aiForecast ? `
               <div class="picks-lock-note">
-                <div><b>Pronóstico IA:</b> cálculo automático del sistema.</div>
+                <div><b>PronÃ³stico IA:</b> cÃ¡lculo automÃ¡tico del sistema.</div>
                 <div class="picks-consensus">
                   <div class="picks-signal">
                     <span class="picks-signal-label">Gana ${escapeHtml(match.home || "local")}</span>
@@ -10154,7 +10351,7 @@
                 </div>
               </div>
             ` : `
-              <div class="picks-lock-note">Pronóstico IA disponible cuando se definan ambos equipos.</div>
+              <div class="picks-lock-note">PronÃ³stico IA disponible cuando se definan ambos equipos.</div>
             `}
           </div>
         `;
@@ -10185,7 +10382,7 @@
 
       if (!selectedUid) {
         rowsTarget.innerHTML = `<tr><td colspan="6">Sin participantes en esta liga.</td></tr>`;
-        summary.textContent = "No hay jugadores disponibles todavía.";
+        summary.textContent = "No hay jugadores disponibles todavÃ­a.";
         return;
       }
 
@@ -10212,19 +10409,19 @@
       const picksCount = list.filter((row) => row.prediction).length;
       const closedCount = list.filter((row) => row.closed).length;
       const totalPoints = list.reduce((sum, row) => sum + Number(row.points || 0), 0);
-      summary.textContent = `${selectedLabel} · Picks ${picksCount}/${list.length} · Cerrados ${closedCount} · Puntos ${totalPoints}`;
+      summary.textContent = `${selectedLabel} Â· Picks ${picksCount}/${list.length} Â· Cerrados ${closedCount} Â· Puntos ${totalPoints}`;
 
       rowsTarget.innerHTML = list.map((row) => {
         const pickText = row.prediction
-          ? `${Number(row.prediction.homeScore)}-${Number(row.prediction.awayScore)}${row.prediction.scorer ? ` · ${escapeHtml(scorerLabel(row.prediction.scorer))}` : ""}`
+          ? `${Number(row.prediction.homeScore)}-${Number(row.prediction.awayScore)}${row.prediction.scorer ? ` Â· ${escapeHtml(scorerLabel(row.prediction.scorer))}` : ""}`
           : "Sin pick";
         const finalText = row.closed
-          ? `${Number(row.result.homeScore)}-${Number(row.result.awayScore)}${row.result.scorer ? ` · ${escapeHtml(scorerLabel(row.result.scorer))}` : ""}`
+          ? `${Number(row.result.homeScore)}-${Number(row.result.awayScore)}${row.result.scorer ? ` Â· ${escapeHtml(scorerLabel(row.result.scorer))}` : ""}`
           : "Pendiente";
         return `
           <tr>
-            <td>${escapeHtml(row.match.id)} · ${teamNameWithFlag(row.match.home || "Local", 18)} vs ${teamNameWithFlag(row.match.away || "Visitante", 18)}</td>
-            <td>${escapeHtml(row.match.phase)}${row.match.group ? ` · Grupo ${escapeHtml(row.match.group)}` : ""}</td>
+            <td>${escapeHtml(row.match.id)} Â· ${teamNameWithFlag(row.match.home || "Local", 18)} vs ${teamNameWithFlag(row.match.away || "Visitante", 18)}</td>
+            <td>${escapeHtml(row.match.phase)}${row.match.group ? ` Â· Grupo ${escapeHtml(row.match.group)}` : ""}</td>
             <td>${escapeHtml(formatDate(row.match.date))}</td>
             <td>${pickText}</td>
             <td>${finalText}</td>
@@ -10235,69 +10432,71 @@
     }
 
     function renderPicksPage() {
-      const items = getAllMatches().map((match) => {
-        const matchPredictions = Object.values(predictions).filter((prediction) => prediction.matchId === match.id);
+      const picksCompactBtn = $("picksCompactToggle");
+      if (picksCompactBtn) picksCompactBtn.textContent = compactPastPicks ? "Pasados: colapsados" : "Pasados: visibles";
 
+      const formatKey = new Intl.DateTimeFormat("en-CA", {
+        year: "numeric", month: "2-digit", day: "2-digit", timeZone: "America/Mexico_City"
+      });
+      const formatHeader = new Intl.DateTimeFormat("es-MX", {
+        weekday: "long", day: "numeric", month: "long", timeZone: "America/Mexico_City"
+      });
+      const todayKey = formatKey.format(new Date());
+
+      const allMatches = getAllMatches().sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
+      const sections = new Map();
+      allMatches.forEach((match) => {
+        const key = formatKey.format(new Date(match.date));
+        const label = formatHeader.format(new Date(match.date));
+        if (!sections.has(key)) sections.set(key, { key, label, matches: [] });
+        sections.get(key).matches.push(match);
+      });
+
+      function renderPickCard(match) {
+        const matchPredictions = Object.values(predictions).filter((p) => p.matchId === match.id);
         const locked = isMatchLocked(match);
         const showFullPicks = locked;
         const expanded = Object.prototype.hasOwnProperty.call(picksAccordionState, match.id)
           ? Boolean(picksAccordionState[match.id])
           : locked;
-
         const finalResult = results[match.id];
         const hasResult = isFinalResult(finalResult);
 
-        const scoredRows = matchPredictions
-          .map((prediction) => {
-            const uid = prediction.userId;
-            const result = results[match.id];
-            const points = calculatePredictionPoints(match, prediction, result);
-            const label = users[uid]?.name || prediction.userName || users[uid]?.email || uid || "Jugador";
-            return {
-              uid,
-              label,
-              points,
-              homeScore: Number(prediction.homeScore),
-              awayScore: Number(prediction.awayScore),
-              scorer: prediction.scorer || ""
-            };
-          })
-          .sort((a, b) => b.points - a.points || a.label.localeCompare(b.label, "es"));
+        const scoredRows = matchPredictions.map((prediction) => {
+          const uid = prediction.userId;
+          const points = calculatePredictionPoints(match, prediction, results[match.id]);
+          const label = users[uid]?.name || prediction.userName || users[uid]?.email || uid || "Jugador";
+          return { uid, label, points, homeScore: Number(prediction.homeScore), awayScore: Number(prediction.awayScore), scorer: prediction.scorer || "" };
+        }).sort((a, b) => b.points - a.points || a.label.localeCompare(b.label, "es"));
 
-        const rows = scoredRows.map((entry, index) => `
-          <tr class="${entry.uid === currentUser?.uid ? "picks-own" : ""}">
-            <td class="rank-col">${index + 1}</td>
-            <td>${escapeHtml(entry.label)}</td>
-            <td>${entry.homeScore}-${entry.awayScore}</td>
-            <td>${entry.scorer ? `⚽ ${escapeHtml(entry.scorer)}` : "-"}</td>
-            <td><b>${entry.points}</b></td>
-          </tr>
-        `);
-        const mobileRows = scoredRows.map((entry, index) => `
-          <div class="pick-mobile-item ${entry.uid === currentUser?.uid ? "picks-own" : ""}">
-            <div class="pick-mobile-top">
-              <b>${index + 1}. ${escapeHtml(entry.label)}</b>
-              <span>${entry.points} pts</span>
-            </div>
-            <div class="pick-mobile-meta">
-              <span class="pick-mobile-chip">Pick: ${entry.homeScore}-${entry.awayScore}</span>
-              <span class="pick-mobile-chip">Goleador: ${entry.scorer ? `⚽ ${escapeHtml(entry.scorer)}` : "-"}</span>
-            </div>
-          </div>
-        `);
-        const rowsHtml = rows.length
-          ? rows.join("")
-          : `<tr><td colspan="5" class="picks-empty-row">Sin picks todavía para este partido.</td></tr>`;
-        const mobileRowsHtml = mobileRows.length
-          ? mobileRows.join("")
-          : `<div class="picks-lock-note">Sin picks todavía para este partido.</div>`;
+        const rowsHtml = scoredRows.length
+          ? scoredRows.map((entry, index) => `
+            <tr class="${entry.uid === currentUser?.uid ? "picks-own" : ""}">
+              <td class="rank-col">${index + 1}</td>
+              <td>${escapeHtml(entry.label)}</td>
+              <td>${entry.homeScore}-${entry.awayScore}</td>
+              <td>${entry.scorer ? `âš½ ${escapeHtml(entry.scorer)}` : "-"}</td>
+              <td><b>${entry.points}</b></td>
+            </tr>`).join("")
+          : `<tr><td colspan="5" class="picks-empty-row">Sin picks todavÃ­a para este partido.</td></tr>`;
+
+        const mobileRowsHtml = scoredRows.length
+          ? scoredRows.map((entry, index) => `
+            <div class="pick-mobile-item ${entry.uid === currentUser?.uid ? "picks-own" : ""}">
+              <div class="pick-mobile-top"><b>${index + 1}. ${escapeHtml(entry.label)}</b><span>${entry.points} pts</span></div>
+              <div class="pick-mobile-meta">
+                <span class="pick-mobile-chip">Pick: ${entry.homeScore}-${entry.awayScore}</span>
+                <span class="pick-mobile-chip">Goleador: ${entry.scorer ? `âš½ ${escapeHtml(entry.scorer)}` : "-"}</span>
+              </div>
+            </div>`).join("")
+          : `<div class="picks-lock-note">Sin picks todavÃ­a para este partido.</div>`;
 
         return `
           <details class="rank-card glass picks-card picks-accordion" data-match-id="${escapeHtml(match.id)}" ${expanded ? "open" : ""}>
             <summary class="picks-summary">
               <div class="picks-head">
                 <div>
-                  <div class="picks-title">${escapeHtml(match.id)} · ${teamNameWithFlag(match.home || "Por definir", 22)} vs ${teamNameWithFlag(match.away || "Por definir", 22)}</div>
+                  <div class="picks-title">${escapeHtml(match.id)} Â· ${teamNameWithFlag(match.home || "Por definir", 22)} vs ${teamNameWithFlag(match.away || "Por definir", 22)}</div>
                   <div class="picks-meta">
                     <span class="picks-meta-pill">${escapeHtml(match.phase || "Partido")}</span>
                     <span class="picks-meta-pill">${escapeHtml(formatDate(match.date))}</span>
@@ -10307,7 +10506,7 @@
                 </div>
                 <div class="picks-status-wrap">
                   <span class="picks-status ${locked ? "live" : "open"}">${locked ? "Iniciado" : "Abierto"}</span>
-                  <span class="picks-chevron">▶</span>
+                  <span class="picks-chevron">â–¶</span>
                 </div>
               </div>
             </summary>
@@ -10320,17 +10519,32 @@
                   </table>
                 </div>
                 <div class="picks-mobile-list">${mobileRowsHtml}</div>
-              ` : `
-                <div class="picks-lock-note">
-                  Los picks completos se publican automaticamente cuando inicia el partido.
-                </div>
-              `}
+              ` : `<div class="picks-lock-note">Los picks completos se publican automaticamente cuando inicia el partido.</div>`}
             </div>
-          </details>
-        `;
-      }).filter(Boolean);
+          </details>`;
+      }
 
-      $("picksList").innerHTML = items.join("") || `<div class="glass notice">Aún no hay picks guardados en esta liga.</div>`;
+      const html = Array.from(sections.values()).map((section) => {
+        const isPast = compactPastPicks && section.key < todayKey;
+        const cardsHtml = section.matches.map(renderPickCard).join("");
+        return `
+          <section class="day-section${isPast ? " day-section-collapsed" : ""}" data-day-key="${escapeHtml(section.key)}">
+            <h3 class="day-title">
+              <span>${escapeHtml(section.label)}</span>
+              ${isPast ? `<span class="day-count">${section.matches.length} partidos â–¼</span>` : ""}
+            </h3>
+            <div>${cardsHtml}</div>
+          </section>`;
+      }).join("");
+
+      $("picksList").innerHTML = html || `<div class="glass notice">AÃºn no hay picks guardados en esta liga.</div>`;
+
+      $("picksList").querySelectorAll(".day-section-collapsed .day-title").forEach((titleEl) => {
+        titleEl.addEventListener("click", () => {
+          const section = titleEl.closest(".day-section");
+          if (section) section.classList.toggle("day-section-collapsed");
+        });
+      });
 
       document.querySelectorAll(".picks-accordion[data-match-id]").forEach((accordion) => {
         accordion.addEventListener("toggle", () => {
@@ -10339,6 +10553,64 @@
           picksAccordionState[matchId] = accordion.open;
         });
       });
+    }
+
+    function renderPendientes() {
+      const container = $("pendientesList");
+      if (!container) return;
+
+      const formatKey = new Intl.DateTimeFormat("en-CA", {
+        year: "numeric", month: "2-digit", day: "2-digit", timeZone: "America/Mexico_City"
+      });
+
+      const upcomingMatches = getAllMatches()
+        .filter((match) => !isMatchLocked(match))
+        .sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
+
+      if (!upcomingMatches.length) {
+        container.innerHTML = `<div class="glass notice">No hay partidos prÃ³ximos abiertos.</div>`;
+        return;
+      }
+
+      const allUsers = Object.entries(users).map(([uid, data]) => ({
+        uid,
+        name: data?.name || data?.email || uid
+      })).sort((a, b) => a.name.localeCompare(b.name, "es"));
+
+      if (!allUsers.length) {
+        container.innerHTML = `<div class="glass notice">No hay participantes registrados aÃºn.</div>`;
+        return;
+      }
+
+      container.innerHTML = upcomingMatches.map((match) => {
+        const predUids = new Set(
+          Object.values(predictions).filter((p) => p.matchId === match.id).map((p) => p.userId)
+        );
+        const readyCount = allUsers.filter((u) => predUids.has(u.uid)).length;
+        const missingCount = allUsers.length - readyCount;
+        const rows = allUsers.map((user) => {
+          const has = predUids.has(user.uid);
+          return `<div class="pendiente-row ${has ? "pendiente-ok" : "pendiente-missing"}">
+            <span>${has ? "âœ…" : "âŒ"}</span>
+            <span>${escapeHtml(user.name)}</span>
+          </div>`;
+        }).join("");
+        return `
+          <div class="rank-card glass" style="margin-bottom:12px;">
+            <div class="picks-head">
+              <div>
+                <div class="picks-title">${escapeHtml(match.id)} Â· ${teamNameWithFlag(match.home || "Por definir", 22)} vs ${teamNameWithFlag(match.away || "Por definir", 22)}</div>
+                <div class="picks-meta">
+                  <span class="picks-meta-pill">${escapeHtml(match.phase || "Partido")}</span>
+                  <span class="picks-meta-pill">${escapeHtml(formatDate(match.date))}</span>
+                  <span class="picks-meta-pill">${readyCount}/${allUsers.length} listos</span>
+                  ${missingCount ? `<span class="pill bad">${missingCount} faltante${missingCount > 1 ? "s" : ""}</span>` : `<span class="pill good">Todos listos âœ…</span>`}
+                </div>
+              </div>
+            </div>
+            <div class="pendientes-grid">${rows}</div>
+          </div>`;
+      }).join("");
     }
 
     function renderAdmin() {
@@ -10377,7 +10649,7 @@
       const summary = $("adminUsersSummary");
       if (summary) {
         const activeCount = usersRows.filter((row) => row.ms > 0).length;
-        summary.innerHTML = `Participantes en liga: <b>${usersRows.length}</b> · Con ultimo acceso: <b>${activeCount}</b>`;
+        summary.innerHTML = `Participantes en liga: <b>${usersRows.length}</b> Â· Con ultimo acceso: <b>${activeCount}</b>`;
       }
 
       const usersList = $("adminUsersList");
@@ -10388,17 +10660,20 @@
             <div class="rank-card glass" style="grid-template-columns:auto 1fr auto;">
               <div class="rank-badge">${index + 1}</div>
               <div>
-                <b>${escapeHtml(row.name)}${me ? " (tú)" : ""}</b>
+                <b>${escapeHtml(row.name)}${me ? " (tÃº)" : ""}</b>
                 <div class="pill">${escapeHtml(row.email)}</div>
               </div>
-              <span class="pill ${row.ms ? "good" : "bad"}">Último acceso: ${escapeHtml(row.lastLoginText)}</span>
+              <span class="pill ${row.ms ? "good" : "bad"}">Ãšltimo acceso: ${escapeHtml(row.lastLoginText)}</span>
             </div>
           `;
-        }).join("") || `<div class="glass notice">Sin participantes registrados aún.</div>`;
+        }).join("") || `<div class="glass notice">Sin participantes registrados aÃºn.</div>`;
       }
 
       const compactBtn = $("adminCompactToggle");
       if (compactBtn) compactBtn.textContent = `Modo compacto: ${adminCompactMode ? "ON" : "OFF"}`;
+
+      const adminPastBtn = $("adminPastDaysToggle");
+      if (adminPastBtn) adminPastBtn.textContent = compactPastAdmin ? "Pasados: colapsados" : "Pasados: visibles";
 
       const search = normalize($("adminSearchInput").value);
       const phase = $("adminPhaseFilter").value;
@@ -10407,7 +10682,42 @@
         return (!phase || match.phase === phase) && (!search || haystack.includes(search));
       });
 
-      $("adminMatchesList").innerHTML = matches.map((match) => renderMatchCard(match, true)).join("");
+      {
+        const formatKey = new Intl.DateTimeFormat("en-CA", {
+          year: "numeric", month: "2-digit", day: "2-digit", timeZone: "America/Mexico_City"
+        });
+        const formatHeader = new Intl.DateTimeFormat("es-MX", {
+          weekday: "long", day: "numeric", month: "long", timeZone: "America/Mexico_City"
+        });
+        const todayKey = formatKey.format(new Date());
+        const sortedMatches = [...matches].sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
+        const sections = new Map();
+        sortedMatches.forEach((match) => {
+          const key = formatKey.format(new Date(match.date));
+          const label = formatHeader.format(new Date(match.date));
+          if (!sections.has(key)) sections.set(key, { key, label, matches: [] });
+          sections.get(key).matches.push(match);
+        });
+        const adminListEl = $("adminMatchesList");
+        adminListEl.innerHTML = Array.from(sections.values()).map((section) => {
+          const isPast = compactPastAdmin && section.key < todayKey;
+          const cardsHtml = section.matches.map((match) => renderMatchCard(match, true)).join("");
+          return `
+            <section class="day-section${isPast ? " day-section-collapsed" : ""}" data-day-key="${escapeHtml(section.key)}">
+              <h3 class="day-title">
+                <span>${escapeHtml(section.label)}</span>
+                ${isPast ? `<span class="day-count">${section.matches.length} partidos â–¼</span>` : ""}
+              </h3>
+              <div class="match-grid">${cardsHtml}</div>
+            </section>`;
+        }).join("");
+        adminListEl.querySelectorAll(".day-section-collapsed .day-title").forEach((titleEl) => {
+          titleEl.addEventListener("click", () => {
+            const section = titleEl.closest(".day-section");
+            if (section) section.classList.toggle("day-section-collapsed");
+          });
+        });
+      }
 
       document.querySelectorAll(".save-result").forEach((button) => {
         button.addEventListener("click", () => {
@@ -10435,12 +10745,21 @@
         });
       });
 
-      document.querySelectorAll(".save-cards").forEach((button) => {
+      document.querySelectorAll(".save-bracket-manual").forEach((button) => {
         button.addEventListener("click", () => {
           const card = button.closest(".match-card");
           const match = getAllMatches().find((item) => item.id === card.dataset.matchId);
           if (!match) return;
-          saveCards(match, card);
+          saveBracketOverride(match, card);
+        });
+      });
+
+      document.querySelectorAll(".clear-bracket-manual").forEach((button) => {
+        button.addEventListener("click", () => {
+          const card = button.closest(".match-card");
+          const match = getAllMatches().find((item) => item.id === card.dataset.matchId);
+          if (!match) return;
+          clearBracketOverride(match);
         });
       });
 
@@ -10467,7 +10786,7 @@
 
     function renderAll() {
       if (currentUser) {
-        $("userBadge").textContent = `${preferredUserName(currentUser.uid)}${isAdmin() ? " · admin" : ""}`;
+        $("userBadge").textContent = `${preferredUserName(currentUser.uid)}${isAdmin() ? " Â· admin" : ""}`;
       }
       renderAuthState();
       renderChampionSelector();
@@ -10475,6 +10794,7 @@
       renderMatches();
       renderGroups();
       renderPicksPage();
+      renderPendientes();
       renderAiPage();
       renderDemoPage();
       renderBracket();
@@ -10576,8 +10896,8 @@
           console.warn("No se pudo actualizar displayName en Auth", error);
         }
 
-        $("userBadge").textContent = `${nextName}${isAdmin() ? " · admin" : ""}`;
-        toast("Apodo actualizado ✅");
+        $("userBadge").textContent = `${nextName}${isAdmin() ? " Â· admin" : ""}`;
+        toast("Apodo actualizado âœ…");
       });
 
       $("logoutButton").addEventListener("click", () => signOut(auth));
@@ -10606,6 +10926,14 @@
       $("pastDaysToggle").addEventListener("click", () => {
         compactPastDays = !compactPastDays;
         renderMatches();
+      });
+      $("picksCompactToggle").addEventListener("click", () => {
+        compactPastPicks = !compactPastPicks;
+        renderPicksPage();
+      });
+      $("adminPastDaysToggle").addEventListener("click", () => {
+        compactPastAdmin = !compactPastAdmin;
+        renderAdmin();
       });
       $("demoPlayerFilter").addEventListener("change", renderDemoPage);
       $("demoGroupFilter").addEventListener("change", renderDemoPage);
@@ -10663,7 +10991,7 @@
           return;
         }
         button.classList.toggle("active", willActivate);
-        button.textContent = `${willActivate ? "✅ " : ""}${button.dataset.playerLabel || button.dataset.playerName}`;
+        button.textContent = `${willActivate ? "âœ… " : ""}${button.dataset.playerLabel || button.dataset.playerName}`;
 
         const selected = Array.from(card.querySelectorAll(`.lineup-toggle-item[data-lineup-side="${side}"].active`))
           .map((item) => String(item.dataset.playerName || "").trim())
@@ -10706,34 +11034,6 @@
           };
         }
 
-        if (input?.classList?.contains("card-yellow-input") || input?.classList?.contains("card-red-input")) {
-          const card = input.closest(".match-card");
-          if (!card) return;
-          const matchId = card.dataset.matchId;
-          const player = String(input.dataset.cardPlayer || "");
-          if (!player) return;
-
-          if (input.classList.contains("card-yellow-input") && input.checked) {
-            const redInput = Array.from(card.querySelectorAll(".card-red-input"))
-              .find((item) => String(item.dataset.cardPlayer || "") === player);
-            if (redInput) redInput.checked = false;
-          }
-          if (input.classList.contains("card-red-input") && input.checked) {
-            const yellowInput = Array.from(card.querySelectorAll(".card-yellow-input"))
-              .find((item) => String(item.dataset.cardPlayer || "") === player);
-            if (yellowInput) yellowInput.checked = false;
-          }
-
-          const yellow = Array.from(card.querySelectorAll('.card-yellow-input:checked'))
-            .map((item) => String(item.dataset.cardPlayer || "").trim())
-            .filter(Boolean);
-          const red = Array.from(card.querySelectorAll('.card-red-input:checked'))
-            .map((item) => String(item.dataset.cardPlayer || "").trim())
-            .filter(Boolean);
-          cardsDrafts[matchId] = { yellow, red };
-          return;
-        }
-
         const select = input;
         if (!select?.classList?.contains("pred-scorer")) return;
         const card = select.closest(".match-card");
@@ -10745,7 +11045,7 @@
         const preview = card.querySelector(".scorer-preview");
         if (!preview) return;
         preview.innerHTML = selectedPlayer
-          ? `${playerImageTag(selectedPlayer.name, 28)}<span>${escapeHtml(selectedPlayer.name)} · ${escapeHtml(selectedPlayer.pos)}${isStarterForMatch(match, selectedPlayer.name) ? '<span class="starter-dot">⭐ Titular</span>' : ""}</span>`
+          ? `${playerImageTag(selectedPlayer.name, 28)}<span>${escapeHtml(selectedPlayer.name)} Â· ${escapeHtml(selectedPlayer.pos)}${isStarterForMatch(match, selectedPlayer.name) ? '<span class="starter-dot">â­ Titular</span>' : ""}</span>`
           : isNoScorerSelection(select.value || "")
             ? '<span class="muted">Nadie anota.</span>'
             : '<span class="muted">Selecciona goleador.</span>';
@@ -10873,6 +11173,12 @@
         snapshot.forEach((document) => userTotals[document.id] = document.data());
         renderAll();
       }));
+
+      firestoreUnsubs.push(onSnapshot(leagueCollection("bracketOverrides"), (snapshot) => {
+        bracketOverrides = {};
+        snapshot.forEach((document) => bracketOverrides[document.id] = document.data());
+        renderAll();
+      }));
     }
 
     onAuthStateChanged(auth, async (user) => {
@@ -10890,7 +11196,7 @@
       $("logoutButton").classList.toggle("hide", !user);
       $("editNicknameButton").classList.toggle("hide", !user);
       $("userBadge").classList.toggle("hide", !user);
-      $("userBadge").textContent = user ? `${preferredUserName(user.uid)}${isAdmin() ? " · admin" : ""}` : "";
+      $("userBadge").textContent = user ? `${preferredUserName(user.uid)}${isAdmin() ? " Â· admin" : ""}` : "";
 
       renderAuthState();
       renderAll();
@@ -10911,3 +11217,4 @@
   </script>
 </body>
 </html>
+

@@ -1,4 +1,4 @@
-const CACHE_NAME = "quiniela-pwa-v3";
+﻿const CACHE_NAME = "quiniela-pwa-v3";
 const URLS = [
   "./",
   "./index.html",
@@ -52,3 +52,4 @@ self.addEventListener("fetch", (event) => {
     })
   );
 });
+
