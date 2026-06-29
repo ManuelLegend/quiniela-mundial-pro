@@ -2238,7 +2238,7 @@
       <div class="rules-grid">
         <div class="rule-card glass"><h3>🧭 Instrucciones rápidas</h3><p>1) En la pestaña Pronósticos capturas marcador y primer goleador. 2) En Picks ves los picks de todos por partido (se revelan al iniciar). 3) En Tabla toca a cualquier jugador para ver su historial y puntos por partidos terminados. 4) En Admin se capturan resultados, XI titulares y tarjetas.</p></div>
         <div class="rule-card glass"><h3>🎯 Exacto</h3><p>Marcador exacto: +5 puntos antes de multiplicador.</p></div>
-        <div class="rule-card glass"><h3>✅ Ganador</h3><p>Aciertas ganador o empate sin marcador exacto: +2 puntos.</p></div>
+        <div class="rule-card glass"><h3>✅ Ganador</h3><p>Aciertas ganador o empate sin marcador exacto: +2 puntos. En empate (knockout), elige quién gana en penales/tiempo extra solo para definir al clasificado; no da puntos.</p></div>
         <div class="rule-card glass"><h3>📊 Diferencial</h3><p>Aciertas la diferencia de goles (positiva, cero o negativa): +1 punto.</p></div>
         <div class="rule-card glass"><h3>⚽ Goleador</h3><p>Aciertas primer goleador del partido: +3 puntos.</p></div>
         <div class="rule-card glass"><h3>👑 Campeón</h3><p>Aciertas campeón del torneo: +50 puntos.</p></div>
@@ -2277,6 +2277,7 @@
         <div class="toolbar-left toolbar">
           <input id="adminSearchInput" placeholder="Buscar partido" />
           <select id="adminPhaseFilter"></select>
+          <select id="adminDateFilter"></select>
           <button class="btn" id="adminCompactToggle">Modo compacto: ON</button>
           <button class="btn" id="adminPastDaysToggle">Pasados: colapsados</button>
           <button class="btn" id="syncLineupsButton">⭐ Sincronizar titulares</button>
@@ -2327,7 +2328,7 @@
 
   <script>
     (function forceLatestBuild() {
-      const APP_BUILD = "v22";
+      const APP_BUILD = "v24";
       try {
         const url = new URL(window.location.href);
         if (url.searchParams.get("app") === APP_BUILD) return;
@@ -8943,6 +8944,18 @@
         ["Semifinales", "Final"]
       ];
 
+      // Explicit FIFA links from Round of 32 (M73-M88) to Round of 16 (M89-M96).
+      const ROUND_OF_32_TO_ROUND_OF_16 = [
+        [74, 77], // M89
+        [73, 75], // M90
+        [76, 78], // M91
+        [79, 80], // M92
+        [83, 84], // M93
+        [81, 82], // M94
+        [86, 88], // M95
+        [85, 87]  // M96
+      ];
+
       progression.forEach(([currentPhase, nextPhase]) => {
         const currentMatches = knockout.filter((match) => match.phase === currentPhase);
         const nextMatches = knockout.filter((match) => match.phase === nextPhase);
@@ -8960,10 +8973,34 @@
         });
 
         nextMatches.forEach((match, index) => {
-          match.home = winners[index * 2] || match.home;
-          match.away = winners[index * 2 + 1] || match.away;
-          match.homeSeed = winners[index * 2] ? `W${currentMatches[index * 2]?.round || ""}` : match.homeSeed;
-          match.awaySeed = winners[index * 2 + 1] ? `W${currentMatches[index * 2 + 1]?.round || ""}` : match.awaySeed;
+          let homeWinner = "";
+          let awayWinner = "";
+          let homeSeed = "";
+          let awaySeed = "";
+
+          if (currentPhase === "Dieciseisavos") {
+            const mappedPair = ROUND_OF_32_TO_ROUND_OF_16[index];
+            const [leftRoundNo, rightRoundNo] = mappedPair || [];
+            const leftIndex = currentMatches.findIndex((currentMatch) => currentMatch.round === leftRoundNo);
+            const rightIndex = currentMatches.findIndex((currentMatch) => currentMatch.round === rightRoundNo);
+
+            homeWinner = leftIndex >= 0 ? winners[leftIndex] : "";
+            awayWinner = rightIndex >= 0 ? winners[rightIndex] : "";
+            homeSeed = leftRoundNo ? `W${leftRoundNo}` : "";
+            awaySeed = rightRoundNo ? `W${rightRoundNo}` : "";
+          } else {
+            const leftIndex = index * 2;
+            const rightIndex = leftIndex + 1;
+            homeWinner = winners[leftIndex] || "";
+            awayWinner = winners[rightIndex] || "";
+            homeSeed = currentMatches[leftIndex]?.round ? `W${currentMatches[leftIndex].round}` : "";
+            awaySeed = currentMatches[rightIndex]?.round ? `W${currentMatches[rightIndex].round}` : "";
+          }
+
+          match.home = homeWinner || match.home;
+          match.away = awayWinner || match.away;
+          match.homeSeed = homeWinner ? homeSeed : match.homeSeed;
+          match.awaySeed = awayWinner ? awaySeed : match.awaySeed;
           match.source = `${match.homeSeed || "Por definir"} vs ${match.awaySeed || "Por definir"}`;
         });
 
@@ -9067,6 +9104,7 @@
 
       return `
         <label class="wide">Ganador en empate / penales</label>
+        <span class="pill info wide">Nota: elegir ganador en penales no suma puntos; solo define quién avanza si queda empate.</span>
         <div class="winner-candidates wide">
           <span class="winner-tag">${teamNameWithFlag(match.home || "Local", 32)}</span>
           <span class="winner-tag">${teamNameWithFlag(match.away || "Visitante", 32)}</span>
@@ -10698,8 +10736,27 @@
           if (!sections.has(key)) sections.set(key, { key, label, matches: [] });
           sections.get(key).matches.push(match);
         });
+        const orderedSections = Array.from(sections.values());
+        const adminDateFilter = $("adminDateFilter");
+
+        if (adminDateFilter) {
+          const previousDay = adminDateFilter.value;
+          adminDateFilter.innerHTML = `<option value="">Fecha: próximas y todas</option>` +
+            orderedSections.map((section) => `<option value="${escapeHtml(section.key)}">${escapeHtml(section.label)}</option>`).join("");
+
+          if (previousDay && sections.has(previousDay)) {
+            adminDateFilter.value = previousDay;
+          } else {
+            const upcomingDay = orderedSections.find((section) => section.key >= todayKey)?.key || orderedSections[0]?.key || "";
+            adminDateFilter.value = upcomingDay;
+          }
+        }
+
+        const selectedAdminDay = adminDateFilter?.value || "";
+        const visibleSections = orderedSections.filter((section) => !selectedAdminDay || section.key === selectedAdminDay);
+
         const adminListEl = $("adminMatchesList");
-        adminListEl.innerHTML = Array.from(sections.values()).map((section) => {
+        adminListEl.innerHTML = visibleSections.map((section) => {
           const isPast = compactPastAdmin && section.key < todayKey;
           const cardsHtml = section.matches.map((match) => renderMatchCard(match, true)).join("");
           return `
@@ -10710,7 +10767,7 @@
               </h3>
               <div class="match-grid">${cardsHtml}</div>
             </section>`;
-        }).join("");
+        }).join("") || `<div class="glass notice">No hay partidos para ese filtro en Admin.</div>`;
         adminListEl.querySelectorAll(".day-section-collapsed .day-title").forEach((titleEl) => {
           titleEl.addEventListener("click", () => {
             const section = titleEl.closest(".day-section");
@@ -10940,6 +10997,7 @@
       $("demoStatusFilter").addEventListener("change", renderDemoPage);
       $("adminSearchInput").addEventListener("input", renderAdmin);
       $("adminPhaseFilter").addEventListener("change", renderAdmin);
+      $("adminDateFilter").addEventListener("change", renderAdmin);
       $("teamSelector").addEventListener("change", renderTeamsPage);
       $("teamFormation").addEventListener("change", renderTeamsPage);
 
