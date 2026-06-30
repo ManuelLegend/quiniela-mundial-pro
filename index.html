@@ -8981,8 +8981,8 @@
           if (currentPhase === "Dieciseisavos") {
             const mappedPair = ROUND_OF_32_TO_ROUND_OF_16[index];
             const [leftRoundNo, rightRoundNo] = mappedPair || [];
-            const leftIndex = currentMatches.findIndex((currentMatch) => currentMatch.round === leftRoundNo);
-            const rightIndex = currentMatches.findIndex((currentMatch) => currentMatch.round === rightRoundNo);
+            const leftIndex = Number.isFinite(leftRoundNo) ? leftRoundNo - 73 : -1;
+            const rightIndex = Number.isFinite(rightRoundNo) ? rightRoundNo - 73 : -1;
 
             homeWinner = leftIndex >= 0 ? winners[leftIndex] : "";
             awayWinner = rightIndex >= 0 ? winners[rightIndex] : "";
@@ -10747,8 +10747,7 @@
           if (previousDay && sections.has(previousDay)) {
             adminDateFilter.value = previousDay;
           } else {
-            const upcomingDay = orderedSections.find((section) => section.key >= todayKey)?.key || orderedSections[0]?.key || "";
-            adminDateFilter.value = upcomingDay;
+            adminDateFilter.value = "";
           }
         }
 
