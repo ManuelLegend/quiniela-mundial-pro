@@ -8879,6 +8879,10 @@
 
     function applyBracketOverrides(knockoutMatches) {
       knockoutMatches.forEach((match) => {
+        if (match.phase === "Semifinales") {
+          return;
+        }
+
         const override = bracketOverrides[match.id];
         if (!override) return;
         const home = String(override.home || "").trim();
@@ -8989,25 +8993,6 @@
             awayWinner = rightIndex >= 0 ? winners[rightIndex] : "";
             homeSeed = leftRoundNo ? `W${leftRoundNo}` : "";
             awaySeed = rightRoundNo ? `W${rightRoundNo}` : "";
-          } else if (currentPhase === "Cuartos") {
-            if (index === 0) {
-              homeWinner = "Francia";
-              awayWinner = "España";
-              homeSeed = "FRA";
-              awaySeed = "ESP";
-              customSource = "Semifinal fija";
-            } else if (index === 1) {
-              const saturdayQuarter3 = currentMatches.find((item) => item.round === 3);
-              const saturdayQuarter4 = currentMatches.find((item) => item.round === 4);
-              const quarter3Index = saturdayQuarter3 ? currentMatches.indexOf(saturdayQuarter3) : -1;
-              const quarter4Index = saturdayQuarter4 ? currentMatches.indexOf(saturdayQuarter4) : -1;
-
-              homeWinner = quarter3Index >= 0 ? winners[quarter3Index] : "";
-              awayWinner = quarter4Index >= 0 ? winners[quarter4Index] : "";
-              homeSeed = "WQ3";
-              awaySeed = "WQ4";
-              customSource = "Ganadores cuartos del sabado";
-            }
           } else {
             const leftIndex = index * 2;
             const rightIndex = leftIndex + 1;
