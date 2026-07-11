@@ -8956,6 +8956,13 @@
         [85, 87]  // M96
       ];
 
+      const OCTAVOS_TO_CUARTOS = [
+        [1, 2],
+        [5, 6],
+        [3, 4],
+        [7, 8]
+      ];
+
       const QUARTERS_TO_SEMIS = [
         [1, 2],
         [3, 4]
@@ -8993,6 +9000,16 @@
             awayWinner = rightIndex >= 0 ? winners[rightIndex] : "";
             homeSeed = leftRoundNo ? `W${leftRoundNo}` : "";
             awaySeed = rightRoundNo ? `W${rightRoundNo}` : "";
+          } else if (currentPhase === "Octavos") {
+            const mappedPair = OCTAVOS_TO_CUARTOS[index];
+            const [leftRoundNo, rightRoundNo] = mappedPair || [];
+            const leftIndex = Number.isFinite(leftRoundNo) ? leftRoundNo - 1 : -1;
+            const rightIndex = Number.isFinite(rightRoundNo) ? rightRoundNo - 1 : -1;
+
+            homeWinner = leftIndex >= 0 ? winners[leftIndex] : "";
+            awayWinner = rightIndex >= 0 ? winners[rightIndex] : "";
+            homeSeed = leftRoundNo ? `WO${leftRoundNo}` : "";
+            awaySeed = rightRoundNo ? `WO${rightRoundNo}` : "";
           } else if (currentPhase === "Cuartos") {
             const mappedPair = QUARTERS_TO_SEMIS[index];
             const [leftRoundNo, rightRoundNo] = mappedPair || [];
