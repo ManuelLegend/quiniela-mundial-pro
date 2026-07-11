@@ -8545,7 +8545,7 @@
         cdmxIso("2026-07-02", "21:00"), cdmxIso("2026-07-03", "16:00"), cdmxIso("2026-07-03", "19:30"), cdmxIso("2026-07-03", "12:00")
       ],
       Octavos: [cdmxIso("2026-07-04", "15:00"), cdmxIso("2026-07-04", "11:00"), cdmxIso("2026-07-05", "14:00"), cdmxIso("2026-07-05", "18:00"), cdmxIso("2026-07-06", "13:00"), cdmxIso("2026-07-06", "18:00"), cdmxIso("2026-07-07", "10:00"), cdmxIso("2026-07-07", "14:00")],
-      Cuartos: [cdmxIso("2026-07-09", "14:00"), cdmxIso("2026-07-10", "13:00"), cdmxIso("2026-07-11", "15:00"), cdmxIso("2026-07-11", "19:00")],
+      Cuartos: [cdmxIso("2026-07-09", "14:00"), cdmxIso("2026-07-11", "15:00"), cdmxIso("2026-07-10", "13:00"), cdmxIso("2026-07-11", "19:00")],
       Semifinales: [cdmxIso("2026-07-14", "13:00"), cdmxIso("2026-07-15", "13:00")],
       "Tercer Lugar": [cdmxIso("2026-07-18", "15:00")],
       Final: [cdmxIso("2026-07-19", "13:00")]
@@ -8956,18 +8956,6 @@
         [85, 87]  // M96
       ];
 
-      const OCTAVOS_TO_CUARTOS = [
-        [1, 2],
-        [5, 6],
-        [3, 4],
-        [7, 8]
-      ];
-
-      const QUARTERS_TO_SEMIS = [
-        [1, 2],
-        [3, 4]
-      ];
-
       progression.forEach(([currentPhase, nextPhase]) => {
         const currentMatches = knockout.filter((match) => match.phase === currentPhase);
         const nextMatches = knockout.filter((match) => match.phase === nextPhase);
@@ -8989,6 +8977,7 @@
           let awayWinner = "";
           let homeSeed = "";
           let awaySeed = "";
+          let customSource = "";
 
           if (currentPhase === "Dieciseisavos") {
             const mappedPair = ROUND_OF_32_TO_ROUND_OF_16[index];
@@ -9000,26 +8989,25 @@
             awayWinner = rightIndex >= 0 ? winners[rightIndex] : "";
             homeSeed = leftRoundNo ? `W${leftRoundNo}` : "";
             awaySeed = rightRoundNo ? `W${rightRoundNo}` : "";
-          } else if (currentPhase === "Octavos") {
-            const mappedPair = OCTAVOS_TO_CUARTOS[index];
-            const [leftRoundNo, rightRoundNo] = mappedPair || [];
-            const leftIndex = Number.isFinite(leftRoundNo) ? leftRoundNo - 1 : -1;
-            const rightIndex = Number.isFinite(rightRoundNo) ? rightRoundNo - 1 : -1;
-
-            homeWinner = leftIndex >= 0 ? winners[leftIndex] : "";
-            awayWinner = rightIndex >= 0 ? winners[rightIndex] : "";
-            homeSeed = leftRoundNo ? `WO${leftRoundNo}` : "";
-            awaySeed = rightRoundNo ? `WO${rightRoundNo}` : "";
           } else if (currentPhase === "Cuartos") {
-            const mappedPair = QUARTERS_TO_SEMIS[index];
-            const [leftRoundNo, rightRoundNo] = mappedPair || [];
-            const leftIndex = Number.isFinite(leftRoundNo) ? leftRoundNo - 1 : -1;
-            const rightIndex = Number.isFinite(rightRoundNo) ? rightRoundNo - 1 : -1;
+            if (index === 0) {
+              homeWinner = "Francia";
+              awayWinner = "España";
+              homeSeed = "FRA";
+              awaySeed = "ESP";
+              customSource = "Semifinal fija";
+            } else if (index === 1) {
+              const saturdayQuarter3 = currentMatches.find((item) => item.round === 3);
+              const saturdayQuarter4 = currentMatches.find((item) => item.round === 4);
+              const quarter3Index = saturdayQuarter3 ? currentMatches.indexOf(saturdayQuarter3) : -1;
+              const quarter4Index = saturdayQuarter4 ? currentMatches.indexOf(saturdayQuarter4) : -1;
 
-            homeWinner = leftIndex >= 0 ? winners[leftIndex] : "";
-            awayWinner = rightIndex >= 0 ? winners[rightIndex] : "";
-            homeSeed = leftRoundNo ? `WQ${leftRoundNo}` : "";
-            awaySeed = rightRoundNo ? `WQ${rightRoundNo}` : "";
+              homeWinner = quarter3Index >= 0 ? winners[quarter3Index] : "";
+              awayWinner = quarter4Index >= 0 ? winners[quarter4Index] : "";
+              homeSeed = "WQ3";
+              awaySeed = "WQ4";
+              customSource = "Ganadores cuartos del sabado";
+            }
           } else {
             const leftIndex = index * 2;
             const rightIndex = leftIndex + 1;
@@ -9033,7 +9021,7 @@
           match.away = awayWinner || match.away;
           match.homeSeed = homeWinner ? homeSeed : match.homeSeed;
           match.awaySeed = awayWinner ? awaySeed : match.awaySeed;
-          match.source = `${match.homeSeed || "Por definir"} vs ${match.awaySeed || "Por definir"}`;
+          match.source = customSource || `${match.homeSeed || "Por definir"} vs ${match.awaySeed || "Por definir"}`;
         });
 
         if (currentPhase === "Semifinales") {
